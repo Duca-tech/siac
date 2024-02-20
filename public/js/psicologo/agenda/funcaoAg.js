@@ -25,4 +25,14 @@ $(document).ready(function(){
         }
     })
 
+    function exibirAgenda(agenda, horarios){
+        $('#data').append(agenda.data);
+        $('#diaSemana').append(agenda.diaSemana);
+
+        $.map(horarios, function(hora){
+            $('#horarios').append(hora)
+        })
+
+    }
+
 })

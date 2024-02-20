@@ -27,6 +27,7 @@ $(document).ready(function(){
             })
             .done(function(response){
                 console.log('Resposta do servidor: ', response.message ,response.agenda, response.horarios);
+                exibirAgenda(response.agenda, response.horarios);
             })
             .fail(function(status, xhr, errorThrown){
                 console.log('Status: ', status);
