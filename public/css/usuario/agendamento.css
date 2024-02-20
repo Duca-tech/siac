@@ -1,0 +1,111 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.borda{
+    border: 1px solid red;
+}
+ul{
+    list-style: none
+}
+/*Começo da Config de Header*/
+header{
+    background-color: tomato;
+}
+header img{
+    height: 50px;
+    width: 50px;
+    margin-top: 25px;
+    margin-left: 25px;
+}
+
+header ul{
+    
+    margin-right: 10px;
+
+}
+header ul li{
+    display: inline-block;
+    margin: 10px;
+    background-color:aliceblue;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+header ul li:hover{
+    background-color: black;
+    cursor: pointer;
+    color: white;
+}
+/*Final da config de Header*/
+
+
+/***************************/
+
+/*Começo da config de Main*/
+
+main{
+    margin-top: 54px;
+}
+
+/*Dados dos Psicologos*/
+#psicoDados{
+    border-bottom: 1px solid goldenrod;
+    margin-bottom: 15px;
+     
+}
+
+/*Container de Agenda*/
+#containerAgenda{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    background-color: violet;
+    padding: 20px;
+    border-radius: 15px;
+}
+/*Container das horas*/
+#containerHora{
+
+    display: inline;
+    border-right: 1px solid black;
+}
+    
+
+/*diaSemana*/
+#diaSemana{
+    text-align: center;
+    border-right: 1px solid black;
+
+}
+
+/*Horarios Disponiveis*/
+#horarios{
+    text-align: center;
+}
+
+/*Container da data*/
+#dataHorario{
+    text-align: center ;
+    border-right: 1px solid black;
+}
+
+/*div para confirmar agendamento*/
+#containerConfirmacao{
+    width: 100%;
+    display: none;
+    
+}
+#ConfirmarAgendamento{
+    height: 200px;
+    width: 500px;
+    border-radius: 15px;
+    background-color: cornsilk;
+   
+    
+}
+/*configurar button de confirmar ou cancelar agendamento*/
+.button{
+    margin: 10px;
+}
+    
+    

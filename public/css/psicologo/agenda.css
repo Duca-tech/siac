@@ -1,0 +1,23 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    height: 100vh;
+}
+.borda{
+    border:  1px solid red;
+}
+
+#containerDiaSemana{
+    display: none;
+
+}
+input{
+    margin: 15px;
+}
+
+#agendaDados{
+    display: none;
+}

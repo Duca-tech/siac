@@ -1,0 +1,30 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.borda{
+    border: 1px solid red;
+}
+input{
+    width: 300px;
+    margin: 10px;
+    border-radius: 5px;
+    padding: 5px;
+}
+button{
+    margin-top: 20px
+}
+#containerConfCan{
+    display: none ;
+}
+
+.msgServer{
+    background-color: whitesmoke;
+    border-radius: 7px;
+    display: none;
+}
+
+.containerVoltar{
+    margin-bottom: 30px;
+    margin-left: 15px;
+}

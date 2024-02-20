@@ -1,0 +1,13 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    height: 100vh;
+}
+.borda{
+   border: 1px solid red;
+}
+main button{
+    margin: 10px;
+}
