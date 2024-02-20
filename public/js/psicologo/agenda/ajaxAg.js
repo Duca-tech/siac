@@ -27,7 +27,7 @@ $(document).ready(function(){
             })
             .done(function(response){
                 console.log('Resposta do servidor: ', response.message ,response.agenda, response.horarios);
-                exibirAgenda(response.agenda, response.horarios);
+                exibirAgenda(response.agenda, response.horarios)
             })
             .fail(function(status, xhr, errorThrown){
                 console.log('Status: ', status);
@@ -40,5 +40,19 @@ $(document).ready(function(){
 
         }
     })
+
+    function exibirAgenda(agenda, horarios){
+        console.log('dia da semana: ', agenda.diaSemana)
+        console.log('Data: ', agenda.data)
+        console.log('Horarios: ', horarios)
+        $('#data').append(`<div>${agenda.data}</div>`);
+        $('#agendaDiaSemana').append(`<div>${agenda.diaSemana}</div>`);
+
+        $.map(horarios, function(hora){
+            $('#agendaHorarios').append(`<div>${hora}</div>`)
+        })
+
+    }
+
 
 })
