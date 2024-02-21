@@ -47,7 +47,9 @@ app.use(function(req,res,next){
 });
 app.set('view engine', 'ejs'); //Express procurará por arquivos com extensão .ejs na pasta de visualizações e usará o mecanismo EJS para renderizá-los.  se você tem um arquivo chamado pagina.ejs em sua pasta de visualizações, você pode renderizá-lo no Express usando o método render e o nome do arquivo sem a extensão:
 
-app.use('/', router); // acessa o arquivo router e inicia a renderização da pagina de cadastro 
+app.use('/', router); // acessa o arquivo router e inicia a renderização da pagina principal 
+
+/* ******Inicio Servidor Para Usuario*******/
 
 //Cadastrar usuario
 app.use('/user/cadastro', router); // tem que usar caminho absoluto
@@ -81,10 +83,20 @@ app.use('/user/principal/conta/detalhes', router);
 //atualizar os dados do usuario
 app.use('/user/principal/conta/update', router);
 
+/* ******Fim Servidor Para Usuario*******/
 
-//gerar agenda pelo psicologo
+
+/*Inicio Servidor para Psicologo */
+
+//gerar agenda para psicologo
 app.use('/psicologo/gerarAgenda', router);
 
+//psico inseri as crendicais de login
+app.use('/psico/login', router )
+
+app.use('/psico/principal', router);
+
+/*Fim servidor para Psicologo */
 
 app.listen(porta, ()=>{
     console.log(`servidor iniciado: http://localhost:${porta}`);

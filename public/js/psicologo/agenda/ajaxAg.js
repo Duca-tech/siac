@@ -45,13 +45,32 @@ $(document).ready(function(){
         console.log('dia da semana: ', agenda.diaSemana)
         console.log('Data: ', agenda.data)
         console.log('Horarios: ', horarios)
-        $('#data').append(`<div>${agenda.data}</div>`);
-        $('#agendaDiaSemana').append(`<div>${agenda.diaSemana}</div>`);
+        var agendaDados = $(`<div class='d-flex align-items-center  justify-content-center row'></div>`)
+        var agendaData = $(`<div class='col '></div>`);
+        agendaData.append(`${agenda.data}`);
+        agendaDados.append(agendaData);
+        var diaSemana = $(`<div class='col '></div>`)
+        diaSemana.append(`${agenda.diaSemana}`);
+        agendaDados.append(diaSemana);
+        var containerHora = $(`<div class='col '></div>`);
+        agendaDados.append(containerHora);
 
         $.map(horarios, function(hora){
-            $('#agendaHorarios').append(`<div>${hora}</div>`)
+            containerHora.append(`<div class='btn btn-info' style='margin: 15px; display: inline-block'>${hora}</div>`)
         })
 
+        $('#ContainerAgendaDados').append(agendaDados);
+        $('#ContainerAgendaDados').animate({
+            'height':'toggle'
+        }, 1000, function(){
+            $('#ContainerAgendaDados').css({'display':'block'})
+        })
+
+        $('#date').val('dd-mm-aaaa');
+        $('#containerDiaSemana').css({'display':'none'})
+        $('#horaIni').val('');
+        $('#horaFin').val('');
+        
     }
 
 

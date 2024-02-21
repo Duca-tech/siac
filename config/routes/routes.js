@@ -6,8 +6,10 @@ const WppTwilio = require('../twilio/twilio')
 const session = require('express-session');
 
 router.get('/', (req, res)=>{
-    res.render('psicologo/agenda');
+    res.render('psicologo/login');
 })
+
+/*Inicio configuração de rotas do usuario */
 
 router.get('/user/cadastro', (req, res)=>{
     res.render('usuario/cadastro');
@@ -220,6 +222,12 @@ router.put('/user/principal/conta/update/:idUser', (req,res)=>{
         }
     })
 })
+
+/*Fim configuração de rotas do usuario */
+
+/*Inicio configuração de rotas do Psicologo */
+
+
 router.post('/psicologo/gerarAgenda', (req,res)=>{
     const {horaIni, horaFin, diaSemana, data} = req.body;
     var agenda = {
@@ -248,7 +256,26 @@ router.post('/psicologo/gerarAgenda', (req,res)=>{
 
 })
 
+router.post('/psico/login',  (req,res)=>{
+    console.log('Dados recebidos: ', req.body);
+    const {email, senha} = req.body;
+    var psicoLogin ={
+        email: email,
+        senha: senha
+    }
+    db.getPsicoLogin(psicoLogin, async(erro,results)=>{
+        if(error) return res.status(500).json({message: 'Falha ao Buscar psicologo'});
+        console.log('psicologo router.js: ',results[0]);
+        const token = await token.gerarToken(results[0].idPsico);
 
+        res.status(200).json({message: 'Psicologo encontrado: ', psico: results[0], message: 'Enviando token ', token: token });
+    })
+    
+})
+router.get('/psico/principal', (req,res)=>{
+    res.render('psicologo/principal');
+})
+/*Fim configuração de rotas do Psicologo */
 
 module.exports = {
     router,

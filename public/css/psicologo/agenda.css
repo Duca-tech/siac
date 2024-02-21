@@ -17,7 +17,12 @@ body{
 input{
     margin: 15px;
 }
-
-#agendaDados{
+#ContainerAgendaDados{
     display: none;
+    padding: 15px;
 }
+
+#cabecalhoAgenda{
+    font-weight: bold;
+}
+

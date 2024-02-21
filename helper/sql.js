@@ -13,8 +13,9 @@ const conexao =  sql.createConnection({
     return console.log('banco de dados conectados!')
 })
 
-//função para adicionar usuario
+/*Inicio de consultas no Banco para Usuario */
 
+//função para adicionar usuario
 const addUser =(user, callback) =>{
          conexao.query(`insert into usuario(nome, email, nomeUser, password) values (?,?,?,?)`, [user.nome, user.email, user.nomeUser, user.password], (error, results, fields)=>{
         if(error) return console.log('Erro ao executar a consulta: ', error.message);
@@ -102,6 +103,10 @@ const updateUser = (usuario, callback) =>{
         }
     })
 }
+/*Fim de consultas no Banco para Usuario */
+
+/*Inicio de consultas no Banco para Psicologos */
+
 
 //adicionar agenda
 const addAgenda = (agenda, callback)=>{
@@ -165,6 +170,20 @@ const addAgenda = (agenda, callback)=>{
     
 }
 
+const getPsicoLogin = (psicoLogin, callback) =>{
+    conexao.query(`SELECT *FROM profissionalpsicologo where email = ? and senha = ?`, [psicoLogin.email, psicologo.senha], (error, results)=>{
+        if(error) return console.log('Erro na consulta');
+        else if(results.length>0){
+            console.log('Psicologo encontrado sql.js: ', results[0]);
+            callback(null, results);
+        }
+        else{
+            console.log('psicologo não encontrado');
+        }
+    })
+}
+
+/*Fim de consultas no Banco para Psicologos */
 
 module.exports = {
     addUser,
@@ -173,5 +192,6 @@ module.exports = {
     setHorario,
     getUser,
     updateUser,
-    addAgenda
+    addAgenda,
+    getPsicoLogin
 }
