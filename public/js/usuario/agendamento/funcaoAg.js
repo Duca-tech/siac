@@ -60,10 +60,15 @@ function mostrarPsico(psicologos,agenda, horarios){
             
         }
         var divHora = $(`<div class='col'></div>`)
-        arrayHoras.forEach(function(hora){
-            var buttonHora = $(`<button class='m-2  btn buttonHora '>${hora}</button>`)
-            divHora.append(buttonHora);
-        })   
+        if(arrayHoras.length>0){
+            arrayHoras.forEach(function(hora){
+                var buttonHora = $(`<button class='m-2  btn buttonHora '>${hora}</button>`)
+                divHora.append(buttonHora);
+            })
+        }
+        else{
+            divHora.append(`<p style='font-weight: bold;'>Sem Horarios Disponíveis`);
+        }   
 
     
     var containerAgenda = $(`<div style='margin-botttom: 20px; margin-top: 20px'></div>`);

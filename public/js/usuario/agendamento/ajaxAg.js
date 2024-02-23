@@ -66,24 +66,28 @@ $(document).ready(function(){
                 $('#containerConfirmacao button').css({
                     'display': 'none'
                 });
-                $('#containerConfirmacao h5').animate({
-                    'opacity': 'toggle',
-                    'height': 'toggle'
-                }, 1000, function() {
-                    $('#containerConfirmacao').animate({
-                        'opacity': '0'
+                $('#containerMsgWpp').animate({
+                    'opacity':'0'
+                },1000, function(){
+                    $('#containerConfirmacao h5').animate({
+                        'opacity': 'toggle',
+                        'height': 'toggle'
                     }, 1000, function() {
-                        $('#containerConfirmacao').css({
-                            'display': 'none'
-                        });
-                        $('#containerAgenda').animate({
-                            'height': 'toggle',
-                            'opacity': 'toggle'
-                        }, 1000, function(){
-                            window.location.reload();
+                        $('#containerConfirmacao').animate({
+                            'opacity': '0'
+                        }, 1000, function() {
+                            $('#containerConfirmacao').css({
+                                'display': 'none'
+                            });
+                            $('#containerAgenda').animate({
+                                'height': 'toggle',
+                                'opacity': 'toggle'
+                            }, 1000, function(){
+                                window.location.reload();
+                            });
                         });
                     });
-                });
+                })
             })
             .fail(function(status, xhr, errorThrown){
                 console.log('status: ', status);

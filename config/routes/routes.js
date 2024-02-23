@@ -6,7 +6,7 @@ const WppTwilio = require('../twilio/twilio')
 const session = require('express-session');
 
 router.get('/', (req, res)=>{
-    res.render('usuario/login');
+    
 })
 
 /*Inicio configuração de rotas do usuario */
@@ -156,8 +156,7 @@ router.post('/user/inserirHorario/wpp', (req,res)=>{
             res.status(200).json({message: 'Usuário inserido com sucesso'});
             WppTwilio.enviarMensagem(`
                 Prezado Usuario SIAC, sua consulta foi agendada com sucesso \n\n 
-                data: ${horarioInsert.data} \n
-                hora: ${horarioInsert.hora}
+                
             `).then(()=> console.log('Mensagem enviada com sucesso!')).catch((error)=>console.log('Falha ao enviar a mensagem para o cliente'))
         }
         else{
@@ -257,6 +256,9 @@ router.post('/psicologo/gerarAgenda', (req,res)=>{
         }
     })
 
+})
+router.get('/psico/login', (req,res)=>{
+    res.render('psicologo/login');
 })
 
 router.post('/psico/login',  (req,res)=>{

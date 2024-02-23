@@ -91,7 +91,7 @@ const updateHorario = (horario, callback)=>{
         if(error) return console.log('Erro na consulta do Banco');
         else if(results.affectedRows>0){
             console.log('Update realizado!');
-            callback(null, horario);
+            callback(null, results);
         }
         else{
             console.log('Nenhuma linha afetada!');
