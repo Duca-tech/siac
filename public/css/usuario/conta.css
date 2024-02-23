@@ -28,3 +28,10 @@ button{
     margin-bottom: 30px;
     margin-left: 15px;
 }
+
+#containerConsultas{
+    margin-top: 50px;
+}
+.espacamentoConsulta{
+    margin: 15px;
+}

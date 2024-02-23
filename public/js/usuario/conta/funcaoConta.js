@@ -1,9 +1,10 @@
 
 function detalheConta(conta){
-    $('#nome').val(conta.nome);
-    $('#email').val(conta.email);
-    $('#nomeUser').val(conta.nomeUser);
-    $('#celular').val(conta.celular)
+    console.log('nome: ', conta[0].nome)
+    $('#nome').val(conta[0].nome);
+    $('#email').val(conta[0].email);
+    $('#nomeUser').val(conta[0].nomeUser);
+    $('#celular').val(conta[0].celular)
 }
 
 function updateRelizado(usuario){
@@ -25,14 +26,53 @@ function updateRelizado(usuario){
         })
        
     })
-    
-    
-        
-
-        
-
 
 }
+
+function consultas(consultas){
+    for(let i = 0; i<consultas.length; i++){
+        var dataForm = formatarData(consultas[i].data);
+    }
+    var consultasConta = $(`<div>
+        <h5 style='border-bottom: 1px solid #DCDCDC'>Consultas Agendadas: </h5>
+    </div>`)
+    consultas.map(function(consulta){
+        consultasConta.append(`
+        <div class= 'd-flex align-items-center' style='border-bottom: 1px solid #A9A9A9'>
+            <span class='espacamentoConsulta'>${consulta.nome}</span>
+            <span class='espacamentoConsulta'>${consulta.celular}</span>
+            
+            <span class='espacamentoConsulta'>${dataForm}</span>
+            <span class='espacamentoConsulta'>${consulta.hora}</span><br><br>
+
+            
+            <span class='espacamentoConsulta'><button class='btn btn-danger'>Cancelar Consulta</button></span><br><br>
+            
+        </div>
+            `)
+    })
+    $('#containerConsultas').append(consultasConta);
+}
+
+function formatarData(data){
+    var newData = new Date(data);
+    var dia = newData.getDay();
+    var ano = newData.getFullYear();
+    var mes = newData.getMonth() + 1;
+
+    var dataForm = `${dia}/${mes}/${ano}`;
+    return dataForm; 
+}
+
+
+   
+    
+    
+        
+
+        
+
+
 
 
 

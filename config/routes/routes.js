@@ -6,7 +6,7 @@ const WppTwilio = require('../twilio/twilio')
 const session = require('express-session');
 
 router.get('/', (req, res)=>{
-    
+    res.render('usuario/login');
 })
 
 /*Inicio configuração de rotas do usuario */
@@ -178,7 +178,7 @@ router.post('/user/principal/conta/detalhes', (req,res)=>{
     db.getUser(idUser, (error, results)=>{
         if(error) return res.status(400).json({message: 'Erro Ao consultar Banco'});
 
-        else if(results.length>0) return res.status(200).json({message: 'Usuário encontrado', data: results[0]});
+        else if(results.length>0) return res.status(200).json({message: 'Usuário encontrado', data: results});
 
         else{
             return res.status(400).json({message: 'Usuario não encontrado !'});
@@ -258,7 +258,7 @@ router.post('/psicologo/gerarAgenda', (req,res)=>{
 
 })
 router.get('/psico/login', (req,res)=>{
-    res.render('psicologo/login');
+    res.render('psicologo/login')
 })
 
 router.post('/psico/login',  (req,res)=>{

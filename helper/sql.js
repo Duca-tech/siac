@@ -100,10 +100,10 @@ const updateHorario = (horario, callback)=>{
 }
 
 const getUser = (idUser, callback)=>{
-    conexao.query(`select * from usuario where idUser = ?`, [idUser], (error, results)=>{
+    conexao.query(`SELECT horario.*, agenda.*, profissionalpsicologo.*, usuario.* FROM horario INNER JOIN agenda ON horario.idAgenda = agenda.idAgenda INNER JOIN profissionalpsicologo ON agenda.idPsico = profissionalpsicologo.idPsico INNER JOIN usuario ON horario.idUser = usuario.idUser WHERE horario.idUser = ?;`, [idUser], (error, results)=>{
         if(error) return console.log('Erro na consulta');
         else if(results.length>0){
-            console.log('usuario encontrado: ', results[0]);
+            console.log('usuario encontrado: ', results);
             callback(null, results);
         }
         else{

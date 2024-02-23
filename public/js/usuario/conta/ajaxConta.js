@@ -12,8 +12,9 @@ $(document).ready(function(){
          data: id
      })
      .done(function(response){
-         console.log('Resposta do Servidor: ', response);
+         console.log('Resposta do Servidor: ', response.data);
          detalheConta(response.data);
+         consultas(response.data);
      })
      .fail(function(xhr, status, errorThrown){
          console.log(xhr);
