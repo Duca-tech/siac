@@ -17,14 +17,14 @@ const  gerarToken = async(user)=>{
 
 
 //função de verificar token
-var verficarToken = (req,res,next) =>{
+var verficarToken = async(req,res,next) =>{
     const token = req.headers['authorization'];
     
     const chaveSecreta = process.env.JWT_SECRET_KEY;
     console.log('chave secreta: ',chaveSecreta);
     console.log('token: ', token )
     if(!token) return res.status(400).json({message:'Token esta indefinido'});
-    jwt.verify(token.split(' ')[1], chaveSecreta, (err,decode)=>{  // utilizar o split pois envia a solicitação como Bearer e o token de modo a dividir as duas coiss
+    await jwt.verify(token.split(' ')[1], chaveSecreta, (err,decode)=>{  // utilizar o split pois envia a solicitação como Bearer e o token de modo a dividir as duas coiss
         if(err) return res.status(500).json({auth:false, message: 'Falha ao autenticar token', err});
         
         console.log('token decodificado: ', decode);

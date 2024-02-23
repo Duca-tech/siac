@@ -1,7 +1,8 @@
 $(document).ready(function(){
 
+    const idPsico = localStorage.getItem('idPsico');
     
-
+    console.log('idPsico: ', idPsico);
     $('#gerarAgenda').on('click', function(){
         
         var horaIni = $('#horaIni').val();
@@ -18,7 +19,8 @@ $(document).ready(function(){
                 horaIni: horaIni,
                 horaFin: horaFin,
                 diaSemana: diaSemana,
-                data: data
+                data: data,
+                idPsico: idPsico
             }
             $.ajax({
                 url: '/psicologo/gerarAgenda',

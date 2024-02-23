@@ -5,7 +5,7 @@ $(document).ready(function(){
         var token = localStorage.getItem('token');
         console.log('token do ajax: ', token);
         $.ajax({
-            url: '/user/principal/verificarToken',
+            url: '/principal/verificarToken',
             type: 'POST',
             headers: {
                 'authorization': 'Bearer ' + token
@@ -33,7 +33,7 @@ $(document).ready(function(){
         var token = localStorage.getItem('token');
         console.log(token);
         $.ajax({
-            url:'/user/principal/verificarToken',
+            url:'/principal/verificarToken',
             type: 'POST',
             headers: {
                 'authorization': 'Bearer ' + token

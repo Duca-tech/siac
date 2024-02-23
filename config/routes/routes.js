@@ -6,7 +6,7 @@ const WppTwilio = require('../twilio/twilio')
 const session = require('express-session');
 
 router.get('/', (req, res)=>{
-    res.render('psicologo/login');
+    res.render('usuario/login');
 })
 
 /*Inicio configuração de rotas do usuario */
@@ -91,7 +91,7 @@ router.get('/user/principal', (req,res)=>{
 })
 
 //verificar token
-router.post('/user/principal/verificarToken', token.verficarToken, (req, res)=>{
+router.post('/principal/verificarToken', token.verficarToken, (req, res)=>{
     res.send('Token verificado com sucesso');
 })
 
@@ -107,7 +107,8 @@ router.get('/user/agendamento/dadosPsico', (req,res)=>{
         if(error) return res.status(400).json({message: 'Falha ao buscar psicologos'});
         else if(results.psicologos.length>0){
             if(results.agenda.length>0){
-                return res.status(200).json({message: 'Psicologos e agendas obtidos com sucesso!', psicologos: results.psicologos, agenda: results.agenda });
+                if(results.horarios.length>0)  
+                return res.status(200).json({message: 'Psicologos e agendas obtidos com sucesso!', psicologos: results.psicologos, agenda: results.agenda, horarios: results.horarios });
             }
             else return res.status(400).json({message: 'Há psicologos mas sem agenda!'})
         }
@@ -127,7 +128,7 @@ router.post('/user/inserirHorario', (req,res)=>{
     }
     console.log('Horario: ', horario);
 
-    db.setHorario(horario, (error,results)=>{
+    db.getHorario(horario, (error,results)=>{
         if(error) return res.status(400).json({message: 'erro na inserção de dados'})
         else if(results.affectedRows>0){
             return res.status(200).json({message: 'Usuário inserido com sucesso', data: results});
@@ -148,11 +149,11 @@ router.post('/user/inserirHorario/wpp', (req,res)=>{
         hora: hora
     }
     console.log('Horario: ', horario);
-    db.setHorario(horario, (error,results, horarioInsert)=>{
+    db.updateHorario(horario, (error,results)=>{
         if(error) return res.status(400).json({message: 'erro na inserção de dados'})
         else if(results.affectedRows>0){
-            console.log('Horario inseridos: ', horarioInsert)
-            res.status(200).json({message: 'Usuário inserido com sucesso', data: results});
+            console.log('agendamento realizado: ', results);
+            res.status(200).json({message: 'Usuário inserido com sucesso'});
             WppTwilio.enviarMensagem(`
                 Prezado Usuario SIAC, sua consulta foi agendada com sucesso \n\n 
                 data: ${horarioInsert.data} \n
@@ -167,7 +168,7 @@ router.post('/user/inserirHorario/wpp', (req,res)=>{
 
 
 router.get('/user/principal/conta', (req,res)=>{
-    res.render('contaUsuario');
+    res.render('usuario/contaUsuario');
 })
 
 router.post('/user/principal/conta/detalhes', (req,res)=>{
@@ -229,12 +230,14 @@ router.put('/user/principal/conta/update/:idUser', (req,res)=>{
 
 
 router.post('/psicologo/gerarAgenda', (req,res)=>{
-    const {horaIni, horaFin, diaSemana, data} = req.body;
+    console.log('dados recebidos: ',req.body);
+    const {horaIni, horaFin, diaSemana, data, idPsico} = req.body;
     var agenda = {
         horaIni: horaIni,
         horaFin, horaFin,
         diaSemana, diaSemana,
-        data: data
+        data: data,
+        idPsico: idPsico
     }
     console.log('agenda: ', agenda);
     db.addAgenda(agenda, (error, results)=>{    
@@ -263,17 +266,20 @@ router.post('/psico/login',  (req,res)=>{
         email: email,
         senha: senha
     }
-    db.getPsicoLogin(psicoLogin, async(erro,results)=>{
+    db.getPsicoLogin(psicoLogin, async(error,results)=>{
         if(error) return res.status(500).json({message: 'Falha ao Buscar psicologo'});
         console.log('psicologo router.js: ',results[0]);
-        const token = await token.gerarToken(results[0].idPsico);
-
-        res.status(200).json({message: 'Psicologo encontrado: ', psico: results[0], message: 'Enviando token ', token: token });
+        const tokenGerado = await token.gerarToken(results[0].idPsico);
+        console.log('Token: ', tokenGerado);
+        res.status(200).json({message: 'Psicologo encontrado: ', psico: results[0], message: 'Enviando token ', token: tokenGerado });
     })
     
 })
 router.get('/psico/principal', (req,res)=>{
     res.render('psicologo/principal');
+})
+router.get('/psicologo/principal/agenda', (req, res)=>{
+    res.render('psicologo/agenda');
 })
 /*Fim configuração de rotas do Psicologo */
 

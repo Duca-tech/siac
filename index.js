@@ -49,6 +49,10 @@ app.set('view engine', 'ejs'); //Express procurará por arquivos com extensão .
 
 app.use('/', router); // acessa o arquivo router e inicia a renderização da pagina principal 
 
+//Verificar Token da pagina Principal
+app.use('/principal/verificarToken', router);
+
+
 /* ******Inicio Servidor Para Usuario*******/
 
 //Cadastrar usuario
@@ -59,9 +63,6 @@ app.use('/user/login', router);
 
 //abrir pagina principal
 app.use('/user/principal', router);
-
-//Verificar Token da pagina Principal
-app.use('/user/principal/verificarToken', router);
 
 //abrir pagina de Agendamento
 app.use('/user/agendamento', router);
@@ -95,6 +96,8 @@ app.use('/psicologo/gerarAgenda', router);
 app.use('/psico/login', router )
 
 app.use('/psico/principal', router);
+
+app.use('/psicologo/principal/agenda', router);
 
 /*Fim servidor para Psicologo */
 

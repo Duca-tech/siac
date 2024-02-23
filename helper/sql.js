@@ -43,11 +43,22 @@ const getPsico = (callback)=>{
         if(error) return console.log('Falha na consulta');
         else if(results1.length>0){
             console.log('psicologos encontrados!', results1);
-            conexao.query(`SELECT * FROM agenda where idPsico = 3`, (error, results2)=>{
+            conexao.query(`SELECT * FROM agenda`, (error, results2)=>{
                 if(error) return console.log('Falha na consulta de horário');
                 else if(results2.length>0){
-                    console.log('Horarios Encontrados!', results2);
-                    callback(null, {psicologos: results1, agenda: results2});
+                    console.log('Agendas Encontradas!', results2);
+                    
+                    conexao.query(`SELECT * FROM horario`, (error, results3)=>{
+                        if(error) return console.log('Falha na consulta');
+                        else if(results3.length>0){
+                            console.log('Horarios da agenda encontrados!', results3);
+                            callback(null, {psicologos: results1, agenda: results2, horarios: results3});
+                        }
+                        else{
+                            console.log('Nenhum horario encontrado!');
+                        }
+                    })
+                    
                 }
                 
             })
@@ -55,7 +66,7 @@ const getPsico = (callback)=>{
     })
 }
 
-const setHorario = (horario, callback)=>{
+const getHorario = (horario, callback)=>{
 
     conexao.query(`select * from horario where hora = ? and idUser =?`, [horario.hora, horario.idUser], (error, results)=>{
         if(error) return console.log('erro na consulta')
@@ -74,6 +85,18 @@ const setHorario = (horario, callback)=>{
     }})
     
     
+}
+const updateHorario = (horario, callback)=>{
+    conexao.query(`UPDATE horario set disponibilidade = 1, idUser = ? where hora = ?`, [horario.idUser, horario.hora], (error, results)=>{
+        if(error) return console.log('Erro na consulta do Banco');
+        else if(results.affectedRows>0){
+            console.log('Update realizado!');
+            callback(null, horario);
+        }
+        else{
+            console.log('Nenhuma linha afetada!');
+        }
+    })
 }
 
 const getUser = (idUser, callback)=>{
@@ -111,7 +134,7 @@ const updateUser = (usuario, callback) =>{
 //adicionar agenda
 const addAgenda = (agenda, callback)=>{
     console.log('Agenda no sql: ', agenda)
-     conexao.query(`insert into agenda(horaIni, horaFin, data, diaSemana,idPsico) values(?, ?, ?, ?, 1)`, [agenda.horaIni, agenda.horaFin, agenda.data, agenda.diaSemana], (error, results)=>{
+     conexao.query(`insert into agenda(horaIni, horaFin, data, diaSemana,idPsico) values(?, ?, ?, ?, ?)`, [agenda.horaIni, agenda.horaFin, agenda.data, agenda.diaSemana, agenda.idPsico], (error, results)=>{
         if(error) return console.log('Erro na consulta');
         else if(results.affectedRows>0){
             console.log('Agendada adicionada com sucesso: ', results.insertId);
@@ -171,7 +194,7 @@ const addAgenda = (agenda, callback)=>{
 }
 
 const getPsicoLogin = (psicoLogin, callback) =>{
-    conexao.query(`SELECT *FROM profissionalpsicologo where email = ? and senha = ?`, [psicoLogin.email, psicologo.senha], (error, results)=>{
+    conexao.query(`SELECT * FROM profissionalpsicologo where email = ? and senha = ?`, [psicoLogin.email, psicoLogin.senha], (error, results)=>{
         if(error) return console.log('Erro na consulta');
         else if(results.length>0){
             console.log('Psicologo encontrado sql.js: ', results[0]);
@@ -189,7 +212,8 @@ module.exports = {
     addUser,
     loginUser,
     getPsico,
-    setHorario,
+    getHorario,
+    updateHorario,
     getUser,
     updateUser,
     addAgenda,

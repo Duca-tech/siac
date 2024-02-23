@@ -5,6 +5,16 @@
 .borda{
     border: 1px solid red;
 }
+.borda-inferior{
+    border-bottom: 1px solid #DCDCDC;
+    padding-bottom: 15px;
+}
+.buttonHora{
+    background-color: #D3D3D3;
+}
+.buttonHora:hover{
+    background-color: aqua;
+}
 ul{
     list-style: none
 }
@@ -48,18 +58,22 @@ main{
     margin-top: 54px;
 }
 
-/*Dados dos Psicologos*/
-#psicoDados{
-    border-bottom: 1px solid goldenrod;
-    margin-bottom: 15px;
-     
+#containerAgendaPsico{
+    display: none;
 }
 
+/*Dados dos Psicologos*/
+#psicoDados{
+    
+    margin: 20px
+        
+}
+
+#psicoDados #listaSelecaoPsico{
+    margin: 15px;
+}
 /*Container de Agenda*/
 #containerAgenda{
-    display: grid;
-    grid-template-columns: repeat(3,1fr);
-    background-color: violet;
     padding: 20px;
     border-radius: 15px;
 }

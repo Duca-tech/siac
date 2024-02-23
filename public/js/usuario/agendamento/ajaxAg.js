@@ -1,18 +1,16 @@
 $(document).ready(function(){
     
+    idUser = localStorage.getItem('idUser');
+    
     $.ajax({
         url:'/user/agendamento/dadosPsico',
         type: 'GET'
     })
     .done(function(data){
-        console.log('Psicologos e agenda: ', data);
-        mostrarPsico(data.psicologos);
-        psicoAgenda(data.psicologos);
-
-        //Mostrar agenda
-        mostrarData(data.agenda[0]);
-        mostrarDiaSemana(data.agenda[0]);
-        intervaloHorarios(data.agenda[0]);
+        console.log('Psicologos, agenda e horários:  ', data);
+        selecionarPsico(data.psicologos);
+        mostrarPsico(data.psicologos, data.agenda, data.horarios);
+        
     })
     .fail(function(xhr, status, errorThrowne){
         console.log('status: ', status);
@@ -29,10 +27,10 @@ $(document).ready(function(){
     var button;
     var msgWpp;
 
-    $('#containerAgenda').on('click', 'button', function(){
+    $('#psicoDados').on('click', '.buttonHora', function(){
         button = $(this);
         hora = $(this).text();
-        idUser = localStorage.getItem('idUser');
+        console.log('Id do Usuario: ', idUser);
         $('#containerConfirmacao').css({
             'display':'block'
         })
@@ -82,8 +80,7 @@ $(document).ready(function(){
                             'height': 'toggle',
                             'opacity': 'toggle'
                         }, 1000, function(){
-                            window.location.href = '/user/principal'
-
+                            window.location.reload();
                         });
                     });
                 });
@@ -131,7 +128,7 @@ $(document).ready(function(){
                             'height': 'toggle',
                             'opacity': 'toggle'
                         }, 1000, function(){
-                            window.location.href = '/user/principal'
+                            window.location.reload();
 
                         });
                     });
