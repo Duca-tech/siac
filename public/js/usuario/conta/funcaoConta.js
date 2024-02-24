@@ -30,28 +30,40 @@ function updateRelizado(usuario){
 }
 
 function consultas(consultas){
-    for(let i = 0; i<consultas.length; i++){
-        var dataForm = formatarData(consultas[i].data);
-    }
-    var consultasConta = $(`<div>
-        <h5 style='border-bottom: 1px solid #DCDCDC'>Consultas Agendadas: </h5>
-    </div>`)
-    consultas.map(function(consulta){
-        consultasConta.append(`
-        <div class= 'd-flex align-items-center' style='border-bottom: 1px solid #A9A9A9'>
-            <span class='espacamentoConsulta'>${consulta.nome}</span>
-            <span class='espacamentoConsulta'>${consulta.celular}</span>
-            
-            <span class='espacamentoConsulta'>${dataForm}</span>
-            <span class='espacamentoConsulta'>${consulta.hora}</span><br><br>
+    
+        
+   
+    if(consultas[0].data && consultas[0].hora){
+        for(let i = 0; i<consultas.length; i++){
+            var horaForm = formatarHora(consultas[i].hora);
+            var dataForm = formatarData(consultas[i].data);
+        }
+        var consultasConta = $(`<div>
+            <h5 style='border-bottom: 1px solid #DCDCDC'>Consultas Agendadas: </h5>
+        </div>`)
+        consultas.map(function(consulta){
+            consultasConta.append(`
+            <div class= 'd-flex align-items-center' style='border-bottom: 1px solid #A9A9A9'>
+                <span class='espacamentoConsulta'>${consulta.nome}</span>
+                <span class='espacamentoConsulta'>${consulta.celular}</span>
+                
+                <span class='espacamentoConsulta'>${dataForm}</span>
+                <span class='espacamentoConsulta'>${horaForm}</span><br><br>
 
-            
-            <span class='espacamentoConsulta'><button class='btn btn-danger'>Cancelar Consulta</button></span><br><br>
-            
-        </div>
-            `)
-    })
-    $('#containerConsultas').append(consultasConta);
+                
+                <span class='espacamentoConsulta'><button class='btn btn-danger'>Cancelar Consulta</button></span><br><br>
+                
+            </div>
+                `)
+        })
+        $('#containerConsultas').append(consultasConta);
+    
+    }
+    else{
+        $('#containerConsultas').append(`
+           <h3>Sem consultas!</h3>
+        `)
+    }
 }
 
 function formatarData(data){
@@ -63,6 +75,16 @@ function formatarData(data){
     var dataForm = `${dia}/${mes}/${ano}`;
     return dataForm; 
 }
+
+function formatarHora(hora){
+    var [hora, minuto] = hora.split(':');
+
+    var horaForm = `${hora}:${minuto}`;
+    console.log(horaForm);
+
+    return horaForm
+}
+
 
 
    

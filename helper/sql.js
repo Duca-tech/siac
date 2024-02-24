@@ -60,8 +60,17 @@ const getPsico = (callback)=>{
                     })
                     
                 }
+                else{
+                    console.log('Sem nenhum agenda !, só tem psicólogos');
+                    callback(null, {psicologos:results1, agenda: results2});
+                    
+                }
                 
             })
+        }
+        else{
+            console.log('Sem nenhum Psicologo, portanto sem agenda');
+            callback(null, null);
         }
     })
 }
@@ -107,8 +116,13 @@ const getUser = (idUser, callback)=>{
             callback(null, results);
         }
         else{
-            console.log('usuario não encontrado !');
-            callback(error, null);
+            console.log('select pra horario, agenda e usuario não foi!');
+            conexao.query(`SELECT * FROM usuario where idUser = ?`, [idUser], (error, results)=>{
+                if(error) console.log('Erro de Consulta');
+                console.log('Usuario encontrado, porem não ha agenda: ', results);
+                callback(null, results);
+            })
+            
         }
     })
 }
@@ -124,6 +138,13 @@ const updateUser = (usuario, callback) =>{
         else{
             console.log('Nenhuma linha atualizada', results[0]); // se retorna essa condição é pq não ta encontrando nenhuma linha relacionado ao where
         }
+    })
+}
+
+const getAgenda = (idUser, callback)=>{
+    conexao.query(`select * from horario where idUser = ?`, [idUser], (error, results)=>{
+        if(error) return console.log('erro de consulta');
+        callback(null, results);
     })
 }
 /*Fim de consultas no Banco para Usuario */
@@ -216,6 +237,7 @@ module.exports = {
     updateHorario,
     getUser,
     updateUser,
+    getAgenda,
     addAgenda,
     getPsicoLogin
 }

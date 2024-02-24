@@ -1,4 +1,11 @@
-$(document).ready(function(){})
+function verificacao(psicologos, agenda, horarios){
+    if(!agenda){
+        $('#psicoDados').append(`<h3>Sem agenda para consultas!</h3>`);
+
+        
+    }
+    
+}
 function selecionarPsico(psicologos){
 
     var selecao = $(`<select id='listaSelecaoPsico'><option disabled selected>Escolha o Profissional</option></select>`);

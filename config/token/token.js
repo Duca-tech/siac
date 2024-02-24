@@ -23,14 +23,14 @@ var verficarToken = async(req,res,next) =>{
     const chaveSecreta = process.env.JWT_SECRET_KEY;
     console.log('chave secreta: ',chaveSecreta);
     console.log('token: ', token )
-    if(!token) return res.status(400).json({message:'Token esta indefinido'});
-    await jwt.verify(token.split(' ')[1], chaveSecreta, (err,decode)=>{  // utilizar o split pois envia a solicitação como Bearer e o token de modo a dividir as duas coiss
+    if(!token) return console.log('Token Indefinido ');
+    jwt.verify(token.split(' ')[1], chaveSecreta, (err,decode)=>{  // utilizar o split pois envia a solicitação como Bearer e o token de modo a dividir as duas coiss
         if(err) return res.status(500).json({auth:false, message: 'Falha ao autenticar token', err});
         
         console.log('token decodificado: ', decode);
-        res.status(200).json({message: 'Token validado com sucesso', decode});
-
+        next();
     });
+
 }
 
 function tokenDestroyer(){

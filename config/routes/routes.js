@@ -90,9 +90,20 @@ router.get('/user/principal', (req,res)=>{
     res.render('usuario/principal');
 })
 
+router.get('/principal/verificarToken', token.verficarToken, (req,res)=>{
+    res.status(200).json({message: 'token verificado com Sucesso'});
+})
+
 //verificar token
 router.post('/principal/verificarToken', token.verficarToken, (req, res)=>{
-    res.send('Token verificado com sucesso');
+    console.log('dados recebidos: ', req.body);
+    var {idUser} = req.body
+     idUser = parseInt(idUser);
+    console.log('int: ', idUser);
+    db.getAgenda(idUser, (error, results)=>{
+        if(error) return res.status(500).json({message: 'Falha na consulta!'})
+        res.status(200).json({message: 'Enviando dados sobre a consulta: ', data: results});
+    })
 })
 
 //abrir pagina de Agendamento
@@ -104,15 +115,15 @@ router.get('/user/agendamento',  (req,res)=>{
 router.get('/user/agendamento/dadosPsico', (req,res)=>{
     
     db.getPsico((error, results)=>{
-        if(error) return res.status(400).json({message: 'Falha ao buscar psicologos'});
-        else if(results.psicologos.length>0){
-            if(results.agenda.length>0){
-                if(results.horarios.length>0)  
-                return res.status(200).json({message: 'Psicologos e agendas obtidos com sucesso!', psicologos: results.psicologos, agenda: results.agenda, horarios: results.horarios });
-            }
-            else return res.status(400).json({message: 'Há psicologos mas sem agenda!'})
+        if(error) return res.status(400).json({message: 'Falha ao buscar Consultas'});
+        else {
+            console.log('Resultado da Consulta: ', results);
+            if(results.psicologos.length == 0) return res.status.json({message: 'Sem psicologos'});
+            if(results.agenda.length ==0) return res.status(200).json({message:'Sem Agenda!'});
+            res.status(200).json({message: 'Agenda: ', agenda: results.agenda, message: 'Psicologo: ', psicologos: results.psicologos, message: 'Horários: ', horarios: results.horarios})
+
+
         }
-        else return res.status(400).json({message: 'Sem psicologos'});
 
     })
     
@@ -176,10 +187,12 @@ router.post('/user/principal/conta/detalhes', (req,res)=>{
     console.log('inteiro de idUser: ', idUser);
 
     db.getUser(idUser, (error, results)=>{
-        if(error) return res.status(400).json({message: 'Erro Ao consultar Banco'});
-
-        else if(results.length>0) return res.status(200).json({message: 'Usuário encontrado', data: results});
-
+        if(error) { 
+            return res.status(400).json({message: 'Erro Ao consultar Banco'});
+        }
+        else if(results) {
+            return res.status(200).json({message: 'Usuário encontrado', data: results});
+        }
         else{
             return res.status(400).json({message: 'Usuario não encontrado !'});
         }

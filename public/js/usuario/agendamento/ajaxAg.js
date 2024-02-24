@@ -8,6 +8,7 @@ $(document).ready(function(){
     })
     .done(function(data){
         console.log('Psicologos, agenda e horários:  ', data);
+        verificacao(data.psicologos, data.agenda, data.horarios);
         selecionarPsico(data.psicologos);
         mostrarPsico(data.psicologos, data.agenda, data.horarios);
         
@@ -40,7 +41,7 @@ $(document).ready(function(){
 
     })
     
-    $('#containerConfirmacao').on('click', 'button', function(){
+    $('#containerConfirmacao').on('click', 'button', function(){ // Inicio do ajax para confirmar agendamento
         console.log('Id do usuário: ', idUser);
         console.log('button: ', hora);
         msgWpp = $('#msgWpp')
@@ -88,6 +89,7 @@ $(document).ready(function(){
                         });
                     });
                 })
+                window.location.href = '/user/principal'
             })
             .fail(function(status, xhr, errorThrown){
                 console.log('status: ', status);
@@ -147,6 +149,10 @@ $(document).ready(function(){
                 console.log('Requisição finalizada!');
             })
         }
+    }) // fim do ajax para confirmar agendament
+
+    $('#voltar').on('click', function(){
+        window.location.href = '/user/principal';
     })
 
 
