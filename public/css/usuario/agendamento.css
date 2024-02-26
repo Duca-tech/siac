@@ -55,14 +55,14 @@ header ul li:hover{
 /*Começo da config de Main*/
 
 
-#containerAgendaPsico{
-    display: none;
-}
+
 
 /*Dados dos Psicologos*/
 #psicoDados{
     
-    margin: 20px
+    margin: 20px;
+    border-bottom:#D3D3D3 ;
+    border-top: #D3D3D3;
         
 }
 
@@ -73,6 +73,7 @@ header ul li:hover{
 #containerAgenda{
     padding: 20px;
     border-radius: 15px;
+    display: none;
 }
 /*Container das horas*/
 #containerHora{
@@ -113,6 +114,30 @@ header ul li:hover{
     background-color: cornsilk;
    
     
+}
+#tabelaAgenda{
+    border-radius: 10px;
+    padding: 15px;
+}
+#tabelaAgenda thead{
+    border-bottom: 1px solid #D3D3D3;
+}
+#tabelaAgenda thead th{
+    padding: 10px;
+    
+}
+
+#tabelaAgenda tbody{
+    border-bottom: 1px solid #D3D3D3;
+    padding: 15px;
+    text-align: center;
+}
+#tabelaAgenda tbody tr{
+    border-bottom: 1px solid #D3D3D3;
+}
+
+#tabelaAgenda tbody td{
+    padding: 10px;
 }
 /*configurar button de confirmar ou cancelar agendamento*/
 .button{

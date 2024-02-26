@@ -28,7 +28,7 @@ $(document).ready(function(){
     var button;
     var msgWpp;
 
-    $('#psicoDados').on('click', '.buttonHora', function(){
+    $('#containerAgenda').on('click', '.buttonHora', function(){
         button = $(this);
         hora = $(this).text();
         console.log('Id do Usuario: ', idUser);

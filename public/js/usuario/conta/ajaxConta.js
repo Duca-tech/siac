@@ -80,6 +80,25 @@ $(document).ready(function(){
         })
     })
 
+    $('#containerConsultas').on('click', 'button', function(){
+        var idHorario = $(this).data('id');
+        console.log('Id horario: ', idHorario);
+        $.ajax({
+            url: `/user/principal/conta/deletarConsulta/${idHorario}`,
+            type: 'DELETE',
+        })
+        .done(function(response){
+            console.log('Resposta do Servidor: ', response);
+            alert('Consulta Excluida Com sucesso!');
+            location.reload();
+        })
+        .fail(function(xhr, errorThrown, status){
+            console.log('Falha ao enviar Solicitação: ', errorThrown);
+            console.log('Status: ', status);
+            console.log(xhr);
+        })
+    })
+
     $('.voltar').on('click', function(){
         window.location.href =  '/user/principal'
     })

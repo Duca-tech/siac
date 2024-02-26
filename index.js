@@ -84,7 +84,9 @@ app.use('/user/principal/conta/detalhes', router);
 //atualizar os dados do usuario
 app.use('/user/principal/conta/update', router);
 
-/* ******Fim Servidor Para Usuario*******/
+app.use('/user/principal/conta/deletarConsulta', router);
+
+/*******Fim Servidor Para Usuario*******/
 
 
 /*Inicio Servidor para Psicologo */
@@ -92,12 +94,20 @@ app.use('/user/principal/conta/update', router);
 //gerar agenda para psicologo
 app.use('/psicologo/gerarAgenda', router);
 
+//Exibir a agenda criada quando acessa a pagina de agenda
+app.use('/psico/agenda/exibirAgenda', router);
+
 //psico inseri as crendicais de login
 app.use('/psico/login', router )
 
 app.use('/psico/principal', router);
 
 app.use('/psicologo/principal/agenda', router);
+
+//Psico deleta alguma agenda Criada
+app.use('/psico/agenda/deletarAgenda', router);
+
+app.use('/psico/principal/verificarToken', router);
 
 /*Fim servidor para Psicologo */
 

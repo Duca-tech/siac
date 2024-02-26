@@ -51,7 +51,7 @@ function consultas(consultas){
                 <span class='espacamentoConsulta'>${horaForm}</span><br><br>
 
                 
-                <span class='espacamentoConsulta'><button class='btn btn-danger'>Cancelar Consulta</button></span><br><br>
+                <span class='espacamentoConsulta'><button data-id='${consulta.idHorario}' class='btn btn-danger'>Cancelar Consulta</button></span><br><br>
                 
             </div>
                 `)
@@ -65,6 +65,7 @@ function consultas(consultas){
         `)
     }
 }
+
 
 function formatarData(data){
     var newData = new Date(data);

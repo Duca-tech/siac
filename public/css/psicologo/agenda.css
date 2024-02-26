@@ -21,8 +21,24 @@ input{
     display: none;
     padding: 15px;
 }
+#tabelaAgenda{
+    padding: 15px;
+}
+#tabelaAgenda thead tr th{
+    text-align: center;
+    padding: 10px;
+}
+#tabelaAgenda tbody tr{
+    border-bottom: 1px solid #cdcdcd;
+}
+#tabelaAgenda tbody tr td{
+    padding: 15px;
+    margin-top: 10px;
+}
 
 #cabecalhoAgenda{
     font-weight: bold;
+    border-bottom: 1px solid #cdcdcd;
+
 }
 

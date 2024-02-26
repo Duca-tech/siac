@@ -1,0 +1,6 @@
+Aws instancia do Servidor SIAC
+Par de Chaves:
+
+pass-Siac-Ec2
+
+mstsc --> conexão de área de Trabalho Remota

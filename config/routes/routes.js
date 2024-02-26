@@ -90,6 +90,8 @@ router.get('/user/principal', (req,res)=>{
     res.render('usuario/principal');
 })
 
+
+
 router.get('/principal/verificarToken', token.verficarToken, (req,res)=>{
     res.status(200).json({message: 'token verificado com Sucesso'});
 })
@@ -235,11 +237,30 @@ router.put('/user/principal/conta/update/:idUser', (req,res)=>{
         }
     })
 })
+router.delete('/user/principal/conta/deletarConsulta/:idHorario', (req,res)=>{
+    console.log('dados para delete: ', req.params.idHorario);
+    var idHorario = req.params.idHorario;
+    db.deleteHorario(idHorario, (error, results)=>{
+        if(error) res.status(500).json({message: 'Erro na consulta!', error});
+        res.status(200).json({message: 'id da Consulta deletada: ', results})
+    })
+
+})
 
 /*Fim configuração de rotas do usuario */
 
 /*Inicio configuração de rotas do Psicologo */
 
+router.post('/psico/agenda/exibirAgenda', (req, res)=>{
+    console.log('Dados Recebidos: ', req.body);
+    var {idPsico} = req.body;
+    console.log('Id psico: ', idPsico);
+    db.getPsicoAgenda(idPsico, (error,results)=>{
+        if(results.length == 0) return res.status(400).json({message: 'Resultado da consulta undefined ou usuario não encontrado!'})
+        res.status(200).json({message:'Usuario encontrado!', agenda: results});
+    })
+    
+})
 
 router.post('/psicologo/gerarAgenda', (req,res)=>{
     console.log('dados recebidos: ',req.body);
@@ -270,6 +291,15 @@ router.post('/psicologo/gerarAgenda', (req,res)=>{
     })
 
 })
+router.delete('/psico/agenda/deletarAgenda/:idAgenda', (req,res)=>{
+    console.log('Id para deleção: ', req.params.idAgenda);
+    var idAgenda = req.params.idAgenda;
+
+    db.deleteAgenda(idAgenda, (error, results)=>{
+        res.status(200).json({message: 'Agenda foi excluida com Sucesso: ', data: results});
+    })
+
+})
 router.get('/psico/login', (req,res)=>{
     res.render('psicologo/login')
 })
@@ -290,6 +320,11 @@ router.post('/psico/login',  (req,res)=>{
     })
     
 })
+
+router.get('/psico/principal/verificarToken', token.verficarToken, (req,res)=>{
+    res.status(200).json({message: 'Token validado Com sucesso!'})
+})
+
 router.get('/psico/principal', (req,res)=>{
     res.render('psicologo/principal');
 })

@@ -141,6 +141,14 @@ const updateUser = (usuario, callback) =>{
     })
 }
 
+const deleteHorario = (idHorario, callback)=>{
+    conexao.query(`update horario set disponibilidade = 0, idUser = null where idHorario = ?`, [idHorario], (error, results)=>{
+        if(error) return console.log('Erro na Consulta');
+        else if(results.affectedRows>0) callback(null, idHorario);
+        else console.log('Nenhuma linha deletada!', results);
+    })
+}
+
 const getAgenda = (idUser, callback)=>{
     conexao.query(`select * from horario where idUser = ?`, [idUser], (error, results)=>{
         if(error) return console.log('erro de consulta');
@@ -214,6 +222,27 @@ const addAgenda = (agenda, callback)=>{
     
 }
 
+const deleteAgenda = (idAgenda, callback)=>{
+    conexao.query(`delete  horario, agenda from horario inner join agenda on horario.idAgenda = agenda.idAgenda where horario.idAgenda = ? `, [idAgenda], (error, results)=>{
+        if(error) return console.log('Erro na consulta: ', error);
+        else if(results.affectedRows>0){
+            console.log('Agenda deletada com Sucesso: ', results);
+            callback(null, results)
+        }
+        else{
+            console.log('Nenhuma Agenda Encontrado com esse Id');
+        }
+    })
+}
+
+const getPsicoAgenda = (idPsico, callback)=>{
+    conexao.query(`select * from agenda where idPsico = ?`, [idPsico], (error, results)=>{
+        if(error) return console.log('Erro na Consulta');
+        console.log('Agendas: ', results);
+        callback(null, results);
+    })
+}
+
 const getPsicoLogin = (psicoLogin, callback) =>{
     conexao.query(`SELECT * FROM profissionalpsicologo where email = ? and senha = ?`, [psicoLogin.email, psicoLogin.senha], (error, results)=>{
         if(error) return console.log('Erro na consulta');
@@ -237,7 +266,10 @@ module.exports = {
     updateHorario,
     getUser,
     updateUser,
+    deleteHorario,
     getAgenda,
     addAgenda,
+    deleteAgenda,
+    getPsicoAgenda,
     getPsicoLogin
 }

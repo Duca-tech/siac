@@ -1,6 +1,24 @@
 $(document).ready(function(){
 
     const idPsico = localStorage.getItem('idPsico');
+    var psico = {idPsico:idPsico}
+    //pegar as agendas Ja criadas
+    $.ajax({
+        url: '/psico/agenda/exibirAgenda',
+        type:'POST',
+        data: psico 
+    })
+    .done(function(response){
+        console.log('Resposta do servidor: ', response);
+        exibirAgendas(response.agenda);
+    })
+    .fail(function(errorThrown, status){
+        console.log('Erro na Requisição: ', errorThrown);
+        console.log('status da Requisição: ', status);
+    })
+    .always(function(){
+        console.log('Requisição Finalizada!');
+    })
     
     console.log('idPsico: ', idPsico);
     $('#gerarAgenda').on('click', function(){
@@ -29,7 +47,8 @@ $(document).ready(function(){
             })
             .done(function(response){
                 console.log('Resposta do servidor: ', response.message ,response.agenda, response.horarios);
-                exibirAgenda(response.agenda, response.horarios)
+                alert('Agenda Criada Com sucesso!');
+                location.reload();
             })
             .fail(function(status, xhr, errorThrown){
                 console.log('Status: ', status);
@@ -43,37 +62,30 @@ $(document).ready(function(){
         }
     })
 
-    function exibirAgenda(agenda, horarios){
-        console.log('dia da semana: ', agenda.diaSemana)
-        console.log('Data: ', agenda.data)
-        console.log('Horarios: ', horarios)
-        var agendaDados = $(`<div class='d-flex align-items-center  justify-content-center row'></div>`)
-        var agendaData = $(`<div class='col '></div>`);
-        agendaData.append(`${agenda.data}`);
-        agendaDados.append(agendaData);
-        var diaSemana = $(`<div class='col '></div>`)
-        diaSemana.append(`${agenda.diaSemana}`);
-        agendaDados.append(diaSemana);
-        var containerHora = $(`<div class='col '></div>`);
-        agendaDados.append(containerHora);
-
-        $.map(horarios, function(hora){
-            containerHora.append(`<div class='btn btn-info' style='margin: 15px; display: inline-block'>${hora}</div>`)
+    $('#tabelaAgenda').on('click', '.buttonDelete', function(){
+        var idAgenda = $(this).data('id');
+        console.log('Id Agenda: ', idAgenda);
+        $.ajax({
+            url:`/psico/agenda/deletarAgenda/${idAgenda}`,
+            type:'DELETE',
         })
-
-        $('#ContainerAgendaDados').append(agendaDados);
-        $('#ContainerAgendaDados').animate({
-            'height':'toggle'
-        }, 1000, function(){
-            $('#ContainerAgendaDados').css({'display':'block'})
+        .done(function(response){
+            console.log('Resposta do Servidor: ', response);
+            alert('Agenda Excluida com Sucesso');
+            location.reload();
         })
+        .fail(function(errorThrown, status){
+            console.log('Falha ao mandar requisição para o servidor!', errorThrown);
+            console.log('Status: ', status);
 
-        $('#date').val('dd-mm-aaaa');
-        $('#containerDiaSemana').css({'display':'none'})
-        $('#horaIni').val('');
-        $('#horaFin').val('');
+        })
+        .always(function(){
+            console.log('Requisição finalizada!');
+        })
         
-    }
 
+    } )
+    
+    
 
 })
