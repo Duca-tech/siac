@@ -111,6 +111,11 @@ app.use('/psico/principal/verificarToken', router);
 
 /*Fim servidor para Psicologo */
 
+/* Inicio Servidor para Recepcionista */
+
+app.use('/recepcionista/principal/verificarConsulta', router);
+
+/**Fim do Servidor para Recepcionista */
 app.listen(porta, ()=>{
     console.log(`servidor iniciado: http://localhost:${porta}`);
     opn(`http://localhost:${porta}`, {app: 'chrome'});

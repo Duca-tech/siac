@@ -50,8 +50,13 @@ function mostrarPsico(psicologos,agenda, horarios){
         }
         console.log('agenda com base no idPsico: ',agendaPsico);
 
+        for(let i=0; i<agendaPsico.length; i++){
+            agendaPsico[i].data = formatarData(agendaPsico[i].data);
+        }
+        
         var horariosPsico = []
         for(let i =0; i<horarios.length; i++){
+            horarios[i].hora = formatarHorario(horarios[i].hora)
             for(let j=0; j<agendaPsico.length; j++){
                 if(horarios[i].idAgenda == agendaPsico[j].idAgenda){
                     var linha = $(`<tr></tr>`);

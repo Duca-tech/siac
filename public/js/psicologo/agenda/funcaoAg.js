@@ -42,6 +42,9 @@
 
 
         for(let i=0; i<agenda.length; i++){
+            agenda[i].data = formatarData(agenda[i].data);
+            agenda[i].horaFin = formatarHorario(agenda[i].horaFin);
+            agenda[i].horaIni = formatarHorario(agenda[i].horaIni);
             var linha = $(`<tr></tr>`)
             var data = $(`<td >${agenda[i].data}</td>`)
             var diaSemana = $(`<td >${agenda[i].diaSemana}</td>`)
@@ -84,5 +87,26 @@
         
     }
 
-
+    function formatarData(data){
+        console.log('data: ', data);
+        
+        var data = new Date(data);
+        var ano = data.getFullYear();
+        var mes = data.getMonth() +1;
+        var dia = data.getDate();
+       
+        dia = (dia<10) ? '0' + dia : dia
+        mes = (mes<10) ? '0' + mes : mes
+        var dataForm = `${dia}/${mes}/${ano}`
+        return dataForm;
+        
+    }
+    function formatarHorario(horario){
+        const [hora, minuto] = horario.split(':');
+        
+        var horasForm = `${hora}:${minuto}`
+        
+        return horasForm;
+    }
+    
    

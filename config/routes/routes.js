@@ -333,6 +333,18 @@ router.get('/psicologo/principal/agenda', (req, res)=>{
 })
 /*Fim configuração de rotas do Psicologo */
 
+/** Inicio da configuração de Rotas do Recepcionista*/
+router.post('/recepcionista/principal/verificarConsulta', (req,res)=>{
+    console.log('Dados recebidos: ', req.body);
+    var credencial = req.body.inputCred;
+    console.log('Credencial: ', credencial);
+    db.verificarConsulta(credencial, (error, results)=>{
+        res.status(200).json({message: 'Enviando dados para o cliente: ', consulta: results});
+    })
+
+
+})
+
 module.exports = {
     router,
     session

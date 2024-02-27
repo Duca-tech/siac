@@ -258,6 +258,21 @@ const getPsicoLogin = (psicoLogin, callback) =>{
 
 /*Fim de consultas no Banco para Psicologos */
 
+/*Inicio de Consultas para Recepcionista */
+
+const verificarConsulta = (credencial, callback)=>{
+    conexao.query(`select usuario.nome, horario.hora, agenda.data, agenda.diaSemana, profissionalpsicologo.nome from horario inner join usuario on horario.idUser = usuario.idUser inner JOIN agenda on horario.idAgenda = agenda.idAgenda inner join profissionalpsicologo on agenda.idPsico = profissionalpsicologo.idPsico where usuario.nomeUser = ?`, [credencial], (error, results)=>{
+        if(error) return console.log('Erro na Consulta: ', error);
+        else if(results.length>0){
+            console.log('usuario encontrado !', results);
+            callback(null, results);
+        }
+        else{
+            console.log('Usuário não encontrado!');
+        }
+    })
+}
+
 module.exports = {
     addUser,
     loginUser,
@@ -271,5 +286,6 @@ module.exports = {
     addAgenda,
     deleteAgenda,
     getPsicoAgenda,
-    getPsicoLogin
+    getPsicoLogin,
+    verificarConsulta
 }

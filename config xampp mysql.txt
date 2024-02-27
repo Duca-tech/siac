@@ -1,0 +1,4 @@
+ host: 'localhost',
+        user: 'duca',
+        password: '197525',
+        database: 'duca-siac'
