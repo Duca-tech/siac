@@ -1,3 +1,5 @@
+
+
 $(document).ready(function(){
     
     $('#buttonVerify').on('click', function(){
@@ -16,6 +18,7 @@ $(document).ready(function(){
             })
             .done(function(response){
                 console.log('Resposta do Servidor!', response);
+                verificarConsulta(response.consulta[0]);
 
             })
             .fail(function(status, errorThrown, xhr){

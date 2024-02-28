@@ -6,7 +6,7 @@ const WppTwilio = require('../twilio/twilio')
 const session = require('express-session');
 
 router.get('/', (req, res)=>{
-    res.render('usuario/login');
+    res.render('recepcionista/verificacaoAgendamento');
 })
 
 /*Inicio configuração de rotas do usuario */
