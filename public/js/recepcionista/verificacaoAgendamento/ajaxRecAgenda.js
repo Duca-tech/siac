@@ -21,7 +21,7 @@ $(document).ready(function(){
                 verificarConsulta(response.consulta[0]);
 
             })
-            .fail(function(status, errorThrown, xhr){
+            .fail(function(errorThrown, status,  xhr){
                 console.log('Status: ', status);
                 console.log('error: ', errorThrown);
                 console.log(xhr);

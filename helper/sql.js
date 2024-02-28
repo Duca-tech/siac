@@ -1,26 +1,21 @@
 const sql = require('mysql2');
 
 const conexao =  sql.createPool({
-        host: 'roundhouse.proxy.rlwy.net',
-        user: 'root',
-        password: 'hFcF2a4f4-dBF5g162e2hhfFF3efHB16',
-        database: 'railway',
+        host: '172.22.108.156',
+        user: 'duca',
+        password: '197525',
+        database: 'duca-siac',
         waitForConnections: true,
         connectionLimit: 10,
-        queueLimit: 0,
-        connectTimeout: 10000, // Aumentar o tempo limite para 10 segundos (valor em milissegundos)
         
     })
 
-// Verificar se houve erro ao criar o pool de conexão
-conexao.getConnection((err, connection) => {
-    if (err) {
-        console.error('Erro ao conectar ao banco de dados:', err);
-    } else {
-        console.log('Banco de dados conectado!');
-        connection.release(); // Liberar a conexão de teste
-    }
-});
+    conexao.getConnection((error) =>{
+        if(error) return console.log('Erro ao se conectar ao Banco de dados', error);
+        console.log('Banco de dados Conectado');
+    })
+
+
 
 // Encerrando a conexão do pool quando a aplicação for desligada
 process.on('exit', () => {
