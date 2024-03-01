@@ -1,14 +1,15 @@
 const sql = require('mysql2');
 
 const conexao =  sql.createPool({
-        host: '172.22.108.156',
-        user: 'duca',
-        password: '197525',
-        database: 'duca-siac',
+        host: 'viaduct.proxy.rlwy.net',
+        user: 'root',
+        port: '36191',
+        password: '4fcgEFdgDhChCBbhc-3h6-A1BE-C14dE',
+        database: 'railway',
         waitForConnections: true,
         connectionLimit: 10,
         
-    })
+})
 
     conexao.getConnection((error) =>{
         if(error) return console.log('Erro ao se conectar ao Banco de dados', error);
