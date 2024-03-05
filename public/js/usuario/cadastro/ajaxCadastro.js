@@ -1,6 +1,6 @@
 $(document).ready(function(){
     //  ajax para tela de cadastro usuário
-    $('#formCadastroUser').submit(function(){
+    $('#formCadastroUser').submit(function(event){
         const formData = new FormData($('#formCadastroUser')[0]);
         $.ajax({
             url: `http://localhost:3600/user/cadastro`,

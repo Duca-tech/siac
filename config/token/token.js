@@ -34,7 +34,7 @@ var verficarToken = async(req,res,next) =>{
 }
 
 function tokenDestroyer(){
-
+    
 }
 
 module.exports = {

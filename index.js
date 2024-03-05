@@ -102,6 +102,9 @@ app.use('/psico/agenda/exibirAgenda', router);
 // psico inseri as crendicais de login
 app.use('/psico/login', router )
 
+//cadastro das Informações de Psico
+app.use('/psico/cadastro', router)
+
 app.use('/psico/principal', router);
 
 app.use('/psicologo/principal/agenda', router);

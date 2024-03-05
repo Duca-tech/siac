@@ -6,7 +6,7 @@ const WppTwilio = require('../twilio/twilio')
 const session = require('express-session');
 
 router.get('/', (req, res)=>{
-    res.render('usuario/login');
+    res.render('recepcionista/verificacaoAgendamento');
 })
 
 /*Inicio configuração de rotas do usuario */
@@ -317,6 +317,26 @@ router.post('/psico/login',  (req,res)=>{
         const tokenGerado = await token.gerarToken(results[0].idPsico);
         console.log('Token: ', tokenGerado);
         res.status(200).json({message: 'Psicologo encontrado: ', psico: results[0], message: 'Enviando token ', token: tokenGerado });
+    })
+    
+})
+
+router.post('/psico/cadastro', (req,res)=>{
+    console.log('Dados recebidos', req.body);
+    const {nome, email, cidade, senha} = req.body
+    var psico = {
+        nome: nome,
+        email: email,
+        cidade: cidade,
+        senha: senha
+    }
+    db.addPsico(psico, (error, results)=>{
+        if(results.affectedRows>0){
+            res.status(201).json({message: 'Psicologo Adicionado com Sucesso', results: results});
+        }
+        else{
+            res.status(200).json({message: 'Ja existe um psicologo com esse cadastro', results: results})
+        }
     })
     
 })

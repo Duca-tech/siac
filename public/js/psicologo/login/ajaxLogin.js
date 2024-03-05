@@ -1,6 +1,7 @@
 $(document).ready(function(){
 
-    $('#entrar').on('click', function(){
+    $('#entrar').on('click', function(e){
+        e.preventDefault();
         var email = $('#email').val();
         var senha = $('#senha').val(); 
         

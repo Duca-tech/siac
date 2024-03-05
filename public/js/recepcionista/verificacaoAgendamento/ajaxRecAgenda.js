@@ -1,4 +1,4 @@
-
+var idHorario;
 
 $(document).ready(function(){
     
@@ -19,6 +19,7 @@ $(document).ready(function(){
             .done(function(response){
                 console.log('Resposta do Servidor!', response);
                 verificarConsulta(response.consulta[0]);
+                idHorario = response.consulta[0].idHorario;
 
             })
             .fail(function(errorThrown, status,  xhr){
@@ -30,5 +31,10 @@ $(document).ready(function(){
                 console.log('Requisição Finalizada');
             })
         }
+    })
+
+    $('#confirmarPresença').on('click', function(){
+        console.log('Id Horario da Consulta: ', idHorario);
+        
     })
 })

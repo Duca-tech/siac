@@ -1,70 +1,103 @@
 function verificarConsulta(consulta){
-    var dataAtual = new Date().toISOString(); //método toISOString() para obter a representação da data no formato ISO 8601, que é semelhante ao formato do MySQL
-    console.log('Data de Hj: ', dataAtual);
 
-    if(dataAtual == consulta.data){
-        var containerConsulta = $(`<div></div>`)
-        var dadosConsulta = $(`<div>
-            <p>Paciente: ${consulta.NomePaciente}</p>
-            <p>Data: ${consulta.data}</p>
-            <p>Dia da Semana: ${consulta.diaSemana}</p>
-            <p>Hora: ${consulta.hora}</p>
-            <p>Hora: ${consulta.NomePsico}</p>
-            
-        </div>`)
-        var buttonConsulta = $(`
-            <button class='btn btn-outline-success' id='confirmarPresença'>Confirmar Presença</button>
-            <button class='btn btn-outline-warning' id='cancelarPresenca'>Cancelar</button>
-        `)
+    console.log('Consulta: ', consulta);
 
-        containerConsulta.append(dadosConsulta)    
-        containerConsulta.append(buttonConsulta);
-
+    if(!consulta){
+        var containerConsulta = $(`<div></div>`);
+        var resposta = $(`<p>Você Não tem nenhuma Consulta Agendada<p>`)
+        resposta.css({'color': 'red','font-weigth':'bold'})
+        containerConsulta.append(resposta)
+        
         $('#containerVerify').css({'display':'none'})
-
         $('body').append(containerConsulta);
-
-
-        $('#cancelarPresenca').on('click', function(){
-            containerConsulta.css({'display':'none'});
-            $('#containerVerify').css({'display':'block'});
+        containerConsulta.animate({
+            'heigth': 'toggle',
+            'opacity':'0'
+        }, 3500, function(){
+            $('#containerVerify').css({
+                'display': 'block'
+            })
         })
     }
     else{
-        var containerConsulta = $(`<div></div>`)
-        var dadosConsulta = $(`<div>
-            <p>Paciente: ${consulta.NomePaciente}</p>
-            <p>Data: ${consulta.data}</p>
-            <p>Dia da Semana: ${consulta.diaSemana}</p>
-            <p>Hora: ${consulta.hora}</p>
-            <p>Hora: ${consulta.NomePsico}</p>
+        var dataConsulta = new Date(consulta.data);
+        var dataAtual = new Date(); //método toISOString() para obter a representação da data no formato ISO 8601, que é semelhante ao formato do MySQL
+        console.log('Data de Hj: ', dataAtual);
+        console.log('Data da Consulta: ', dataConsulta);
 
-            <p style='color: red; text-weight: bold'>Sua consulta não esta marcada para hoje</p>
+        if(dataAtual.getFullYear() === dataConsulta.getFullYear() && dataAtual.getMonth() === dataConsulta.getMonth() && dataAtual.getDay() === dataConsulta.getDay()){
             
+            var containerConsulta = $(`<div></div>`)
+            var dadosConsulta = $(`<div>
+                <p>Paciente: ${consulta.NomePaciente}</p>
+                <p>Data: ${consulta.data}</p>
+                <p>Dia da Semana: ${consulta.diaSemana}</p>
+                <p>Hora: ${consulta.hora}</p>
+                <p>Doutor(a): ${consulta.NomePsico}</p>
+                
+            </div>`)
+            var buttonConsulta = $(`
+                <button class='btn btn-outline-success' id='confirmarPresença'>Confirmar Presença</button>
+                <button class='btn btn-outline-warning' id='cancelarPresenca'>Cancelar</button>
+            `)
 
-        </div>`)
+            containerConsulta.append(dadosConsulta)    
+            containerConsulta.append(buttonConsulta);
 
-        var dadosVoltar = $(`
-            <div>
-                <button class='btn btn-danger'>Voltar</button>
-            </div>
-        `)
+            $('#containerVerify').css({'display':'none'})
 
-        
-        containerConsulta.append(dadosConsulta);
-        containerConsulta.append(dadosVoltar);
-        $('#containerVerify').css({'display':'none'})
-
-        $('body').append(containerConsulta);
-       
-        
+            $('body').append(containerConsulta);
 
 
+          
+        }
+        else{
+            var containerConsulta = $(`<div></div>`)
+            var dadosConsulta = $(`<div>
+                <p>Paciente: ${consulta.NomePaciente}</p>
+                <p>Data: ${consulta.data}</p>
+                <p>Dia da Semana: ${consulta.diaSemana}</p>
+                <p>Hora: ${consulta.hora}</p>
+                <p>Hora: ${consulta.NomePsico}</p>
+
+                <p style='color: red; text-weight: bold'>Sua consulta não esta marcada para hoje</p>
+                
+
+            </div>`)
+
+            var dadosVoltar = $(`
+                <div>
+                    <button id='voltar' class='btn btn-danger'>Voltar</button>
+                </div>
+            `)
+
+            
+            containerConsulta.append(dadosConsulta);
+            containerConsulta.append(dadosVoltar);
+            $('#containerVerify').css({'display':'none'})
+
+            $('body').append(containerConsulta);
+
+            $('#voltar').on('click', function(){
+                containerConsulta.css({'display':'none'});
+                $('#containerVerify').css({'display':'block'})
+                
+            })
+            
+        }
         
     }
+    
 }
 
-$('#confirmarPresença').on('click', function(){
 
-})
+
+
+
+
+    
+
+
+            
+
 

@@ -178,6 +178,7 @@ const getAgenda = (idUser, callback)=>{
 /*Inicio de consultas no Banco para Psicologos */
 
 
+
 //adicionar agenda
 const addAgenda = (agenda, callback)=>{
     console.log('Agenda no sql: ', agenda)
@@ -279,7 +280,7 @@ const getPsicoLogin = (psicoLogin, callback) =>{
 /*Inicio de Consultas para Recepcionista */
 
 const verificarConsulta = (credencial, callback)=>{
-    conexao.query(`select usuario.nome as NomePaciente, horario.hora, agenda.data, agenda.diaSemana, profissionalpsicologo.nome as NomePsico from horario inner join usuario on horario.idUser = usuario.idUser inner JOIN agenda on horario.idAgenda = agenda.idAgenda inner join profissionalpsicologo on agenda.idPsico = profissionalpsicologo.idPsico where usuario.nomeUser = ?`, [credencial], (error, results)=>{
+    conexao.query(`select usuario.nome as NomePaciente, horario.hora, agenda.data, agenda.diaSemana, profissionalpsicologo.nome as NomePsico, horario.status, horario.idHorario from horario inner join usuario on horario.idUser = usuario.idUser inner JOIN agenda on horario.idAgenda = agenda.idAgenda inner join profissionalpsicologo on agenda.idPsico = profissionalpsicologo.idPsico where usuario.nomeUser = ?`, [credencial], (error, results)=>{
         if(error) return console.log('Erro na Consulta: ', error);
         else if(results.length>0){
             console.log('usuario encontrado !', results);
@@ -287,7 +288,21 @@ const verificarConsulta = (credencial, callback)=>{
         }
         else{
             console.log('Usuário não encontrado!');
+            callback(null, results);
         }
+    })
+}
+
+const addPsico = (psico, callback)=>{
+    conexao.query(`INSERT INTO profissionalpsicologo (nome, email, cidade, senha)
+    SELECT ?, ?, ?, ? 
+    FROM DUAL 
+    WHERE NOT EXISTS (
+        SELECT 1 FROM profissionalpsicologo WHERE email = ?
+    )`, [psico.nome, psico.email, psico.cidade, psico.senha, psico.email], (error, results)=>{
+        if(error) return console.log('Erro na consulta, ', error);
+        console.log('Resultado da consulta: ', results);
+        callback(null, results);
     })
 }
 
@@ -305,5 +320,6 @@ module.exports = {
     deleteAgenda,
     getPsicoAgenda,
     getPsicoLogin,
-    verificarConsulta
+    verificarConsulta,
+    addPsico
 }

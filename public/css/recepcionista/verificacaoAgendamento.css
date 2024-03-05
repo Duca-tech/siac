@@ -5,6 +5,7 @@ body, html{
 }
 body{
     height: 100vh;
+    background-color: aliceblue;
 }
 .container{
     border-radius: 10px;
@@ -15,4 +16,9 @@ body{
 }
 .borda{
     border: 1px solid red;
+}
+#containerVerify{
+    border-radius: 15px;
+    background-color: darkgray;
+    padding-bottom: 15px;
 }
