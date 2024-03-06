@@ -38,6 +38,7 @@ $(document).ready(function(){
     //elemento pai é o DOM
     $(document).on('click', '#confirmarPresença',function(){
         console.log('Id Horario da Consulta: ', idHorario);
+        console.log('Id User: ', idUser);
         var horario = {
             idHorario: idHorario,
             idUser: idUser
@@ -50,7 +51,8 @@ $(document).ready(function(){
         })
         .done(function(response){
             console.log('Resposta do Servidor: ', response);
-            putConsulta();
+            console.log('Dados: ', response.dados[0])
+            putConsulta(response.dados[0]);
         })
         .fail(function(errorThrown,status,xhr){
             console.log('Falha na Requisição: ', errorThrown)

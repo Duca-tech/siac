@@ -6,6 +6,8 @@ body, html{
 body{
     height: 100vh;
     background-color: aliceblue;
+    position: relative;
+
 }
 .container{
     border-radius: 10px;
@@ -21,4 +23,27 @@ body{
     border-radius: 15px;
     background-color: darkgray;
     padding-bottom: 15px;
+    position: absolute;
+    top: 40%;
+    left: 7%;
+}
+
+.tabela{
+
+}
+
+.cabecalho{
+    padding: 5px;
+    border-bottom: 1px solid #ccc;
+    text-align: center;
+}
+
+table thead th{
+    padding: 5px;
+    width: 50px;
+}
+
+table tbody td{
+    padding: 5px;
+    text-align: center;
 }

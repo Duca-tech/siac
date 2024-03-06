@@ -370,12 +370,17 @@ router.post('/recepcionista/principal/verificarConsulta', (req,res)=>{
 
 router.post('/recepcionista/principal/verificarConsulta/confirmarPresenca', (req,res)=>{
     console.log('Dados recebidos: ', req.body);
-    var {idHorario} = req.body;
+    var {idHorario, idUser} = req.body;
     idHorario = parseInt(idHorario);
-    console.log('Id Horario: ', idHorario);
+    idUser = parseInt(idUser);
+    var horario={
+        idHorario: idHorario,
+        idUser: idUser
+    }
 
-    db.putStatusConsult(idHorario, (error, results)=>{
-        res.status(200).json({message: 'Resposta do servidor: ', error: error, results: results});
+
+    db.putStatusConsult(horario, (error, results1, results2)=>{
+        res.status(200).json({message: 'Resposta do servidor: ', error: error, results: results1, dados: results2});
     })
 })
 

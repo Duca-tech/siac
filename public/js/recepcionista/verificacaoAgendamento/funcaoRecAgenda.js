@@ -1,8 +1,8 @@
-var containerConsulta = $(`<div></div>`);
+var containerConsulta = $(`<div class='borda'></div>`);
 
 function verificarConsulta(consulta){
     containerConsulta.empty();
-    containerConsulta.css({'display':'block'})
+    containerConsulta.css({'display':'block', 'text-align':'center', 'position':'absolute', 'top':'40%', 'left':'40%'})
     console.log('Consulta: ', consulta);
 
     if(!consulta){
@@ -94,7 +94,43 @@ function verificarConsulta(consulta){
     }
     
 }
-function putConsulta(){
+function putConsulta(dados){
+
+    console.log('Dados da função: ', dados);
+    var table = $(`<table></table>`);
+    var cabecalho = $(`
+        <thead>
+            <tr class='cabecalho'>
+                <th>Paciente</th>
+                <th>Dia da Semana</th>
+                <th>Data</th>
+                <th>Horario</th>
+                <th>Profissional Psicólogo</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+    `)
+    table.append(cabecalho);
+
+    var body = $(`<tbody></tbody>`);
+    
+    
+        var linha = $(`<tr></tr>`)
+        var conteudo = $(`
+            <td>${dados.NomePaciente}</td>
+            <td>${dados.diaSemana}</td>
+            <td>${dados.data}</td>
+            <td>${dados.hora}</td>
+            <td>${dados.NomePsico}</td>
+            <td>${dados.status}</td>
+        `)
+        linha.append(conteudo);
+        body.append(linha);
+
+    table.append(body);
+
+    $('body').append(table);
+    containerConsulta.css({'display':'none'})
     
 }
 

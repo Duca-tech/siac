@@ -280,7 +280,7 @@ const getPsicoLogin = (psicoLogin, callback) =>{
 /*Inicio de Consultas para Recepcionista */
 
 const verificarConsulta = (credencial, callback)=>{
-    conexao.query(`select usuario.nome as NomePaciente, horario.hora, agenda.data, agenda.diaSemana, profissionalpsicologo.nome as NomePsico, horario.status, horario.idHorario from horario inner join usuario on horario.idUser = usuario.idUser inner JOIN agenda on horario.idAgenda = agenda.idAgenda inner join profissionalpsicologo on agenda.idPsico = profissionalpsicologo.idPsico where usuario.nomeUser = ?`, [credencial], (error, results)=>{
+    conexao.query(`select usuario.nome as NomePaciente, usuario.idUser as idUser, horario.hora, agenda.data, agenda.diaSemana, profissionalpsicologo.nome as NomePsico, horario.status, horario.idHorario from horario inner join usuario on horario.idUser = usuario.idUser inner JOIN agenda on horario.idAgenda = agenda.idAgenda inner join profissionalpsicologo on agenda.idPsico = profissionalpsicologo.idPsico where usuario.nomeUser = ?`, [credencial], (error, results)=>{
         if(error) return console.log('Erro na Consulta: ', error);
         else if(results.length>0){
             console.log('usuario encontrado !', results);
@@ -306,11 +306,17 @@ const addPsico = (psico, callback)=>{
     })
 }
 
-const putStatusConsult = (idHorario, callback) =>{
-    conexao.query(`update horario set status = 'presente' where idHorario = ?`, [idHorario], (error, results)=>{
+const putStatusConsult = (horario, callback) =>{
+    conexao.query(`update horario set status = 'presente' where idHorario = ?`, [horario.idHorario], (error, results1)=>{
         if(error) return console.log('Erro na consulta: ', error);
-        console.log('Resultado da Consulta: ', results);
-        callback(null, results);
+        
+        conexao.query(`select usuario.nome as NomePaciente, horario.hora, horario.status as status,agenda.data, agenda.diaSemana, profissionalpsicologo.nome as NomePsico, horario.status, horario.idHorario from horario inner join usuario on horario.idUser = usuario.idUser inner JOIN agenda on horario.idAgenda = agenda.idAgenda inner join profissionalpsicologo on agenda.idPsico = profissionalpsicologo.idPsico where usuario.idUser = ?`, [horario.idUser], (error, results2)=>{
+            if(error) return console.log('Falha no Select')
+            callback(null, results1, results2);
+        })
+        
+
+        
     })
 }
 
