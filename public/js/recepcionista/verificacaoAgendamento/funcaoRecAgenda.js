@@ -6,6 +6,7 @@ function verificarConsulta(consulta){
     console.log('Consulta: ', consulta);
 
     if(!consulta){
+        containerConsulta.css({'opacity':'1'});
         var resposta = $(`<p>Você Não tem nenhuma Consulta Agendada<p>`)
         resposta.css({'color': 'red','font-weigth':'bold'})
         containerConsulta.append(resposta)
@@ -27,7 +28,7 @@ function verificarConsulta(consulta){
         console.log('Data de Hj: ', dataAtual);
         console.log('Data da Consulta: ', dataConsulta);
 
-        if(dataAtual.getFullYear() === dataConsulta.getFullYear() && dataAtual.getMonth() === dataConsulta.getMonth() && dataAtual.getDay() === dataConsulta.getDay()){
+        if(dataAtual.getFullYear() === dataConsulta.getFullYear() && dataAtual.getMonth() === dataConsulta.getMonth() && dataAtual.getDay() === dataConsulta.getDay() && consulta.status == 'pendente'){
             
             // var containerConsulta = $(`<div></div>`)
             var dadosConsulta = $(`<div>
@@ -57,38 +58,72 @@ function verificarConsulta(consulta){
           
         }
         else{
-            // var containerConsulta = $(`<div></div>`)
-            var dadosConsulta = $(`<div>
-                <p>Paciente: ${consulta.NomePaciente}</p>
-                <p>Data: ${consulta.data}</p>
-                <p>Dia da Semana: ${consulta.diaSemana}</p>
-                <p>Hora: ${consulta.hora}</p>
-                <p>Hora: ${consulta.NomePsico}</p>
+            if(consulta.status =='present'){
+                var dadosConsulta = $(`<div>
+                    <p>Paciente: ${consulta.NomePaciente}</p>
+                    <p>Data: ${consulta.data}</p>
+                    <p>Dia da Semana: ${consulta.diaSemana}</p>
+                    <p>Hora: ${consulta.hora}</p>
+                    <p>Psicologo: ${consulta.NomePsico}</p>
+                    <p>Status: ${consulta.status}</p>
 
-                <p style='color: red; text-weight: bold'>Sua consulta não esta marcada para hoje</p>
+                    <p style='color: red; text-weight: bold'>Você ja deu preseça na consulta</p>
+                    
+
+                </div>`)
+
+                var dadosVoltar = $(`
+                    <div>
+                        <button id='voltar' class='btn btn-danger'>Voltar</button>
+                    </div>
+                `)
+
                 
+                containerConsulta.append(dadosConsulta);
+                containerConsulta.append(dadosVoltar);
+                $('#containerVerify').css({'display':'none'})
 
-            </div>`)
+                $('body').append(containerConsulta);
 
-            var dadosVoltar = $(`
-                <div>
-                    <button id='voltar' class='btn btn-danger'>Voltar</button>
-                </div>
-            `)
+                $('#voltar').on('click', function(){
+                    containerConsulta.css({'display':'none'});
+                    $('#containerVerify').css({'display':'block'})
+                    
+                })
+            }
+            else{
+                var dadosConsulta = $(`<div>
+                    <p>Paciente: ${consulta.NomePaciente}</p>
+                    <p>Data: ${consulta.data}</p>
+                    <p>Dia da Semana: ${consulta.diaSemana}</p>
+                    <p>Hora: ${consulta.hora}</p>
+                    <p>Psicologo: ${consulta.NomePsico}</p>
+                    <p>Status: ${consulta.status}</p>
 
-            
-            containerConsulta.append(dadosConsulta);
-            containerConsulta.append(dadosVoltar);
-            $('#containerVerify').css({'display':'none'})
+                    <p style='color: red; text-weight: bold'>Você ja deu preseça na consulta</p>
+                    
 
-            $('body').append(containerConsulta);
+                </div>`)
 
-            $('#voltar').on('click', function(){
-                containerConsulta.css({'display':'none'});
-                $('#containerVerify').css({'display':'block'})
+                var dadosVoltar = $(`
+                    <div>
+                        <button id='voltar' class='btn btn-danger'>Voltar</button>
+                    </div>
+                `)
+
                 
-            })
-            
+                containerConsulta.append(dadosConsulta);
+                containerConsulta.append(dadosVoltar);
+                $('#containerVerify').css({'display':'none'})
+
+                $('body').append(containerConsulta);
+
+                $('#voltar').on('click', function(){
+                    containerConsulta.css({'display':'none'});
+                    $('#containerVerify').css({'display':'block'})
+                    
+                })
+            }    
         }
         
     }
@@ -129,6 +164,7 @@ function putConsulta(dados){
 
     table.append(body);
 
+    $('#containerVerify').css({'display':'block'});
     $('body').append(table);
     containerConsulta.css({'display':'none'})
     
