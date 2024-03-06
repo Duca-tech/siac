@@ -353,7 +353,12 @@ router.get('/psicologo/principal/agenda', (req, res)=>{
 })
 /*Fim configuração de rotas do Psicologo */
 
+
 /** Inicio da configuração de Rotas do Recepcionista*/
+router.get('/recepcionista/principal/verificarConsulta', (req,res)=>{
+    res.render('recepcionista/verificacaoAgendamento')
+})
+
 router.post('/recepcionista/principal/verificarConsulta', (req,res)=>{
     console.log('Dados recebidos: ', req.body);
     var credencial = req.body.inputCred;
@@ -361,9 +366,20 @@ router.post('/recepcionista/principal/verificarConsulta', (req,res)=>{
     db.verificarConsulta(credencial, (error, results)=>{
         res.status(200).json({message: 'Enviando dados para o cliente: ', consulta: results});
     })
-
-
 })
+
+router.post('/recepcionista/principal/verificarConsulta/confirmarPresenca', (req,res)=>{
+    console.log('Dados recebidos: ', req.body);
+    var {idHorario} = req.body;
+    idHorario = parseInt(idHorario);
+    console.log('Id Horario: ', idHorario);
+
+    db.putStatusConsult(idHorario, (error, results)=>{
+        res.status(200).json({message: 'Resposta do servidor: ', error: error, results: results});
+    })
+})
+
+
 
 module.exports = {
     router,

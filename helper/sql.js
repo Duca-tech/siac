@@ -306,6 +306,14 @@ const addPsico = (psico, callback)=>{
     })
 }
 
+const putStatusConsult = (idHorario, callback) =>{
+    conexao.query(`update horario set status = 'presente' where idHorario = ?`, [idHorario], (error, results)=>{
+        if(error) return console.log('Erro na consulta: ', error);
+        console.log('Resultado da Consulta: ', results);
+        callback(null, results);
+    })
+}
+
 module.exports = {
     addUser,
     loginUser,
@@ -321,5 +329,6 @@ module.exports = {
     getPsicoAgenda,
     getPsicoLogin,
     verificarConsulta,
-    addPsico
+    addPsico,
+    putStatusConsult
 }

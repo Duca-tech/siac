@@ -2,7 +2,9 @@ const express = require('express'); // puxando a lib express
 const  {router}  = require('./config/routes/routes');
 const {session} = require('./config/routes/routes');
 const app = express(); // instancia a lib express que nada mais serve para tratar requisições cliente-servidor
-const opn = require('opn'); // para renderizar para o google chrome
+// const opn = require('opn'); // para renderizar para o google chrome
+// const open = require('open'); // renderizar firefox
+const { exec } = require('child_process');
 const path = require('path');
 require('dotenv').config(); // acessar as variaveis globais no arquivo config.env
 const porta = process.env.PORTA ||  3600;
@@ -120,10 +122,21 @@ app.use('/psico/principal/verificarToken', router);
 
 app.use('/recepcionista/principal/verificarConsulta', router);
 
+app.use('/recepcionista/principal/verificarConsulta/confirmarPresenca', router);
+
 /**Fim do Servidor para Recepcionista */
 app.listen(porta, ()=>{
     console.log(`servidor iniciado: http://localhost:${porta}`);
-    opn(`http://localhost:${porta}`, {app: 'chrome'});
+
+    const command = `start opera gx http://localhost:${porta}`; // módulo child_process (exec) do Node.js para executar um comando no sistema operacional que inicia o navegador.
+    exec(command, (error, stdout, stderr) => {
+        if (error) {
+            console.error(`Erro ao abrir o Opera GX: ${error}`);
+            return;
+        }
+        console.log(`Opera GX iniciado`);
+    });
+
 
 })
 

@@ -1,9 +1,11 @@
-function verificarConsulta(consulta){
+var containerConsulta = $(`<div></div>`);
 
+function verificarConsulta(consulta){
+    containerConsulta.empty();
+    containerConsulta.css({'display':'block'})
     console.log('Consulta: ', consulta);
 
     if(!consulta){
-        var containerConsulta = $(`<div></div>`);
         var resposta = $(`<p>Você Não tem nenhuma Consulta Agendada<p>`)
         resposta.css({'color': 'red','font-weigth':'bold'})
         containerConsulta.append(resposta)
@@ -27,7 +29,7 @@ function verificarConsulta(consulta){
 
         if(dataAtual.getFullYear() === dataConsulta.getFullYear() && dataAtual.getMonth() === dataConsulta.getMonth() && dataAtual.getDay() === dataConsulta.getDay()){
             
-            var containerConsulta = $(`<div></div>`)
+            // var containerConsulta = $(`<div></div>`)
             var dadosConsulta = $(`<div>
                 <p>Paciente: ${consulta.NomePaciente}</p>
                 <p>Data: ${consulta.data}</p>
@@ -48,11 +50,14 @@ function verificarConsulta(consulta){
 
             $('body').append(containerConsulta);
 
-
+            $('#cancelarPresenca').on('click', function(){
+                containerConsulta.css({'display':'none'})
+                $('#containerVerify').css({'display':'block'})
+            })
           
         }
         else{
-            var containerConsulta = $(`<div></div>`)
+            // var containerConsulta = $(`<div></div>`)
             var dadosConsulta = $(`<div>
                 <p>Paciente: ${consulta.NomePaciente}</p>
                 <p>Data: ${consulta.data}</p>
@@ -87,6 +92,9 @@ function verificarConsulta(consulta){
         }
         
     }
+    
+}
+function putConsulta(){
     
 }
 
