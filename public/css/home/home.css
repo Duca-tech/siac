@@ -1,0 +1,21 @@
+body, html{
+    margin: 0;
+    padding: 0;
+}
+
+/*Estilizar a seleçãa*/
+.selecionarPerfil{
+    border-radius: 5px;
+    padding: 5px;
+   
+}
+.selecionarPerfil:hover{
+    background-color: #BFBFBF; /* Mantém o fundo transparente ao passar o mouse */
+    cursor: pointer;
+}
+
+.selecionarPerfil:hover::-ms-expand,
+.selecionarPerfil:hover::-webkit-select {
+    background-color: #868686; /* Mantém o fundo transparente ao passar o mouse */
+    cursor: pointer;
+}

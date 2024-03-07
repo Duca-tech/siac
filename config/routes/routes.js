@@ -5,9 +5,9 @@ const token = require('../token/token')
 const WppTwilio = require('../twilio/twilio')
 const session = require('express-session');
 
-// router.get('/', (req, res)=>{
-//     res.render('recepcionista/verificacaoAgendamento');
-// })
+router.get('/', (req, res)=>{
+    res.render('home');
+})
 
 /*Inicio configuração de rotas do usuario */
 
