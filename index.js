@@ -33,7 +33,7 @@ app.use('/js', (req,res,next)=>{
     next();
 })
 
-// Configurar MIME Adequdo para CSS
+// Configurar MIME Adequado para CSS
 app.use('/css', (req,res,next)=>{
     res.set('Content-Type', 'text/css');
     next();
@@ -57,7 +57,7 @@ app.use('/', router); // acessa o arquivo router e inicia a renderização da pa
 app.use('/principal/verificarToken', router);
 
 
-/* ******Inicio Servidor Para Usuario*******/
+/*******Inicio Servidor Para Usuario*******/
 
 // Cadastrar usuario
 app.use('/user/cadastro', router); // tem que usar caminho absoluto
