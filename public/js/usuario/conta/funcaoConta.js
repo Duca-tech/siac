@@ -1,5 +1,6 @@
+import {formatarData, formatarHorario} from '/js/formatacao/funcao.js'
 
-function detalheConta(conta){
+export function detalheConta(conta){
     console.log('nome: ', conta[0].nome)
     $('#nome').val(conta[0].nome);
     $('#email').val(conta[0].email);
@@ -7,7 +8,7 @@ function detalheConta(conta){
     $('#celular').val(conta[0].celular)
 }
 
-function updateRelizado(usuario){
+export function updateRelizado(usuario){
 
     $('.msgServer').animate({
         'heigth':'toggle',
@@ -29,15 +30,14 @@ function updateRelizado(usuario){
 
 }
 
-function consultas(consultas){
+export function consultas(consultas){
     
         
    
     if(consultas[0].data && consultas[0].hora){
-        for(let i = 0; i<consultas.length; i++){
-            var horaForm = formatarHora(consultas[i].hora);
-            var dataForm = formatarData(consultas[i].data);
-        }
+        var horaForm = formatarHorario(consultas[0].hora);
+        var dataForm = formatarData(consultas[0].data);
+        
         var consultasConta = $(`<div>
             <h5 style='border-bottom: 1px solid #DCDCDC'>Consultas Agendadas: </h5>
         </div>`)
@@ -67,24 +67,6 @@ function consultas(consultas){
 }
 
 
-function formatarData(data){
-    var newData = new Date(data);
-    var dia = newData.getDay();
-    var ano = newData.getFullYear();
-    var mes = newData.getMonth() + 1;
-
-    var dataForm = `${dia}/${mes}/${ano}`;
-    return dataForm; 
-}
-
-function formatarHora(hora){
-    var [hora, minuto] = hora.split(':');
-
-    var horaForm = `${hora}:${minuto}`;
-    console.log(horaForm);
-
-    return horaForm
-}
 
 
 

@@ -1,3 +1,4 @@
+import {consultas, updateRelizado, detalheConta} from '/js/usuario/conta/funcaoConta.js'
 $(document).ready(function(){
      //tela de detalhes da conta do usuario
      var idUser = localStorage.getItem('idUser');
@@ -69,6 +70,7 @@ $(document).ready(function(){
         .done(function(response){
             console.log('Resposta do servidor', response.message);
             updateRelizado(response.data)
+            location.reload();
         })
         .fail(function(xhr, status, errorThrown){
             console.log('Status: ', status);
