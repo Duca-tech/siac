@@ -279,6 +279,15 @@ const getPsicoLogin = (psicoLogin, callback) =>{
 
 /*Inicio de Consultas para Recepcionista */
 
+const addRecep =(recepcionista, callback) => {
+    conexao.query(`insert into recepcionista(nome, email, nomeRecep, password, celular, cpf) values (?,?,?,?,?,?)`, [recepcionista.nome, recepcionista.email, recepcionista.nomeRecep, recepcionista.password, recepcionista.celular, recepcionista.cpf], (error, results, fields)=>{
+   if(error) return console.log('Erro ao executar a consulta: ', error.message);
+   console.log('Dados Inseridos', recepcionista)
+   console.log('dados das colunas: ', results);
+   callback(null, results, user);
+}) 
+}
+
 const verificarConsulta = (credencial, callback)=>{
     conexao.query(`select usuario.nome as NomePaciente, usuario.idUser as idUser, horario.hora, agenda.data, agenda.diaSemana, profissionalpsicologo.nome as NomePsico, horario.status, horario.idHorario from horario inner join usuario on horario.idUser = usuario.idUser inner JOIN agenda on horario.idAgenda = agenda.idAgenda inner join profissionalpsicologo on agenda.idPsico = profissionalpsicologo.idPsico where usuario.nomeUser = ?`, [credencial], (error, results)=>{
         if(error) return console.log('Erro na Consulta: ', error);
@@ -320,6 +329,8 @@ const putStatusConsult = (horario, callback) =>{
     })
 }
 
+
+
 module.exports = {
     addUser,
     loginUser,
@@ -336,5 +347,6 @@ module.exports = {
     getPsicoLogin,
     verificarConsulta,
     addPsico,
-    putStatusConsult
+    putStatusConsult,
+    addRecep
 }
