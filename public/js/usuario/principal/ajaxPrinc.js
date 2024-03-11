@@ -67,4 +67,12 @@ $(document).ready(function(){
         })
     })
 
+    $('.containerUser').on('click', '.logout', function(e){
+        e.preventDefault();
+        var logout = $(this).data('id');
+        console.log('Logout: ', logout);
+
+        window.location.href = '/user/login'
+    })
+
 })

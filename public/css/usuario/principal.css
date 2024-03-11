@@ -4,11 +4,21 @@
 }
 body{
     height: 100vh;
+    
 }
 .borda{
    border: 1px solid red;
 }
 main button{
     margin: 10px;
+}
     
+.iconeUser{
+    border: 1px solid #ccc;
+    border-radius: 100px;
+    display: inline;
+}
+.iconeUser:hover{
+    background-color: blue;
+    cursor: pointer;
 }

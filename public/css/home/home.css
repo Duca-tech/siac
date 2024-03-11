@@ -2,6 +2,10 @@ body, html{
     margin: 0;
     padding: 0;
 }
+.borda{
+    border: 1px solid red;
+}
+
 
 /*Estilizar a seleçãa*/
 .selecionarPerfil{
@@ -10,12 +14,24 @@ body, html{
    
 }
 .selecionarPerfil:hover{
-    background-color: #BFBFBF; /* Mantém o fundo transparente ao passar o mouse */
     cursor: pointer;
 }
 
 .selecionarPerfil:hover::-ms-expand,
 .selecionarPerfil:hover::-webkit-select {
-    background-color: #868686; /* Mantém o fundo transparente ao passar o mouse */
     cursor: pointer;
+}
+
+
+.containerLoginPerfil{
+    text-align: right;
+    display: none;
+}
+
+.escolhaPerfil{
+    border-radius: 5px;
+    border: 1px solid gainsboro;
+}
+.escolhaPerfil:hover{
+    background-color: antiquewhite;
 }
