@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    // AJAX para cadastro de recepcionista
+    // Ajax para cadastro de recepcionista
     $('#formCadastroRecep').submit(function(event){
         event.preventDefault(); // Impede o envio padrão do formulário
 

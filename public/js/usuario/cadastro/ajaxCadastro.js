@@ -1,11 +1,11 @@
 $(document).ready(function(){
-    //  ajax para tela de cadastro usuário
+    // Ajax para tela de cadastro usuário
     $('#formCadastroUser').submit(function(event){
         const formData = new FormData($('#formCadastroUser')[0]);
         $.ajax({
             url: `http://localhost:3600/user/cadastro`,
             type: 'POST',
-            dataType: 'json', //especifica o tipo de dados que você espera receber do servidor em resposta à sua solicitação.
+            dataType: 'json', // Especifica o tipo de dados que você espera receber do servidor em resposta à sua solicitação.
             data: formData
         })
         .done(function(json){
@@ -24,5 +24,5 @@ $(document).ready(function(){
         })
         return false; // Impede o envio padrão do formulário
     })
-    //fim da tela de cadastro do usuario 
+    // Fim da tela de cadastro do usuario 
 })
