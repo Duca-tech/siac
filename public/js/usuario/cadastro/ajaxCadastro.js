@@ -9,18 +9,18 @@ $(document).ready(function(){
             data: formData
         })
         .done(function(json){
-            console.log('Usuário Adicionado com Sucesso',json);
+            console.log('Usuário adicionado com sucesso!',json);
             window.location.href ='/user/login'
             
         })
         .fail(function(xhr, status, errorThrown){
-            console.log('Erro ao Adicionar usuário!');
-            console.log('status: ', status);
-            console.log('erro: ', errorThrown);
+            console.log('Erro ao adicionar usuário.');
+            console.log('Status: ', status);
+            console.log('Erro: ', errorThrown);
             console.dir(xhr); // console.dir() é um método do console em JavaScript que exibe uma representação em formato de árvore de um objeto JavaScript passado como argumento.
         })
         .alwxays(function(){
-            console.log('A requisição Ajax foi feita');
+            console.log('A requisição ajax foi feita!');
         })
         return false; // Impede o envio padrão do formulário
     })

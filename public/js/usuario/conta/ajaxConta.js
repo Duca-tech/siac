@@ -2,7 +2,7 @@ import {consultas, updateRelizado, detalheConta} from '/js/usuario/conta/funcaoC
 $(document).ready(function(){
      //tela de detalhes da conta do usuario
      var idUser = localStorage.getItem('idUser');
-     console.log('idUser para pagina de detalhes de conta: ', idUser);
+     console.log('idUser para página de detalhes de conta: ', idUser);
      var id = {
         idUser: idUser
      }
@@ -13,19 +13,18 @@ $(document).ready(function(){
          data: id
      })
      .done(function(response){
-         console.log('Resposta do Servidor: ', response.data);
+         console.log('Resposta do servidor: ', response.data);
          detalheConta(response.data);
          consultas(response.data);
      })
      .fail(function(xhr, status, errorThrown){
          console.log(xhr);
-         console.log('status: ', status);
-         console.log('error: ', errorThrown);
+         console.log('Status: ', status);
+         console.log('Error: ', errorThrown);
      })
      .always(function(){
          console.log('Requisição finalizada!');
      })
-
      
      //Atualizar conta
      $('#buttonAtualizar').on('click', function(){
@@ -38,8 +37,8 @@ $(document).ready(function(){
         $('#buttonAtualizar').css({
             'display':'none'
         })
-
     })
+
     $('#buttonCancelar').on('click', function(){
        $('#containerConfCan').css({
             'display':'none'
@@ -68,7 +67,7 @@ $(document).ready(function(){
             data: usuario
         })
         .done(function(response){
-            console.log('Resposta do servidor', response.message);
+            console.log('Resposta do servidor: ', response.message);
             updateRelizado(response.data)
             location.reload();
         })
@@ -78,7 +77,7 @@ $(document).ready(function(){
             console.log(xhr);
         })
         .always(function(){
-            console.log('Requisição finalizada !');
+            console.log('Requisição finalizada!');
         })
     })
 
@@ -91,17 +90,17 @@ $(document).ready(function(){
         })
         .done(function(response){
             console.log('Resposta do Servidor: ', response);
-            alert('Consulta Excluida Com sucesso!');
+            alert('Consulta excluida com sucesso!');
             location.reload();
         })
         .fail(function(xhr, errorThrown, status){
-            console.log('Falha ao enviar Solicitação: ', errorThrown);
+            console.log('Falha ao enviar solicitação: ', errorThrown);
             console.log('Status: ', status);
             console.log(xhr);
         })
     })
 
     $('.voltar').on('click', function(){
-        window.location.href =  '/user/principal'
+        window.location.href = '/user/principal'
     })
 })

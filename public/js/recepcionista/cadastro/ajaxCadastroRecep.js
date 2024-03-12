@@ -16,13 +16,13 @@ $(document).ready(function(){
             contentType: false // Não definir o tipo de conteúdo (necessário quando se utiliza FormData)
         })
         .done(function(response){
-            console.log('Recepcionista cadastrado com sucesso:', response);
+            console.log('Recepcionista cadastrado com sucesso: ', response);
             // Redireciona para a página de login ou outra página desejada
             window.location.href = '/recepcionista/login';
         })
         .fail(function(xhr, status, error){
-            console.error('Erro ao cadastrar recepcionista:', error);
-            console.log('Status:', status);
+            console.error('Erro ao cadastrar recepcionista: ', error);
+            console.log('Status: ', status);
             console.dir(xhr);
         });
     });
