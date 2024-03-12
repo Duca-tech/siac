@@ -1,13 +1,13 @@
-const express = require('express'); // Puxando a lib "express"
-const  {router}  = require('./config/routes/routes');
+const express = require('express'); // Puxando a lib "express".
+const {router} = require('./config/routes/routes');
 const {session} = require('./config/routes/routes');
-const app = express(); // Instância a lib express que nada mais serve para tratar requisições cliente-servidor
-// const open = require('open'); // Renderizar para Google Chrome
-// const open = require('open'); // Renderizar para Firefox
+const app = express(); // Instancia a lib "express" que nada mais serve para tratar requisições cliente-servidor.
+// const open = require('open'); // Renderizar para Google Chrome.
+// const open = require('open'); // Renderizar para Firefox.
 const {exec} = require('child_process');
 const path = require('path');
-require('dotenv').config(); // Acessar as variaveis globais no arquivo config.env
-const porta = process.env.PORTA ||  3600;
+require('dotenv').config(); // Acessar as variáveis globais no arquivo "config.env".
+const porta = process.env.PORTA || 3600;
 const chaveSecretaSession = process.env.SESSION_SECRET_KEY;
 
 app.use(session({
@@ -17,25 +17,26 @@ app.use(session({
 
 }))
 
-// Middleware para analisar dados de formulário codificados como application/x-www-form-urlencoded
+// Middleware para analisar dados de formulário codificados como application/x-www-form-urlencoded:
 app.use(express.urlencoded({extended:false}));
 
-app.use(express.json()) // Habilita o midleware json, analisa ao corpo das solicitações http como json. Precisa do Content-Type application/json.
+// Habilita o midleware json, analisa ao corpo das solicitações http como json. Precisa do Content-Type application/json.
+app.use(express.json()) 
 
-// Configurar o MIME adequado para o arquivo jS
+// Configurar o MIME adequado para o arquivo jS:
 app.use('/js', (req,res,next)=>{
-    // Definir o cabeçalho de resposta HTTP para a resposta que será enviada de volta ao cliente
+    // Definir o cabeçalho de resposta HTTP para a resposta que será enviada de volta ao cliente:
     res.set('Content-Type', 'text/javascript');
     next();
 })
 
-// Configurar MIME adequado para CSS
+// Configurar MIME adequado para CSS:
 app.use('/css', (req,res,next)=>{
     res.set('Content-Type', 'text/css');
     next();
 })
 
-// Middleware para servir os arquivos estáticos do diretório 'public'
+// Middleware para servir os arquivos estáticos do diretório 'public':
 app.use(express.static(path.join( __dirname, 'public')))
 
 // Habilitando CORS
@@ -50,52 +51,48 @@ para renderizá-los. Se você tem um arquivo chamado pagina.ejs em sua pasta de 
 renderizá-lo no Express usando o método render e o nome do arquivo sem a extensão: */
 app.set('view engine', 'ejs'); 
 
-// Acessa o arquivo router e inicia a renderização da página principal
+// Acessa o arquivo router e inicia a renderização da página principal:
 app.use('/', router);  
 
-// Verificar token da página principal
+// Verificar token da página principal:
 app.use('/principal/verificarToken', router);
 
 
-/******* Início servidor para usuário *******/
+// -------------------- INÍCIO DO SERVIDOR PARA USUÁRIO:
+// Cadastrar usuário:
+app.use('/user/cadastro', router); // Tem que usar caminho absoluto.
 
-// Cadastrar usuário
-app.use('/user/cadastro', router); // Tem que usar caminho absoluto
-
-// Gerar token para usuário
+// Gerar token para usuário:
 app.use('/user/login', router);
 
-// Abrir página principal
+// Abrir página principal:
 app.use('/user/principal', router);
 
-// Abrir página de agendamento
+// Abrir página de agendamento:
 app.use('/user/agendamento', router);
 
-// Puxar os dados do psicólogo do banco
+// Puxar os dados do psicólogo do banco:
 app.use('/user/agendamento/dadosPsico', router);
 
-// Usuário clicou no botão do horário e o banco vai fazer um "INSERT INTO" no banco
+// Usuário clicou no botão do horário e o banco vai fazer um "INSERT INTO" no banco:
 app.use('/user/inserirHorario', router);
 
 app.use('/user/inserirHorario/wpp', router);
 
-// Renderizar a página da conta do usuário
+// Renderizar a página da conta do usuário:
 app.use('/user/principal/conta', router);
 
-// Puxar os dados do usuário do banco de dados
+// Puxar os dados do usuário do banco de dados:
 app.use('/user/principal/conta/detalhes', router);
 
-// Atualizar os dados do usuário
+// Atualizar os dados do usuário:
 app.use('/user/principal/conta/update', router);
 
 app.use('/user/principal/conta/deletarConsulta', router);
+// Fim servidor para usuário!
 
-/******* Fim servidor para usuário *******/
-
-
-/* Inicio servidor para psicólogo */
-
-// Gerar agenda para psicólogo
+// Inicio servidor para psicólogo:
+// Gerar agenda para psicólogo:
 app.use('/psicologo/gerarAgenda', router);
 
 // Exibir a agenda criada quando acessa a página de agenda
@@ -115,19 +112,20 @@ app.use('/psicologo/principal/agenda', router);
 app.use('/psico/agenda/deletarAgenda', router);
 
 app.use('/psico/principal/verificarToken', router);
+// -------------------- FIM DO SERVIDOR PARA PSICÓLOGO!
 
-/*Fim servidor para psicólogo */
 
-
-/* Inicio servidor para recepcionista */
-
+// -------------------- INÍCIO DO SERVIDOR PARA RECEPCIONISTA:
 app.use('/recepcionista/principal/verificarConsulta', router);
 
 app.use('/recepcionista/principal/verificarConsulta/confirmarPresenca', router);
 
-/* Fim do servidor para recepcionista */
+// Teste Edu - Rota criada para abordagem Fetch API:
+app.use('/recepcionista/:id')
+// -------------------- FIM DO SERVIDOR PARA RECEPCIONISTA! 
+
 app.listen(porta, ()=>{
-    console.log(`servidor iniciado: http://localhost:${porta}`);
+    console.log(`Servidor iniciado: http://localhost:${porta}`);
 
     const command = `start opera gx http://localhost:${porta}`; 
     // Módulo child_process (exec) do Node.js para executar um comando no sistema operacional que inicia o navegador.
@@ -136,7 +134,7 @@ app.listen(porta, ()=>{
             console.error(`Erro ao abrir o Opera GX: ${error}`);
             return;
         }
-        console.log(`Opera GX iniciado`);
+        console.log(`Opera GX iniciado!`);
     });
 
 

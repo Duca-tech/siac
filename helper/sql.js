@@ -15,7 +15,7 @@ conexao.getConnection((error) => {
     console.log('Banco de dados conectado!');
 })
 
-//Encerrando a conexão do pool quando a aplicação for desligada:
+// Encerrando a conexão do pool quando a aplicação for desligada:
 process.on('exit', () => {
     conexao.end(error => {
         if (error) {
@@ -28,8 +28,9 @@ process.on('exit', () => {
     })
 })
 
-//Início de consultas no banco para usuário:
-//Função para adicionar usuario:
+
+// -------------------- INÍCIO DE CONSULTAS NO BANCO PARA USUÁRIOS:
+// Função para adicionar usuario:
 const addUser = (user, callback) => {
     conexao.query(`INSERT INTO usuario(nome, email, nomeUser, password) VALUES (?,?,?,?)`, [user.nome, user.email, user.nomeUser, user.password], (error, results, fields) => {
         if (error) {
@@ -41,7 +42,7 @@ const addUser = (user, callback) => {
     })
 }
 
-//Pegar usuário:
+// Pegar usuário:
 const loginUser = (user, callback) => {
     conexao.query(`SELECT * FROM usuario WHERE (email = ? or nomeUser = ?) AND password = ?`, [user.emailUsuario, user.emailUsuario, user.password], (error, results) => {
         if (error) {
@@ -57,7 +58,7 @@ const loginUser = (user, callback) => {
     })
 }
 
-//Pegar dados do psicólogo:
+// Pegar dados do psicólogo:
 const getPsico = (callback) => {
     conexao.query(`SELECT * FROM profissionalpsicologo`, (error, results1) => {
         if (error) {
@@ -163,7 +164,7 @@ const updateUser = (usuario, callback) => {
         }
         else {
             console.log('Nenhuma linha atualizada.', results[0]);
-            //Se retornar essa condição é pq não foi encontrado nenhuma linha relacionado ao WHERE.
+            // Se retornar essa condição é pq não foi encontrado nenhuma linha relacionado ao WHERE.
         }
     })
 }
@@ -182,10 +183,11 @@ const getAgenda = (idUser, callback) => {
         callback(null, results);
     })
 }
-//Fim de consultas no banco para usuário!
+// -------------------- FIM DE CONSULTAS NO BANCO PARA USUÁRIOS!
 
-//Início de consultas no banco para psicólogos:
-//Adicionar agenda:
+
+// -------------------- INÍCIO DE CONSULTAS NO BANCO PARA PSICÓLOGOS:
+// Adicionar agenda:
 const addAgenda = (agenda, callback) => {
     console.log('Agenda no sql: ', agenda)
     conexao.query(`INSERT INTO agenda (horaIni, horaFin, data, diaSemana, idPsico) VALUES (?, ?, ?, ?, ?)`, [agenda.horaIni, agenda.horaFin, agenda.data, agenda.diaSemana, agenda.idPsico], (error, results) => {
@@ -204,7 +206,7 @@ const addAgenda = (agenda, callback) => {
             function inserirHorario() {
                 console.log(horaFin)
                 if (horaAtual > horaFin) {
-                    //Se já passou da hora final, finaliza a inserção.
+                    // Se já passou da hora final, finaliza a inserção.
                     console.log('Inserção de horários finalizada.');
                     console.log('Lista de horas:', horas);
                     return callback(null, { agenda: agenda, horas: horas });
@@ -231,7 +233,7 @@ const addAgenda = (agenda, callback) => {
                     }
                     horaAtual = `${hora.toString().padStart(2, '0')}:${minuto.toString().padStart(2, '0')}`;
 
-                    inserirHorario(); //Chama a função recursivamente.
+                    inserirHorario(); // Chama a função recursivamente.
                 });
             }
             inserirHorario();
@@ -289,9 +291,10 @@ const addPsico = (psico, callback) => {
         callback(null, results);
     })
 }
-//Fim de consultas no banco para psicológos!
+// -------------------- FIM DE CONSULTAS NO BANCO PARA PSICÓLOGOS!
 
-//Inicio de consultas para recepcionista:
+
+//-------------------- INÍCIO DE CONSULTAS NO BANCO PARA RECEPCIONISTAS:
 const addRecep = (recepcionista, callback) => {
     conexao.query(`INSERT INTO recepcionista (nome, email, nomeRecep, password, celular, cpf) VALUES (?,?,?,?,?,?)`, [recepcionista.nome, recepcionista.email, recepcionista.nomeRecep, recepcionista.password, recepcionista.celular, recepcionista.cpf], (error, results, fields) => {
         if (error) return console.log('Erro ao executar a consulta: ', error.message);
@@ -301,7 +304,7 @@ const addRecep = (recepcionista, callback) => {
     })
 }
 
-//Atualiza recepcionista:
+// Atualiza recepcionista:
 const updateRecep = (recepcionista, callback) => {
     console.log('Id Recepcionista: ', recepcionista.idRecep)
     conexao.query(`UPDATE recepcionista SET nome = ?, email = ?, celular = ?, nomeRecep = ? WHERE idRecep = ?`, [recepcionista.nome, recepcionista.email, recepcionista.celular, recepcionista.nomeRecep, recepcionista.idRecep], (error, results) => {
@@ -315,7 +318,7 @@ const updateRecep = (recepcionista, callback) => {
     })
 }
 
-//Deleta recepcionista:
+// Deletar recepcionista:
 const deleteRecep = (recepcionista, callback) => {
     conexao.query(`DELETE FROM recepcionista WHERE idRecep = ? `, [idRecep], (error, results) => {
         if (error) {
@@ -327,9 +330,10 @@ const deleteRecep = (recepcionista, callback) => {
         }
     })
 }
-//Fim de consultas para recepcionista!
+// -------------------- FIM DE CONSULTAS NO BANCO PARA RECEPCIONISTAS!
 
-//Inicio de consultas para consultas médicas:
+
+// -------------------- INÍCIO DE CONSULTAS NO BANCO PARA CONSULTAS MÉDICAS:
 const verificarConsulta = (credencial, callback) => {
     conexao.query(`SELECT usuario.nome AS NomePaciente, usuario.idUser AS idUser, horario.hora, agenda.data, agenda.diaSemana, profissionalpsicologo.nome AS NomePsico, horario.status, horario.idHorario FROM horario INNER JOIN usuario ON horario.idUser = usuario.idUser INNER JOIN agenda ON horario.idAgenda = agenda.idAgenda INNER JOIN profissionalpsicologo ON agenda.idPsico = profissionalpsicologo.idPsico WHERE usuario.nomeUser = ?`, [credencial], (error, results) => {
         if (error) return console.log('Erro na consulta: ', error);
@@ -354,7 +358,7 @@ const putStatusConsult = (horario, callback) => {
         })
     })
 }
-//Fim de consultas para consultas médicas!
+// -------------------- FIM DE CONSULTAS NO BANCO PARA CONSULTAS MÉDICAS!
 
 module.exports = {
     addUser,
