@@ -35,7 +35,7 @@ $(document).ready(function(){
         }
     })
 
-    //elemento pai é o DOM
+    // Elemento pai é o DOM.
     $(document).on('click', '#confirmarPresença',function(){
         console.log('Id Horario da Consulta: ', idHorario);
         console.log('Id User: ', idUser);

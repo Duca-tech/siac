@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    // Ajax para tela de login 
+    // Ajax para tela de login: 
     $('#formLogin').on('submit',function(event){
         event.preventDefault();
         const data = {
@@ -15,10 +15,10 @@ $(document).ready(function(){
         .done(function(response){
             console.log('token recebido', response.token);
             
-            // Salvar o token no localstorage
+            // Salvar o token no localstorage:
             localStorage.setItem('token', response.token);
 
-            // Salvar o idUser no localstorage
+            // Salvar o idUser no localstorage:
             localStorage.setItem('idUser', response.idUser);
             
             window.location.href = '/user/principal';
@@ -33,9 +33,9 @@ $(document).ready(function(){
         })
         return false;
     })
-    // Fim da tela de login do usuario
+    // Fim da tela de login do usuário!
 
-    // Botão para se cadastrar
+    // Botão para se cadastrar:
     $('#buttonCadastrar').on('click', function(){
         window.location.href = '/user/cadastro';
     })

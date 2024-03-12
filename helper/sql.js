@@ -8,7 +8,6 @@ const conexao = sql.createPool({
     database: 'railway',
     waitForConnections: true,
     connectionLimit: 10,
-
 })
 
 conexao.getConnection((error) => {
@@ -16,65 +15,64 @@ conexao.getConnection((error) => {
     console.log('Banco de dados conectado!');
 })
 
-
-
-// Encerrando a conexão do pool quando a aplicação for desligada
+//Encerrando a conexão do pool quando a aplicação for desligada:
 process.on('exit', () => {
-    conexao.end(err => {
-        if (err) {
-            console.error('Erro ao encerrar a conexão do pool: ', err);
+    conexao.end(error => {
+        if (error) {
+            console.error('Erro ao encerrar a conexão do pool: ', error);
         }
 
         else {
             console.log('Conexão do pool encerrada com sucesso!');
         }
-    });
-});
+    })
+})
 
-
-/*Inicio de consultas no Banco para Usuario */
-
-//função para adicionar usuario
+//Início de consultas no banco para usuário:
+//Função para adicionar usuario:
 const addUser = (user, callback) => {
-    conexao.query(`insert into usuario(nome, email, nomeUser, password) values (?,?,?,?)`, [user.nome, user.email, user.nomeUser, user.password], (error, results, fields) => {
-        if (error) return console.log('Erro ao executar a consulta: ', error.message);
-        console.log('Dados inseridos: ', user)
+    conexao.query(`INSERT INTO usuario(nome, email, nomeUser, password) VALUES (?,?,?,?)`, [user.nome, user.email, user.nomeUser, user.password], (error, results, fields) => {
+        if (error) {
+            return console.log('Erro ao executar a consulta: ', error.message);
+        }
+        console.log('Dados inseridos: ', user);
         console.log('Dados das colunas: ', results);
         callback(null, results, user);
     })
 }
 
-//Pegar usuario
+//Pegar usuário:
 const loginUser = (user, callback) => {
-    conexao.query(`select * from usuario where (email = ? or nomeUser = ?) and password = ?`, [user.emailUsuario, user.emailUsuario, user.password], (error, results) => {
-        if (error) return console.log('Erro ao selecionar usuário.');
-
+    conexao.query(`SELECT * FROM usuario WHERE (email = ? or nomeUser = ?) AND password = ?`, [user.emailUsuario, user.emailUsuario, user.password], (error, results) => {
+        if (error) {
+            return console.log('Erro ao selecionar usuário.');
+        }
         else if (results.length > 0) {
             console.log('Usuário perfeitamente encontrado!', results[0]);
             callback(null, results);
         }
-
-        else return console.log('Usuário não encontrado!');
-
+        else {
+            return console.log('Usuário não encontrado!');
+        }
     })
 }
 
-//Pegar dados do psicologo
+//Pegar dados do psicólogo:
 const getPsico = (callback) => {
     conexao.query(`SELECT * FROM profissionalpsicologo`, (error, results1) => {
-
-        if (error) return console.log('Falha na consulta.');
-
+        if (error) {
+            return console.log('Falha na consulta.');
+        }
         else if (results1.length > 0) {
             console.log('Psicólogos encontrados!', results1);
             conexao.query(`SELECT * FROM agenda`, (error, results2) => {
                 if (error) return console.log('Falha na consulta de horário');
-
                 else if (results2.length > 0) {
                     console.log('Agendas encontradas!', results2);
-
                     conexao.query(`SELECT * FROM horario`, (error, results3) => {
-                        if (error) return console.log('Falha na consulta');
+                        if (error) {
+                            return console.log('Erro na consulta.');
+                        }
                         else if (results3.length > 0) {
                             console.log('Horários da agenda encontrados!', results3);
                             callback(null, { psicologos: results1, agenda: results2, horarios: results3 });
@@ -84,7 +82,6 @@ const getPsico = (callback) => {
                         }
                     })
                 }
-
                 else {
                     console.log('Nenhuma agenda encontrada, somente psicólogo cadastrado.');
                     callback(null, { psicologos: results1, agenda: results2 });
@@ -92,7 +89,6 @@ const getPsico = (callback) => {
                 }
             })
         }
-
         else {
             console.log('Nenhum psicólogo encontrado, portanto sem agenda cadastradas.');
             callback(null, null);
@@ -102,10 +98,12 @@ const getPsico = (callback) => {
 
 const getHorario = (horario, callback) => {
     conexao.query(`select * from horario where hora = ? and idUser =?`, [horario.hora, horario.idUser], (error, results) => {
-        if (error) return console.log('Erro na consulta.')
-
-        else if (results.length > 0) return console.log('Usuário encontrado! Não foi possível adicionar usuário pois já existe agendamento!')
-
+        if (error) {
+            return console.log('Erro na consulta.');
+        }
+        else if (results.length > 0) {
+            return console.log('Usuário encontrado! Não foi possível adicionar usuário pois já existe agendamento!');
+        }
         else {
             conexao.query(`insert into horario(hora, idUser, disponibilidade) values(?, ?, 1)`, [horario.hora, horario.idUser], (error, results) => {
                 if (error) return console.log('Falha na consulta!');
@@ -121,9 +119,8 @@ const getHorario = (horario, callback) => {
             })
         }
     })
-
-
 }
+
 const updateHorario = (horario, callback) => {
     conexao.query(`UPDATE horario set disponibilidade = 1, idUser = ? where hora = ?`, [horario.idUser, horario.hora], (error, results) => {
         if (error) return console.log('Erro na consulta ao banco de dados.');
@@ -165,7 +162,8 @@ const updateUser = (usuario, callback) => {
             callback(null, results, usuario);
         }
         else {
-            console.log('Nenhuma linha atualizada.', results[0]); // se retorna essa condição é pq não ta encontrando nenhuma linha relacionado ao where
+            console.log('Nenhuma linha atualizada.', results[0]);
+            //Se retornar essa condição é pq não foi encontrado nenhuma linha relacionado ao WHERE.
         }
     })
 }
@@ -184,12 +182,10 @@ const getAgenda = (idUser, callback) => {
         callback(null, results);
     })
 }
-/*Fim de consultas no Banco para Usuario */
+//Fim de consultas no banco para usuário!
 
-
-/*Inicio de consultas no Banco para Psicologos */
-
-//adicionar agenda
+//Início de consultas no banco para psicólogos:
+//Adicionar agenda:
 const addAgenda = (agenda, callback) => {
     console.log('Agenda no sql: ', agenda)
     conexao.query(`INSERT INTO agenda (horaIni, horaFin, data, diaSemana, idPsico) VALUES (?, ?, ?, ?, ?)`, [agenda.horaIni, agenda.horaFin, agenda.data, agenda.diaSemana, agenda.idPsico], (error, results) => {
@@ -208,7 +204,7 @@ const addAgenda = (agenda, callback) => {
             function inserirHorario() {
                 console.log(horaFin)
                 if (horaAtual > horaFin) {
-                    // Se já passou da hora final, finaliza a inserção
+                    //Se já passou da hora final, finaliza a inserção.
                     console.log('Inserção de horários finalizada.');
                     console.log('Lista de horas:', horas);
                     return callback(null, { agenda: agenda, horas: horas });
@@ -235,7 +231,7 @@ const addAgenda = (agenda, callback) => {
                     }
                     horaAtual = `${hora.toString().padStart(2, '0')}:${minuto.toString().padStart(2, '0')}`;
 
-                    inserirHorario(); // Chama a função recursivamente
+                    inserirHorario(); //Chama a função recursivamente.
                 });
             }
             inserirHorario();
@@ -293,57 +289,52 @@ const addPsico = (psico, callback) => {
         callback(null, results);
     })
 }
-/*Fim de consultas no Banco para Psicologos */
+//Fim de consultas no banco para psicológos!
 
-
-/*Inicio de Consultas para Recepcionista */
-
+//Inicio de consultas para recepcionista:
 const addRecep = (recepcionista, callback) => {
     conexao.query(`INSERT INTO recepcionista (nome, email, nomeRecep, password, celular, cpf) VALUES (?,?,?,?,?,?)`, [recepcionista.nome, recepcionista.email, recepcionista.nomeRecep, recepcionista.password, recepcionista.celular, recepcionista.cpf], (error, results, fields) => {
         if (error) return console.log('Erro ao executar a consulta: ', error.message);
-        console.log('Dados Inseridos', recepcionista)
-        console.log('dados das colunas: ', results);
+        console.log('Dados Inseridos: ', recepcionista)
+        console.log('Dados das colunas: ', results);
         callback(null, results, user);
     })
 }
 
+//Atualiza recepcionista:
 const updateRecep = (recepcionista, callback) => {
     console.log('Id Recepcionista: ', recepcionista.idRecep)
     conexao.query(`UPDATE recepcionista SET nome = ?, email = ?, celular = ?, nomeRecep = ? WHERE idRecep = ?`, [recepcionista.nome, recepcionista.email, recepcionista.celular, recepcionista.nomeRecep, recepcionista.idRecep], (error, results) => {
-        if (error) return console.log('Erro ao atualizar: ', error);
-        else if (results.affectedRows > 0) {
+        if (error) {
+            return console.log('Erro ao atualizar: ', error);
+        }
+        else {
             console.log('Usuário atualizado com sucesso!', usuario);
             callback(null, results, usuario);
         }
-        else {
-            console.log('Não foi possível atualizar: este usuário ainda não foi cadastrado.', results[0]); // se retorna essa condição é pq não ta encontrando nenhuma linha relacionado ao where
-        }
     })
 }
 
+//Deleta recepcionista:
 const deleteRecep = (recepcionista, callback) => {
     conexao.query(`DELETE FROM recepcionista WHERE idRecep = ? `, [idRecep], (error, results) => {
-        if (error) return console.log('Erro na consulta: ', error);
-        else if (results.affectedRows > 0) {
+        if (error) {
+            return console.log('Erro na consulta: ', error);
+        }
+        else {
             console.log('Recepcionista deletado com sucesso: ', results);
             callback(null, results)
         }
-        else {
-            console.log('Nenhuma Agenda Encontrado com esse Id');
-        }
     })
 }
+//Fim de consultas para recepcionista!
 
-/*Fim de Consultas para Recepcionista */
-
-
-/*Inicio de Consultas para Consultas Médicas */
-
+//Inicio de consultas para consultas médicas:
 const verificarConsulta = (credencial, callback) => {
-    conexao.query(`select usuario.nome as NomePaciente, usuario.idUser as idUser, horario.hora, agenda.data, agenda.diaSemana, profissionalpsicologo.nome as NomePsico, horario.status, horario.idHorario from horario inner join usuario on horario.idUser = usuario.idUser inner JOIN agenda on horario.idAgenda = agenda.idAgenda inner join profissionalpsicologo on agenda.idPsico = profissionalpsicologo.idPsico where usuario.nomeUser = ?`, [credencial], (error, results) => {
-        if (error) return console.log('Erro na Consulta: ', error);
+    conexao.query(`SELECT usuario.nome AS NomePaciente, usuario.idUser AS idUser, horario.hora, agenda.data, agenda.diaSemana, profissionalpsicologo.nome AS NomePsico, horario.status, horario.idHorario FROM horario INNER JOIN usuario ON horario.idUser = usuario.idUser INNER JOIN agenda ON horario.idAgenda = agenda.idAgenda INNER JOIN profissionalpsicologo ON agenda.idPsico = profissionalpsicologo.idPsico WHERE usuario.nomeUser = ?`, [credencial], (error, results) => {
+        if (error) return console.log('Erro na consulta: ', error);
         else if (results.length > 0) {
-            console.log('usuario encontrado !', results);
+            console.log('Usuário encontrado!', results);
             callback(null, results);
         }
         else {
@@ -354,19 +345,16 @@ const verificarConsulta = (credencial, callback) => {
 }
 
 const putStatusConsult = (horario, callback) => {
-    conexao.query(`update horario set status = 'presente' where idHorario = ?`, [horario.idHorario], (error, results1) => {
+    conexao.query(`UPDATE horario SET status = 'presente' WHERE idHorario = ?`, [horario.idHorario], (error, results1) => {
         if (error) return console.log('Erro na consulta: ', error);
 
-        conexao.query(`select usuario.nome as NomePaciente, horario.hora, horario.status as status,agenda.data, agenda.diaSemana, profissionalpsicologo.nome as NomePsico, horario.status, horario.idHorario from horario inner join usuario on horario.idUser = usuario.idUser inner JOIN agenda on horario.idAgenda = agenda.idAgenda inner join profissionalpsicologo on agenda.idPsico = profissionalpsicologo.idPsico where usuario.idUser = ?`, [horario.idUser], (error, results2) => {
-            if (error) return console.log('Falha no Select')
+        conexao.query(`SELECT usuario.nome AS NomePaciente, horario.hora, horario.status AS status,agenda.data, agenda.diaSemana, profissionalpsicologo.nome AS NomePsico, horario.status, horario.idHorario FROM horario INNER JOIN usuario ON horario.idUser = usuario.idUser INNER JOIN agenda ON horario.idAgenda = agenda.idAgenda INNER JOIN profissionalpsicologo ON agenda.idPsico = profissionalpsicologo.idPsico WHERE usuario.idUser = ?`, [horario.idUser], (error, results2) => {
+            if (error) return console.log('Erro na consulta: ', error);
             callback(null, results1, results2);
         })
-
-
-
     })
 }
-/*Fim de Consultas para Consultas Médicas*/
+//Fim de consultas para consultas médicas!
 
 module.exports = {
     addUser,
@@ -385,5 +373,6 @@ module.exports = {
     verificarConsulta,
     addPsico,
     putStatusConsult,
-    addRecep
+    addRecep,
+    updateRecep
 }

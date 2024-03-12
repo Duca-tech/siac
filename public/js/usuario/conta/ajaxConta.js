@@ -1,6 +1,6 @@
 import {consultas, updateRelizado, detalheConta} from '/js/usuario/conta/funcaoConta.js'
 $(document).ready(function(){
-     // Tela de detalhes da conta do usuario
+     // Tela de detalhes da conta do usuario:
      var idUser = localStorage.getItem('idUser');
      console.log('idUser para página de detalhes de conta: ', idUser);
      var id = {
@@ -26,7 +26,7 @@ $(document).ready(function(){
          console.log('Requisição finalizada!');
      })
      
-     // Atualizar conta
+     // Atualizar conta:
      $('#buttonAtualizar').on('click', function(){
         
         $('input').prop('disabled', false);

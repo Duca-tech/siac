@@ -24,7 +24,7 @@ function verificarConsulta(consulta){
     }
     else{
         var dataConsulta = new Date(consulta.data);
-        var dataAtual = new Date(); //método toISOString() para obter a representação da data no formato ISO 8601, que é semelhante ao formato do MySQL
+        var dataAtual = new Date(); // Método toISOString() para obter a representação da data no formato ISO 8601, que é semelhante ao formato do MySQL.
         console.log('Data de Hj: ', dataAtual);
         console.log('Data da Consulta: ', dataConsulta);
 

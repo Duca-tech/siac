@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    // Ajax para tela de cadastro usuário
+    // AJAX para tela de cadastro usuário:
     $('#formCadastroUser').submit(function(event){
         const formData = new FormData($('#formCadastroUser')[0]);
         $.ajax({
@@ -22,7 +22,7 @@ $(document).ready(function(){
         .alwxays(function(){
             console.log('A requisição ajax foi feita!');
         })
-        return false; // Impede o envio padrão do formulário
+        return false; // Impede o envio padrão do formulário.
     })
-    // Fim da tela de cadastro do usuario 
+    // Fim da tela de cadastro do usuario!
 })

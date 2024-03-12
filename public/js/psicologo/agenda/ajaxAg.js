@@ -1,38 +1,35 @@
-$(document).ready(function(){
-
+$(document).ready(function () {
     const idPsico = localStorage.getItem('idPsico');
-    var psico = {idPsico:idPsico}
-    //pegar as agendas Ja criadas
+    var psico = { idPsico: idPsico }
+    // Pegar as agendas já criadas:
     $.ajax({
         url: '/psico/agenda/exibirAgenda',
-        type:'POST',
-        data: psico 
+        type: 'POST',
+        data: psico
     })
-    .done(function(response){
-        console.log('Resposta do servidor: ', response);
-        exibirAgendas(response.agenda);
-    })
-    .fail(function(errorThrown, status){
-        console.log('Erro na Requisição: ', errorThrown);
-        console.log('status da Requisição: ', status);
-    })
-    .always(function(){
-        console.log('Requisição Finalizada!');
-    })
-    
+        .done(function (response) {
+            console.log('Resposta do servidor: ', response);
+            exibirAgendas(response.agenda);
+        })
+        .fail(function (errorThrown, status) {
+            console.log('Erro na Requisição: ', errorThrown);
+            console.log('status da Requisição: ', status);
+        })
+        .always(function () {
+            console.log('Requisição Finalizada!');
+        })
+
     console.log('idPsico: ', idPsico);
-    $('#gerarAgenda').on('click', function(){
-        
+    $('#gerarAgenda').on('click', function () {
         var horaIni = $('#horaIni').val();
-        var horaFin= $('#horaFin').val();
+        var horaFin = $('#horaFin').val();
         var diaSemana = $('#diaSemana').val();
         var data = $('#date').val();
 
-
-        if(horaIni == ''|| horaFin =='' || data ==''){
+        if (horaIni == '' || horaFin == '' || data == '') {
             alert('Precisa deixar todos os campos completos para gerar a agenda')
         }
-        else{
+        else {
             var agenda = {
                 horaIni: horaIni,
                 horaFin: horaFin,
@@ -45,47 +42,41 @@ $(document).ready(function(){
                 type: 'POST',
                 data: agenda
             })
-            .done(function(response){
-                console.log('Resposta do servidor: ', response.message ,response.agenda, response.horarios);
-                alert('Agenda Criada Com sucesso!');
-                location.reload();
-            })
-            .fail(function(status, xhr, errorThrown){
-                console.log('Status: ', status);
-                console.log('Erro: ', errorThrown);
-                console.log(xhr);
-            })
-            .always(function(){
-                console.log('Requisição finalizada!');
-            })
-
+                .done(function (response) {
+                    console.log('Resposta do servidor: ', response.message, response.agenda, response.horarios);
+                    alert('Agenda Criada Com sucesso!');
+                    location.reload();
+                })
+                .fail(function (status, xhr, errorThrown) {
+                    console.log('Status: ', status);
+                    console.log('Erro: ', errorThrown);
+                    console.log(xhr);
+                })
+                .always(function () {
+                    console.log('Requisição finalizada!');
+                })
         }
     })
 
-    $('#tabelaAgenda').on('click', '.buttonDelete', function(){
+    $('#tabelaAgenda').on('click', '.buttonDelete', function () {
         var idAgenda = $(this).data('id');
         console.log('Id Agenda: ', idAgenda);
+
         $.ajax({
-            url:`/psico/agenda/deletarAgenda/${idAgenda}`,
-            type:'DELETE',
+            url: `/psico/agenda/deletarAgenda/${idAgenda}`,
+            type: 'DELETE',
         })
-        .done(function(response){
-            console.log('Resposta do Servidor: ', response);
-            alert('Agenda Excluida com Sucesso');
-            location.reload();
-        })
-        .fail(function(errorThrown, status){
-            console.log('Falha ao mandar requisição para o servidor!', errorThrown);
-            console.log('Status: ', status);
-
-        })
-        .always(function(){
-            console.log('Requisição finalizada!');
-        })
-        
-
-    } )
-    
-    
-
+            .done(function (response) {
+                console.log('Resposta do Servidor: ', response);
+                alert('Agenda Excluida com Sucesso');
+                location.reload();
+            })
+            .fail(function (errorThrown, status) {
+                console.log('Falha ao mandar requisição para o servidor!', errorThrown);
+                console.log('Status: ', status);
+            })
+            .always(function () {
+                console.log('Requisição finalizada!');
+            })
+    })
 })
