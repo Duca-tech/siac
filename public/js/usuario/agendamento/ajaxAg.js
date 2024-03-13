@@ -23,7 +23,7 @@ $(document).ready(function(){
         console.log('Requisição Finalizada');
     })
 
-    //variavel global
+    // Variável global:
     var hora;
     var idUser;
     var button;
@@ -42,12 +42,12 @@ $(document).ready(function(){
 
     })
     
-    $('#containerConfirmacao').on('click', 'button', function(){ // Inicio do ajax para confirmar agendamento
+    $('#containerConfirmacao').on('click', 'button', function(){ // Inicio do AJAX para confirmar agendamento.
         console.log('Id do usuário: ', idUser);
         console.log('button: ', hora);
         msgWpp = $('#msgWpp')
 
-        if(msgWpp.prop('checked')){ //método .prop('checked') retorna true se o checkbox estiver marcado e false caso contrário.
+        if(msgWpp.prop('checked')){ // Método .prop('checked') retorna true se o checkbox estiver marcado e false caso contrário.
 
             button.css({
                 'display':'none'
@@ -150,7 +150,7 @@ $(document).ready(function(){
                 console.log('Requisição finalizada!');
             })
         }
-    }) // fim do ajax para confirmar agendament
+    }) // Fim do AJAX para confirmar agendamento!
 
     $('#voltar').on('click', function(){
         window.location.href = '/user/principal';

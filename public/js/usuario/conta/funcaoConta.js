@@ -9,7 +9,6 @@ export function detalheConta(conta){
 }
 
 export function updateRelizado(usuario){
-
     $('.msgServer').animate({
         'heigth':'toggle',
         'opacity':'0',
@@ -25,15 +24,10 @@ export function updateRelizado(usuario){
         $('#containerConfCan').css({
             'display':'none'
         })
-       
     })
-
 }
 
-export function consultas(consultas){
-    
-        
-   
+export function consultas(consultas){   
     if(consultas[0].data && consultas[0].hora){
         var horaForm = formatarHorario(consultas[0].hora);
         var dataForm = formatarData(consultas[0].data);
@@ -50,14 +44,11 @@ export function consultas(consultas){
                 <span class='espacamentoConsulta'>${dataForm}</span>
                 <span class='espacamentoConsulta'>${horaForm}</span><br><br>
 
-                
                 <span class='espacamentoConsulta'><button data-id='${consulta.idHorario}' class='btn btn-danger'>Cancelar Consulta</button></span><br><br>
-                
             </div>
                 `)
         })
         $('#containerConsultas').append(consultasConta);
-    
     }
     else{
         $('#containerConsultas').append(`
