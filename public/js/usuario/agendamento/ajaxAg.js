@@ -1,3 +1,4 @@
+import {mostrarPsico, selecionarPsico, verificacao} from '../../../js/usuario/agendamento/funcaoAg'
 $(document).ready(function(){
     
     idUser = localStorage.getItem('idUser');
