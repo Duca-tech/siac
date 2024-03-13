@@ -1,6 +1,6 @@
 import {formatarData, formatarHorario} from '../../Formatacao/funcao.js'
 
-function verificacao(psicologos, agenda, horarios){
+export function verificacao(psicologos, agenda, horarios){
     if(!agenda){
         $('#psicoDados').append(`<h3>Sem agenda para consultas!</h3>`);
 
@@ -8,7 +8,7 @@ function verificacao(psicologos, agenda, horarios){
     }
     
 }
-function selecionarPsico(psicologos){
+export function selecionarPsico(psicologos){
 
     var selecao = $(`<select id='listaSelecaoPsico'><option disabled selected>Escolha o Profissional</option></select>`);
     psicologos.map(function(psico){
@@ -19,7 +19,7 @@ function selecionarPsico(psicologos){
     $('#psicoDados').append(selecao);
 }
 
-function mostrarPsico(psicologos,agenda, horarios){
+export function mostrarPsico(psicologos,agenda, horarios){
     $('#psicoDados').on( 'change','#listaSelecaoPsico', function(){
        
         var idPsico = $(this).val();
