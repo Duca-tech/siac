@@ -121,7 +121,7 @@ app.use('/recepcionista/principal/verificarConsulta', router);
 app.use('/recepcionista/principal/verificarConsulta/confirmarPresenca', router);
 
 // Teste Edu - Rota criada para abordagem Fetch API:
-app.use('/recepcionista/:id')
+// app.use('/recepcionista/:id')
 // -------------------- FIM DO SERVIDOR PARA RECEPCIONISTA! 
 
 app.listen(porta, ()=>{
