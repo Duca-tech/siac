@@ -2,15 +2,17 @@
   "name": "siac",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "type": "module",
+  "main": "index.mjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js"
+    "start": "nodemon server/index.mjs"
   },
   "keywords": [],
-  "author": "",
+  "author": "Wilson Ducatti Junior",
   "license": "ISC",
   "dependencies": {
+    "adminjs": "^7.7.2",
     "dotenv": "^16.4.2",
     "ejs": "^3.1.9",
     "express": "^4.18.2",
@@ -21,6 +23,8 @@
     "open": "^10.0.4",
     "opn": "^6.0.0",
     "path": "^0.12.7",
-    "twilio": "^4.22.0"
+    "prisma": "^5.11.0",
+    "twilio": "^4.22.0",
+    "url": "^0.11.3"
   }
 }
