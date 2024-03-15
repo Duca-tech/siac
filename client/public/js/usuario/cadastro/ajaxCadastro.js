@@ -1,28 +1,30 @@
-$(document).ready(function(){
-    // AJAX para tela de cadastro usuário:
-    $('#formCadastroUser').submit(function(event){
-        const formData = new FormData($('#formCadastroUser')[0]);
-        $.ajax({
-            url: `http://localhost:3600/user/cadastro`,
-            type: 'POST',
-            dataType: 'json', // Especifica o tipo de dados que você espera receber do servidor em resposta à sua solicitação.
-            data: formData
+console.log('Script ajaxCadastro.js carregado.');
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Evento de envio do formulário
+    document.getElementById('formCadastroUser').addEventListener('submit', function(event) {
+        event.preventDefault(); // Impede o envio padrão do formulário
+        console.log('Evento de envio do formulário detectado.');
+
+        const formData = new FormData(this);
+        console.log(formData)
+
+        fetch('http://localhost:3600/user/cadastro', {
+            method: 'POST',
+            body: formData
         })
-        .done(function(json){
-            console.log('Usuário adicionado com sucesso!',json);
-            window.location.href ='/user/login'
-            
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Erro ao enviar formulário. Status: ' + response.status);
+            }
+            return response.json(); // Retorna os dados como JSON
         })
-        .fail(function(xhr, status, errorThrown){
-            console.log('Erro ao adicionar usuário.');
-            console.log('Status: ', status);
-            console.log('Erro: ', errorThrown);
-            console.dir(xhr); // console.dir() é um método do console em JavaScript que exibe uma representação em formato de árvore de um objeto JavaScript passado como argumento.
+        .then(data => {
+            console.log('Resposta do servidor:', data);
+            // Faça algo com a resposta, se necessário
         })
-        .alwxays(function(){
-            console.log('A requisição ajax foi feita!');
-        })
-        return false; // Impede o envio padrão do formulário.
-    })
-    // Fim da tela de cadastro do usuario!
-})
+        .catch(error => {
+            console.error('Erro ao enviar formulário:', error);
+        });
+    });
+});
