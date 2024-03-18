@@ -1,10 +1,10 @@
 // const express = require('express'); // Puxando a lib "express".
 import express from 'express';
-import { fileURLToPath } from 'url';
+import {fileURLToPath} from 'url';
 import {router} from './routes/routes.js';
 import {routerUser} from './routes/routesUser.js';
 import {routerPsico} from './routes/routesPsico.js';
-import {routesRecep} from './routes/routesRecep.js'
+import {routerRecep} from './routes/routesRecep.js'
 import {session} from './routes/routes.js';
 const app = express(); // Instancia a lib "express" que nada mais serve para tratar requisições cliente-servidor.
 import {exec} from 'child_process';
@@ -79,7 +79,7 @@ app.use('/user', routerUser)
 app.use('/psico', routerPsico);
 
 // -------------------- INÍCIO DO SERVIDOR PARA RECEPCIONISTA:
-app.use('/recepcionista', routesRecep);
+app.use('/recepcionista', routerRecep);
 
 
 // Teste Edu - Rota criada para abordagem Fetch API:
@@ -98,8 +98,6 @@ app.listen(porta, ()=>{
         }
         console.log(`Opera GX iniciado!`);
     });
-
-
 })
 
 

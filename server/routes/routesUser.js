@@ -27,7 +27,7 @@ routerUser.post('/cadastro', async (req, res) => {
         }
         else if (results.affectedRows > 0) {
             console.log('Usuario adicionado com sucesso', usuario);
-            WppTwilio.enviarMensagem(`
+            enviarMensagem(`
             Prezado Cliente, seu usuário foi cadastrado com sucesso no sistema\n\n
             nome: ${usuario.nome} \n
             E-mail: ${usuario.email}\n
@@ -37,7 +37,7 @@ routerUser.post('/cadastro', async (req, res) => {
             }).catch((error) => {
                 console.error('Erro ao enviar mensagem para o cliente')
             })
-            res.status(201).render('login'); // Método send não aceita múltiplos argumentos.
+            res.status(201).render('usuario/login'); // Método send não aceita múltiplos argumentos.
         }
     });
 

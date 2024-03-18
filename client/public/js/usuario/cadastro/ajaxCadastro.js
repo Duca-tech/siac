@@ -1,28 +1,38 @@
-$(document).ready(function(){
-    // AJAX para tela de cadastro usuário:
-    $('#formCadastroUser').submit(function(event){
-        const formData = new FormData($('#formCadastroUser')[0]);
-        $.ajax({
-            url: `http://localhost:3600/user/cadastro`,
-            type: 'POST',
-            dataType: 'json', // Especifica o tipo de dados que você espera receber do servidor em resposta à sua solicitação.
-            data: formData
+document.addEventListener('DOMContentLoaded', function () {
+    
+    // Fetch para tela de cadastro usuário:
+    document.getElementById('formCadastroUser').addEventListener('submit', function (event) {
+        event.preventDefault(); // Impede o envio padrão do formulário.
+
+        const dadosUser = {
+            nome: document.getElementById("nome").value,
+            email: document.getElementById("email").value,
+            nomeUser: document.getElementById("nomeUser").value,
+            password: document.getElementById("pass").value
+        };
+
+        fetch('http://localhost:3600/user/cadastro', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(dadosUser),
         })
-        .done(function(json){
-            console.log('Usuário adicionado com sucesso!',json);
-            window.location.href ='/user/login'
-            
-        })
-        .fail(function(xhr, status, errorThrown){
-            console.log('Erro ao adicionar usuário.');
-            console.log('Status: ', status);
-            console.log('Erro: ', errorThrown);
-            console.dir(xhr); // console.dir() é um método do console em JavaScript que exibe uma representação em formato de árvore de um objeto JavaScript passado como argumento.
-        })
-        .alwxays(function(){
-            console.log('A requisição ajax foi feita!');
-        })
-        return false; // Impede o envio padrão do formulário.
-    })
-    // Fim da tela de cadastro do usuario!
-})
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Erro ao adicionar usuário: ' + response.status);
+                }
+                window.location.href = '/user/login';
+            })
+            .then((json) => {
+                console.log('Usuário adicionado com sucesso!', json);
+            })
+            .catch(error => {
+                console.error('Erro ao adicionar usuário:', error);
+            })
+            .finally(() => {
+                console.log('A requisição fetch foi feita!');
+            });
+    });
+    // Fim da tela de cadastro do usuário!
+});
