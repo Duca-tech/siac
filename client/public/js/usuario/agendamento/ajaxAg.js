@@ -1,4 +1,4 @@
-import {mostrarPsico, selecionarPsico, verificacao} from '/js/usuario/agendamento/funcaoAg.js'
+// import {verificacao} from '/js/usuario/agendamento/funcaoAg.js'
 $(document).ready(function(){
     
     idUser = localStorage.getItem('idUser');
@@ -11,7 +11,8 @@ $(document).ready(function(){
         console.log('Psicologos, agenda e horários:  ', data);
         verificacao(data.psicologos, data.agenda, data.horarios);
         selecionarPsico(data.psicologos);
-        mostrarPsico(data.psicologos, data.agenda, data.horarios);
+        
+        
         
     })
     .fail(function(xhr, status, errorThrowne){

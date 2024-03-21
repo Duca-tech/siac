@@ -1,0 +1,34 @@
+//função para exibir horarios na tabela
+export function tabelaHorarios(agenda, horas){
+    console.log('Agenda: ', agenda)
+    console.log('Horas: ', horas)
+    var linha = agenda.map(element => {
+        return $(`
+            <tr>
+                <td>${element.data}</td>
+                <td>${element.diaSemana}</td>
+            </tr>
+        `)
+    });
+    var linha2 = horas.map(element=>{
+        return `
+            <button class='btn btn-success m-2'>${element.hora}</button>
+        `;
+    })
+    // Concatenando todas as Strings em uma Única String
+    var linhaConcat = linha2.join('');
+    console.log('Linha concat: ', linhaConcat)
+    
+    // Criando o elemento <td> com o HTML concatenado
+    var elementTd = $('<td></td>').html(linhaConcat);
+
+    // Convertendo o elemento <td> para HTML antes de adicionar à tabela
+    var elementHtml = elementTd.prop('outerHTML');
+
+    // Adicionando o elemento <td> à última linha da agenda
+    linha[linha.length - 1].append(elementHtml);
+
+    console.log('Linha: ', linha)
+    
+    return linha;
+}

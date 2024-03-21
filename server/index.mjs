@@ -35,7 +35,7 @@ console.log('caminho de Arquivo: ', __filename);
 
 const __dirname = path.dirname(__filename)
 
-console.log('DIrname: ', __dirname);
+console.log('Dirname: ', __dirname);
 
 // Configurar o MIME adequado para o arquivo jS:
 app.use('/js', (req,res,next)=>{

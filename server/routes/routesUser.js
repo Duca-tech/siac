@@ -10,6 +10,16 @@ routerUser.get('/cadastro', (req, res) => {
     res.render('usuario/cadastro');
 })
 
+routerUser.get('/buscarEndereco', async (req, res)=>{
+    var {cep} = req.query;
+    console.log('Cep Server: ', cep);
+    const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`); //fetch para buscar endereço
+    const data = await response.json();
+    console.log('Data: ', data);
+    res.json(data);
+
+})
+
 routerUser.post('/cadastro', async (req, res) => {
     console.log('Dados Recebidos: ', req.body);
     const { nome, email, nomeUser, password } = req.body;

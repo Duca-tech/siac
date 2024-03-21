@@ -1,0 +1,44 @@
+export function mostrarPsico(psicologos,agendas, horarios){
+    
+    $('#psicoDados').on('change', '#listaSelecaoPsico', function(){
+        $('#containerAgendaPsico').empty();
+        $('#containerAgenda').empty();
+        console.log('opção selecionada: ', $(this).val());
+        const psicoSelecionado = psicologos.find(psico => psico.idPsico == $(this).val());
+        if (psicoSelecionado) {
+            var nomePsico = psicoSelecionado.nome;
+            var idPsico = psicoSelecionado.idPsico;
+
+            var agendaPsico = $("<p></p>").css("border-bottom", "#ccc solid 1px").append(
+                $("<span></span>").css("font-weight", "bold").text("Doutor(a): "),
+                $("<span></span>").text(nomePsico)
+            );
+            $('#containerAgendaPsico').append(agendaPsico);
+        }
+        $('#containerAgendaPsico').append(agendaPsico);
+
+        var agendaFilt = agendas.filter(agenda=> agenda.idPsico == idPsico);
+        console.log('agendas com id do prof: ', agendaFilt)
+        var horasFilt = horarios.filter(objeto1 => agendaFilt.some(objeto2 => objeto2.idAgenda == objeto1.idAgenda));
+        console.log('horarios: ', horasFilt);
+
+        var tabelaAgenda = $(`<table></table>`)
+        var cabecalho = $(`
+            <thead style='border-bottom: #ccc'>
+                <th>Data</th>
+                <th>Dia da Semana</th>
+                <th>Horários</th>
+            </thead>
+        `)
+        tabelaAgenda.append(cabecalho);
+
+        var body = $(`<tbody></tbody>`);
+        var linha = tabelaHorarios(agendaFilt, horasFilt)
+        console.log('Linha: ', linha)
+        body.append(linha);
+        tabelaAgenda.append(body);
+        $('#containerAgenda').append(tabelaAgenda);
+
+    })
+
+}

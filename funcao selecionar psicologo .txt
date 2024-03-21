@@ -1,0 +1,10 @@
+export function selecionarPsico(psicologos){
+
+    var selecao = $(`<select id='listaSelecaoPsico'><option disabled selected>Escolha o Profissional</option></select>`);
+    psicologos.map(function(psico){
+         var opcao = $(`<option value='${psico.idPsico}'>${psico.nome}</option>`)
+         selecao.append(opcao);
+    })
+    
+    $('#psicoDados').append(selecao);
+}

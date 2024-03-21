@@ -1,147 +1,155 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
 *{
     margin: 0;
     padding: 0;
+    font-family: 'Roboto', sans-serif;
 }
 .borda{
     border: 1px solid red;
 }
-.borda-inferior{
-    border-bottom: 1px solid #DCDCDC;
-    padding-bottom: 15px;
-}
-.buttonHora{
-    background-color: #D3D3D3;
-}
-.buttonHora:hover{
-    background-color: aqua;
-}
-ul{
-    list-style: none
-}
-/*Começo da Config de Header*/
-header{
-    background-color: tomato;
-}
-header img{
-    height: 50px;
-    width: 50px;
-    margin-top: 25px;
-    margin-left: 25px;
-}
 
-header ul{
-    
-    margin-right: 10px;
-
+body{
+    height: 100%;
+    background-color: #f0f0f0;
 }
-header ul li{
-    display: inline-block;
-    margin: 10px;
-    background-color:aliceblue;
-    padding: 10px;
-    border-radius: 10px;
+.planner{
+    text-align: center;
+    padding-top: 20px;
+    padding-bottom: 60px;
 }
-
-header ul li:hover{
-    background-color: black;
-    cursor: pointer;
-    color: white;
-}
-/*Final da config de Header*/
-
-
-/***************************/
-
-/*Começo da config de Main*/
-
-
-
-
-/*Dados dos Psicologos*/
-#psicoDados{
-    
-    margin: 20px;
-    border-bottom:#D3D3D3 ;
-    border-top: #D3D3D3;
-        
-}
-
-#psicoDados #listaSelecaoPsico{
-    margin: 15px;
-}
-/*Container de Agenda*/
-#containerAgenda{
+.calendar-grid{
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
     padding: 20px;
-    border-radius: 15px;
-    display: none;
 }
-/*Container das horas*/
-#containerHora{
-
-    display: inline;
-    border-right: 1px solid black;
+.add-task-btn{
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+    background-color: #212121;
+    padding: 10px 48px ;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
-    
 
-/*diaSemana*/
-#diaSemana{
+
+
+.calendar-day{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff;
+    color: #c4c4c4;
+    padding: 15px;
+    border-radius: 8px;
+    min-height: 70px;
+    box-shadow: 0 4px 8px rgba(0,0,0,1);
+}
+
+.task{
+    background-color: #212121;
+    color: #fff;
+    padding: 12px;
+    margin-top: 10px;
+    border-radius: 4px;
     text-align: center;
-    border-right: 1px solid black;
-
+    word-break: break-word;
+    font-size: 0.8em;
+    width: 88%;
+    transition: all 0.3s ease;
 }
-
-/*Horarios Disponiveis*/
-#horarios{
-    text-align: center;
+.task:hover,
+.modal-content button:hover,
+.add-task-btn:hover{
+    background-color: #424242;
 }
-
-/*Container da data*/
-#dataHorario{
-    text-align: center ;
-    border-right: 1px solid black;
-}
-
-/*div para confirmar agendamento*/
-#containerConfirmacao{
+.modal{
+    /* display: none;
+    position: fixed;
+    z-index: 1; */
+    left: 0;
+    top: 0;
     width: 100%;
-    display: none;
-    
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.7);
 }
-#ConfirmarAgendamento{
-    height: 200px;
-    width: 500px;
-    border-radius: 15px;
-    background-color: cornsilk;
-   
-    
-}
-#tabelaAgenda{
-    border-radius: 10px;
-    padding: 15px;
-}
-#tabelaAgenda thead{
-    border-bottom: 1px solid #D3D3D3;
-}
-#tabelaAgenda thead th{
-    padding: 10px;
-    
-}
-
-#tabelaAgenda tbody{
-    border-bottom: 1px solid #D3D3D3;
-    padding: 15px;
+.modal-content{
+    background-color: #fff;
+    /* margin: 15% auto; */
+    padding: 20px;
+    border: 1px solid #888; 
+    width: 300px;
+    border-radius: 14px;
     text-align: center;
 }
-#tabelaAgenda tbody tr{
-    border-bottom: 1px solid #D3D3D3;
+
+.close{
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.close:hover,
+.close:focus{
+    color: #000;
 }
 
-#tabelaAgenda tbody td{
+input[type='date'],
+input[type='text']{
+    width: 100%;
     padding: 10px;
+    margin: 10px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    outline: none;
+    box-sizing: border-box;
 }
-/*configurar button de confirmar ou cancelar agendamento*/
-.button{
-    margin: 10px;
+.modal-content button{
+    background-color: #212121;
+    color: #fff;
+    padding: 10px 48px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
+
+@media screen and(max-width: 1200px) {
+    .calendar-grid{
+        grid-template-columns: repeat(5, 1fr);
+        
+    }
+}
+
+@media screen and(max-width: 992px) {
+    .calendar-grid{
+        grid-template-columns: repeat(3, 1fr);
+        
+    }
+}
+
+@media screen and(max-width: 768px) {
     
-    
+    .calendar-grid{
+        grid-template-columns: repeat(2, 1fr);
+        
+    }
+}
+@media screen and(max-width: 576px) {
+    .calendar-grid{
+        grid-template-columns: repeat(1, 1fr);
+        
+    }
+}
