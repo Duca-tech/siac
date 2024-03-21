@@ -1,6 +1,6 @@
 // const express = require('express'); // Puxando a lib "express".
 import express from 'express';
-import { fileURLToPath } from 'url';
+import {fileURLToPath} from 'url';
 import {router} from './routes/routes.js';
 import {routerUser} from './routes/routesUser.js';
 import {routerPsico} from './routes/routesPsico.js';
