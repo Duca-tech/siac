@@ -1,80 +1,75 @@
-$(document).ready(function(){
-      // Tela principal quando clica em agendar consulta: 
-      $('#agendar').on('click', function(){
+document.addEventListener('DOMContentLoaded', function () {
+    // Tela principal quando clica em agendar consulta:
+    document.getElementById('agendar').addEventListener('click', function () {
         var idUser = localStorage.getItem('idUser');
         var token = localStorage.getItem('token');
         console.log('Id do usuario: ', idUser);
         console.log('token do ajax: ', token);
         var id = {
             idUser: idUser
-        }
-        $.ajax({
-            url: '/user/principal/verificarToken',
-             type: 'POST',
+        };
+
+        fetch('/user/principal/verificarToken', {
+            method: 'POST',
             headers: {
-                'authorization': 'Bearer ' + token
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
             },
-            data: id
+            body: JSON.stringify(id)
         })
-        .done(function(response){
-            console.log('resposta do servidor: ',response);
+        .then(function (response) {
+            if (!response.ok) {
+                throw new Error('Erro na solicitação. Status: ' + response.status);
+            }
+            return response.json();
+        })
+        .then(function (response) {
+            console.log('resposta do servidor: ', response);
             verificaoConsulta(response.data);
-            // window.location.href = '/user/agendamento'  
+            // window.location.href = '/user/agendamento'
         })
-        .fail(function(xhr, errorThrown,status){
-            console.log('Falha na conexão com o servidor:', errorThrown)
-            console.log('Status:', status);
-            console.log(xhr);
+        .catch(function (error) {
+            console.error('Falha na conexão com o servidor:', error.message);
         })
-        .always(function(){
+        .finally(function () {
             console.log('Requisição finalizada');
-        })
-    })
+        });
+    });
 
-
-
-
-    $('#conta').on('click', function(){
+    document.getElementById('conta').addEventListener('click', function () {
         var token = localStorage.getItem('token');
         console.log(token);
-        $.ajax({
-            url:'/user/principal/verificarToken',
-            type: 'GET',
-            beforeSend: function(xhr){
-                xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+        
+        fetch('/user/principal/verificarToken', {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + token
             }
-            /* xhr é um objeto XMLHttpRequest, que é um objeto fornecido pelo navegador que permite fazer solicitações HTTP de forma 
-            assíncrona a um servidor. É uma parte essencial do AJAX, que permite que páginas da web atualizem partes específicas sem 
-            precisar recarregar a página inteira. */
-
-            /* Função "beforeSend" é uma função de retorno de chamada fornecida pelo jQuery que é chamada antes de enviar a solicitação
-            AJAX. Dentro dessa função de retorno de chamada, xhr é o objeto XMLHttpRequest que está sendo usado para fazer a solicitação.
-            Portanto, ao chamar xhr.setRequestHeader, você está definindo um cabeçalho personalizado para a solicitação AJAX, que neste 
-            caso é o cabeçalho de autorização com o token JWT. */
-            
         })
-        .done(function(){
+        .then(function (response) {
+            if (!response.ok) {
+                throw new Error('Erro na solicitação. Status: ' + response.status);
+            }
+            return response.json();
+        })
+        .then(function () {
             console.log('Token validado com sucesso');
-
-            window.location.href = '/user/principal/conta'
-            
+            window.location.href = '/user/principal/conta';
         })
-        .fail(function(xhr, status, errorThrown){
-            console.log('Falha na requisição!');
-            console.log(xhr);
-            console.log('status: ', status);
-            console.log('Erro: ', errorThrown);
+        .catch(function (error) {
+            console.error('Falha na requisição!', error.message);
         })
-        .always(function(){
+        .finally(function () {
             console.log('Requisição Finalizada!');
-        })
-    })
+        });
+    });
 
-    $('.containerUser').on('click', '.logout', function(e){
-        e.preventDefault();
-        var logout = $(this).data('id');
-        console.log('Logout: ', logout);
-        window.location.href = '/'
-    })
-
-})
+    document.querySelector('.containerUser').addEventListener('click', function (e) {
+        if (e.target.classList.contains('logout')) {
+            e.preventDefault();
+            var logout = e.target.dataset.id;
+            console.log('Logout: ', logout);
+            window.location.href = '/';
+        }
+    });
+});
