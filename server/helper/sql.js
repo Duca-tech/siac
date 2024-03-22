@@ -32,17 +32,27 @@ process.on('exit', () => {
 
 // -------------------- INÍCIO DE CONSULTAS NO BANCO PARA USUÁRIOS:
 // Função para adicionar usuario:
-const addUser = (user, callback) => {
+const addUser = (user, end, callback) => {
+    // Inserir usuário
     conexao.query(`INSERT INTO usuario(nome, email, nomeUser, password) VALUES (?,?,?,?)`, [user.nome, user.email, user.nomeUser, user.password], (error, results, fields) => {
         if (error) {
-            return console.log('Erro ao executar a consulta: ', error.message);
+            return console.log('Erro ao inserir usuário: ', error.message);
         }
-        console.log('Dados inseridos: ', user);
-        console.log('Dados das colunas: ', results);
-        callback(null, results, user);
-    })
-}
 
+        // Obter o ID do usuário inserido
+        const usuarioId = results.insertId;
+
+        // Inserir endereço associado ao usuário
+        conexao.query(`INSERT INTO endereco(idUser, logradouro, bairro, cidade, estado, numero) VALUES(?,?,?,?,?,?)`, [usuarioId, end.logradouro, end.bairro, end.localidade, end.uf, end.numero], (error, results, fields) => {
+            if (error) {
+                return console.log('Erro ao inserir endereço: ', error.message);
+            }
+
+            console.log('Usuário e endereço inseridos com sucesso.');
+            callback(null, results, user);
+        });
+    });
+};
 // Pegar usuário:
 const loginUser = (user, callback) => {
     conexao.query(`SELECT * FROM usuario WHERE (email = ? or nomeUser = ?) AND password = ?`, [user.emailUsuario, user.emailUsuario, user.password], (error, results) => {

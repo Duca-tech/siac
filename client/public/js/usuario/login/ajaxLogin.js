@@ -13,15 +13,17 @@ $(document).ready(function(){
             data: data
         })
         .done(function(response){
-            console.log('token recebido', response.token);
+            console.log('resposta Servidor', response);
+            console.log('Token: ', response.token)
+            console.log('idUser: ', response.response[0].idUser)
             
             // Salvar o token no localstorage:
             localStorage.setItem('token', response.token);
 
             // Salvar o idUser no localstorage:
-            localStorage.setItem('idUser', response.idUser);
+            localStorage.setItem('idUser', response.response[0].idUser);
             
-            window.location.href = '/user/principal';
+            verificarLogin(response.response[0])
         })
         .fail(function(xhr, status, errorThrown){
             console.log('erro: ', errorThrown);

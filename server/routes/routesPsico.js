@@ -55,9 +55,6 @@ routerPsico.delete('/agenda/deletarAgenda/:idAgenda', (req, res) => {
     })
 })
 
-routerPsico.get('/login', (req, res) => {
-    res.render('psicologo/login')
-})
 
 routerPsico.post('/login', (req, res) => {
     console.log('Dados recebidos: ', req.body);

@@ -22,32 +22,32 @@ routerUser.get('/buscarEndereco', async (req, res)=>{
 
 routerUser.post('/cadastro', async (req, res) => {
     console.log('Dados Recebidos: ', req.body);
-    const { nome, email, nomeUser, password } = req.body;
+    const { nome, email, nomeUser, cep, logradouro, bairro,localidade, uf,numero, senha} = req.body;
     const user = {
         nome: nome,
         email: email,
         nomeUser: nomeUser,
-        password: password
+        password: senha
+    }
+    const end ={
+        logradouro: logradouro,
+        bairro: bairro,
+        localidade: localidade,
+        uf: uf,
+        numero: numero,
+        senha: senha,
+        cep: cep
     }
 
-    addUser(user, (error, results, usuario) => {
+    addUser(user, end, (error, results, usuario) => {
         if (error) {
             console.log('Erro ao adicionar cliente ', error.message);
             res.status(500).send('Erro ao Adicionar Cliente');
         }
         else if (results.affectedRows > 0) {
             console.log('Usuario adicionado com sucesso', usuario);
-            enviarMensagem(`
-            Prezado Cliente, seu usuário foi cadastrado com sucesso no sistema\n\n
-            nome: ${usuario.nome} \n
-            E-mail: ${usuario.email}\n
-            Nome de Usuário: ${usuario.nomeUser}
-            `).then(() => {
-                console.log('Mensagem de Wpp enviada com sucesso!')
-            }).catch((error) => {
-                console.error('Erro ao enviar mensagem para o cliente')
-            })
-            res.status(201).render('usuario/login'); // Método send não aceita múltiplos argumentos.
+            
+            res.status(201).json({message: 'Usuario e endereço adicionado com sucesso: ', data: results, user: usuario}); // Método send não aceita múltiplos argumentos.
         }
     });
 
@@ -69,7 +69,7 @@ routerUser.post('/login', async (req, res) => {
             res.status(500).send('Erro de solicitação no bd');
         }
         else if (results.length > 0) {
-            console.log('Usuário encontrado!');
+            console.log('Usuário encontrado!', results);
             let tokenGerado = await gerarToken(results[0].idUser);
             console.log('token Gerado:', tokenGerado);
 
@@ -79,7 +79,7 @@ routerUser.post('/login', async (req, res) => {
             console.log('Id da sessão: ', req.session.id);
             const idUser = results[0].idUser;
 
-            res.status(200).json({ message: 'autenticação realizada e token enviado para o user', auth: true, token: tokenGerado, idUser: idUser });
+            res.status(200).json({ message: 'autenticação realizada e token enviado para o user', auth: true, token: tokenGerado, response: results });
         }
         else {
             console.log('usuário não encontrado!');

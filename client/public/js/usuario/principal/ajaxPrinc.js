@@ -10,7 +10,7 @@ $(document).ready(function(){
         }
         $.ajax({
             url: '/user/principal/verificarToken',
-            type: 'POST',
+             type: 'POST',
             headers: {
                 'authorization': 'Bearer ' + token
             },
@@ -55,6 +55,7 @@ $(document).ready(function(){
         })
         .done(function(){
             console.log('Token validado com sucesso');
+
             window.location.href = '/user/principal/conta'
             
         })
@@ -73,7 +74,7 @@ $(document).ready(function(){
         e.preventDefault();
         var logout = $(this).data('id');
         console.log('Logout: ', logout);
-        window.location.href = '/user/login'
+        window.location.href = '/'
     })
 
 })
