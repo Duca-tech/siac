@@ -7,14 +7,16 @@
     }
 }
 
-window.onload = function(){
-  generateCalendar();
-}
 
-function generateCalendar(){
+
+function generateCalendar(agenda, horarios){
+  console.log('agenda: ', agenda)
   const calendar = document.getElementById('calendar');
   const currentDate = new Date();
   const month = currentDate.getMonth();
+  console.log('month: ' ,month)
+  var selectMonth = document.querySelector('.selectMonth');
+  selectMonth.value = month;
   const year = currentDate.getFullYear();
 
   const firstDayOfMonth = new Date(year, month, 1);
@@ -31,16 +33,47 @@ function generateCalendar(){
 
   for(let i = 0; i< firstDayOfWeek; i++){
     let blankDay = document.createElement('div');
-    blankDay.classList.add('borda');
+    // blankDay.classList.add('borda');
+    
     calendar.appendChild(blankDay);
   }
-
   for(let day =0; day<= totalDays; day++){
     let daySquares = document.createElement('div')
     daySquares.className = 'calendar-day';
-    daySquares.classList.add('borda');
+    // daySquares.classList.add('borda');
     daySquares.textContent = day;
     daySquares.id = `day-${day}`
+    for(let j = 0; j<agenda.length; j++ ){
+      var agendaDate = new Date(agenda[j].data);
+      var agendaDay = agendaDate.getDate();
+      console.log('AgendaDate: ', agendaDate);
+      console.log('AgendaDay: ', agendaDay);
+
+      if(agendaDay == day){
+        
+      //lista de seleção de horários
+        var selectHours = document.createElement('select')
+        selectHours.className = 'select-hours'
+        var option = document.createElement('option');
+        option.textContent = 'Horários Disponíveis'
+        // Defina os atributos disabled e selected para desabilitar e selecionar a opção inicial
+        option.disabled = true;
+        option.selected = true;
+        selectHours.appendChild(option);
+             
+        for(let x = 0; x<horarios.length; x++){
+          if(horarios[x].idAgenda == agenda[j].idAgenda){
+            var buttonOption = document.createElement('option');
+            buttonOption.className = 'option-hours'
+            buttonOption.textContent = horarios[x].hora;
+            selectHours.append(buttonOption);
+            daySquares.append(selectHours); 
+          
+          }
+        }
+      }
+    }
+  
     calendar.appendChild(daySquares);
   }
 

@@ -71,7 +71,7 @@ const loginUser = (user, callback) => {
 
 // Pegar dados do psicólogo:
 const getPsico = (callback) => {
-    conexao.query(`SELECT * FROM profissionalpsicologo`, (error, results1) => {
+    conexao.query(`SELECT * FROM usuario where perfil = 'psicologo'`, (error, results1) => {
         if (error) {
             return console.log('Falha na consulta.');
         }
