@@ -148,7 +148,7 @@ const updateHorario = (horario, callback) => {
 
 const getUser = (idUser, callback) => {
     conexao.query(`SELECT horario.*, agenda.*, profissionalpsicologo.*, usuario.* FROM horario INNER JOIN agenda ON horario.idAgenda = agenda.idAgenda INNER JOIN profissionalpsicologo ON agenda.idPsico = profissionalpsicologo.idPsico INNER JOIN usuario ON horario.idUser = usuario.idUser WHERE horario.idUser = ?;`, [idUser], (error, results) => {
-        if (error) return console.log('Erro na consulta.');
+        if (error) return console.log('Erro na consulta.', error);
         else if (results.length > 0) {
             console.log('Usuário encontrado: ', results);
             callback(null, results);
@@ -168,7 +168,7 @@ const getUser = (idUser, callback) => {
 const updateUser = (usuario, callback) => {
     console.log('id User:', usuario.idUser)
     conexao.query(`UPDATE usuario SET nome = ?, email = ?, celular = ?, nomeUser = ? where idUser = ?`, [usuario.nome, usuario.email, usuario.celular, usuario.nomeUser, usuario.idUser], (error, results) => {
-        if (error) return console.log('Erro na consulta.', error);
+        if (error) return console.log('Erro na consulta. Status:', error);
         else if (results.affectedRows > 0) {
             console.log('Atualização feita sql.js!', usuario);
             callback(null, results, usuario);

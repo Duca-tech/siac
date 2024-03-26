@@ -180,19 +180,19 @@ routerUser.get('/principal/conta', (req, res) => {
 })
 
 routerUser.post('/principal/conta/detalhes', (req, res) => {
-    console.log('dados recebidos: ', req.body);
+    console.log('Dados recebidos: ', req.body);
     var idUser = parseInt(req.body.idUser)
-    console.log('inteiro de idUser: ', idUser);
+    console.log('Inteiro de idUser: ', idUser);
 
     getUser(idUser, (error, results) => {
         if (error) {
-            return res.status(400).json({ message: 'Erro Ao consultar Banco' });
+            return res.status(400).json({ message: 'Erro ao consultar o banco.' });
         }
         else if (results) {
-            return res.status(200).json({ message: 'Usuário encontrado', data: results });
+            return res.status(200).json({ message: 'Usuário encontrado.', data: results });
         }
         else {
-            return res.status(400).json({ message: 'Usuario não encontrado !' });
+            return res.status(400).json({ message: 'Usuario não encontrado.' });
         }
     })
 })
@@ -218,13 +218,13 @@ routerUser.put('/principal/conta/update/:idUser', (req, res) => {
         else if (results.affectedRows > 0) {
 
             console.log('Dados do usuário pelo route.js: ', userAtualizado);
-            WppTwilio.enviarMensagem(`
-                Usuário atualizado com sucesso!\n\n
-                Nome: ${userAtualizado.nome}
-                Email: ${userAtualizado.email}
-                Nome de usuário: ${userAtualizado.nomeUser}
-                Celular: ${userAtualizado.celular}
-            `)
+            // WppTwilio.enviarMensagem(`
+            //     Usuário atualizado com sucesso!\n\n
+            //     Nome: ${userAtualizado.nome}
+            //     Email: ${userAtualizado.email}   
+            //     Nome de usuário: ${userAtualizado.nomeUser}
+            //     Celular: ${userAtualizado.celular}
+            // `)
             res.status(200).json({ message: 'Atualização realizada!', data: userAtualizado });
         }
         else {
