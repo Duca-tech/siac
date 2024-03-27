@@ -24,6 +24,7 @@ $('#date').change(function () {
 })
 
 export function exibirAgendas(agenda) {
+    console.log('Agenda: ', agenda)
     var cabecalho = $(`
             <thead  id="cabecalhoAgenda">
                 <tr>

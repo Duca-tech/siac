@@ -10,8 +10,9 @@ $(document).ready(function(){
     .done(function(data){
         console.log('Psicologos, agenda e horários:  ', data);
         verificacao(data.psicologos, data.agenda, data.horarios);
-        generateCalendar(data.agenda, data.horarios);
         selecionarPsico(data.psicologos);
+        firstGenerateCalendar(data.agenda, data.horarios);
+        SelectMonthGenerateCalendar(data.agenda, data.horarios);
         
         
         

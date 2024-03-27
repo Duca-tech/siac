@@ -1,6 +1,6 @@
 import { exibirAgendas, addAgenda } from "/js/psicologo/agenda/funcaoAg.js";
 $(document).ready(function () {
-    const idPsico = localStorage.getItem('idPsico');
+    const idPsico = localStorage.getItem('idUser');
     var psico = { idPsico: idPsico }
     // Pegar as agendas já criadas:
     $.ajax({

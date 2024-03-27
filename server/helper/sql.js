@@ -201,7 +201,7 @@ const getAgenda = (idUser, callback) => {
 // Adicionar agenda:
 const addAgenda = (agenda, callback) => {
     console.log('Agenda no sql: ', agenda)
-    conexao.query(`INSERT INTO agenda (horaIni, horaFin, data, diaSemana, idPsico) VALUES (?, ?, ?, ?, ?)`, [agenda.horaIni, agenda.horaFin, agenda.data, agenda.diaSemana, agenda.idPsico], (error, results) => {
+    conexao.query(`INSERT INTO agenda (horaIni, horaFin, data, diaSemana, idUser) VALUES (?, ?, ?, ?, ?)`, [agenda.horaIni, agenda.horaFin, agenda.data, agenda.diaSemana, agenda.idPsico], (error, results) => {
         if (error) return console.log('Erro na consulta.');
         else if (results.affectedRows > 0) {
             console.log('Agenda adicionada com sucesso: ', results.insertId);
@@ -270,7 +270,7 @@ const deleteAgenda = (idAgenda, callback) => {
 }
 
 const getPsicoAgenda = (idPsico, callback) => {
-    conexao.query(`SELECT * FROM agenda WHERE idPsico = ?`, [idPsico], (error, results) => {
+    conexao.query(`SELECT * FROM agenda WHERE idUser = ?`, [idPsico], (error, results) => {
         if (error) return console.log('Erro na Consulta');
         console.log('Agendas: ', results);
         callback(null, results);

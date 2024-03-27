@@ -9,7 +9,7 @@
 
 
 
-function generateCalendar(agenda, horarios){
+function firstGenerateCalendar(agenda, horarios){
   console.log('agenda: ', agenda)
   const calendar = document.getElementById('calendar');
   const currentDate = new Date();
@@ -37,7 +37,7 @@ function generateCalendar(agenda, horarios){
     
     calendar.appendChild(blankDay);
   }
-  for(let day =0; day<= totalDays; day++){
+  for(let day =1; day<= totalDays; day++){
     let daySquares = document.createElement('div')
     daySquares.className = 'calendar-day';
     // daySquares.classList.add('borda');
@@ -46,10 +46,11 @@ function generateCalendar(agenda, horarios){
     for(let j = 0; j<agenda.length; j++ ){
       var agendaDate = new Date(agenda[j].data);
       var agendaDay = agendaDate.getDate();
-      console.log('AgendaDate: ', agendaDate);
-      console.log('AgendaDay: ', agendaDay);
+      var agendaMonth = agendaDate.getMonth();
+      // console.log('AgendaDate: ', agendaDate);
+      // console.log('AgendaDay: ', agendaDay);
 
-      if(agendaDay == day){
+      if(agendaDay == day && agendaMonth == month){
         
       //lista de seleção de horários
         var selectHours = document.createElement('select')
@@ -79,62 +80,79 @@ function generateCalendar(agenda, horarios){
 
 }
 
-function showAddTaskModal(){
-  document.getElementById('addTaskModal').style.display ='block'
-  document.getElementById('addTaskModal').classList.add('borda');
-}
+function generateCalendar(optionValue, agenda, horarios){
+  console.log('agenda: ', agenda)
+  const calendar = document.getElementById('calendar');
+  const currentDate = new Date(0,optionValue);
+  const month = currentDate.getMonth();
+  console.log('month: ' ,month)
+  console.log('optionValue: ' ,optionValue)
+  var selectMonth = document.querySelector('.selectMonth');
+  selectMonth.value = month;
+  const year = currentDate.getFullYear();
 
-function closeAddTaskModal(){
-  document.getElementById('addTaskModal').style.display ='none'
-}
+  const firstDayOfMonth = new Date(year, month, 1);
+  console.log('firstDayOfMonth: ', firstDayOfMonth);
 
-function deleteTask(taskElement){
-  if(confirm("Are you sure you Want to delete this task?")){
-    taskElement.parentNode.removeChild(taskElement)
-  }
-}
-
-function editTask(taskElement){
-  const newTaskDesc = prompt('Edit Your task: ', taskElement.textContent)
+  const lastDayfMonth = new Date(year, month+1, 0);
+  console.log('lastDayfMonth: ', lastDayfMonth);
   
-  if(newTaskDesc !== null && newTaskDesc.trim() !== ''){
-    taskElement.textContent = newTaskDesc
+  //Primeiro dia Da Semana
+  const firstDayOfWeek = firstDayOfMonth.getDay();
+  console.log('firstDayOfWeek: ', firstDayOfWeek);
+  const totalDays = lastDayfMonth.getDate();
+  console.log('totalDays: ', totalDays);
+
+  for(let i = 0; i< firstDayOfWeek; i++){
+    let blankDay = document.createElement('div');
+    // blankDay.classList.add('borda');
+    
+    calendar.appendChild(blankDay);
   }
-}
+  for(let day =1; day<= totalDays; day++){
+    let daySquares = document.createElement('div')
+    daySquares.className = 'calendar-day';
+    // daySquares.classList.add('borda');
+    daySquares.textContent = day;
+    daySquares.id = `day-${day}`
+    for(let j = 0; j<agenda.length; j++ ){
+      var agendaDate = new Date(agenda[j].data);
+      var agendaDay = agendaDate.getDate();
+      var agendaMonth = agendaDate.getMonth();
+      console.log('AgendaDate: ', agendaDate);
+      console.log('AgendaDay: ', agendaDay);
+      console.log('AgendaMonth', agendaMonth);
 
-function addTask(){
-  const taskDate = new Date(document.getElementById('task-date').value)
-  const taskDesc = document.getElementById('task-desc').value.trim(); 
-  
-  if(taskDesc && !isNaN(taskDate.getDate())){
-    const calendarDays = document.getElementById('calendar').children;
-    for(let i=0; i<calendarDays.length; i++){
-      const day = calendarDays[i];
-      if(parseInt(day.textContent) === taskDate.getDate()){
-        const taskElement = document.createElement('div');
-        taskElement.className = 'task';
-        taskElement.textContent = taskDesc;
-
-        //contextmenu é evento de click com o lado direito do mouse
-        taskElement.addEventListener('contextmenu', function(event){
-          event.preventDefault();
-          deleteTask(taskElement);
-
-        })
-
-        taskElement.addEventListener('click', function(){
-          editTask(taskElement);
-        })
-        day.appendChild(taskElement);
-        break;
+      if(agendaDay == day && agendaMonth == month){
+        
+      //lista de seleção de horários
+        var selectHours = document.createElement('select')
+        selectHours.className = 'select-hours'
+        var option = document.createElement('option');
+        option.textContent = 'Horários Disponíveis'
+        // Defina os atributos disabled e selected para desabilitar e selecionar a opção inicial
+        option.disabled = true;
+        option.selected = true;
+        selectHours.appendChild(option);
+             
+        for(let x = 0; x<horarios.length; x++){
+          if(horarios[x].idAgenda == agenda[j].idAgenda){
+            var buttonOption = document.createElement('option');
+            buttonOption.className = 'option-hours'
+            buttonOption.textContent = horarios[x].hora;
+            selectHours.append(buttonOption);
+            daySquares.append(selectHours); 
+          
+          }
+        }
       }
-    }    
-    closeAddTaskModal();
+    }
+  
+    calendar.appendChild(daySquares);
   }
-  else{
-    alert('Please, enter a valid date and task description!');
-  }
+
 }
+
 
 function selecionarPsico(psicologos){
   console.log('Psicologos: ', psicologos);
@@ -145,6 +163,18 @@ function selecionarPsico(psicologos){
       document.getElementById('selecionePsico').append(option);
     })
 }
+
+ function SelectMonthGenerateCalendar(agenda, horarios){
+
+  document.querySelector('.selectMonth').addEventListener('change', function(){
+    document.getElementById('calendar').innerHTML = '';
+    var ValorOption = this.value;
+    console.log('ValorOption: ', ValorOption);
+    generateCalendar(ValorOption, agenda, horarios);
+  })
+}
+
+
     
 
 
