@@ -1,66 +1,79 @@
-var idHorario;
-var idUser;
+let idHorario;
+let idUser;
 
-$(document).ready(function(){
-    
-    $('#buttonVerify').on('click', function(){
-        var inputCred = $('#inputVerify').val();
-        if(!inputCred){
-            alert('Não há nada no campo busca de Credenciais');
-        }
-        else{
-            var credencial = {
+document.addEventListener('DOMContentLoaded', function () {
+
+    document.getElementById('buttonVerify').addEventListener('click', function () {
+        const inputCred = document.getElementById('inputVerify').value;
+        if (!inputCred) {
+            alert('Não há nada no campo busca de credenciais.');
+        } else {
+            const credencial = {
                 inputCred: inputCred
-            }
-            $.ajax({
-                url: '/recepcionista/principal/verificarConsulta',
-                type: 'POST',
-                data: credencial
+            };
+            
+            fetch('/recepcionista/principal/verificarConsulta', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(credencial)
             })
-            .done(function(response){
-                console.log('Resposta do Servidor!', response);
-                verificarConsulta(response.consulta[0]);
-                idHorario = response.consulta[0].idHorario;
-                idUser = response.consulta[0].idUser;
-
-            })
-            .fail(function(errorThrown, status,  xhr){
-                console.log('Status: ', status);
-                console.log('error: ', errorThrown);
-                console.log(xhr);
-            })
-            .always(function(){
-                console.log('Requisição Finalizada');
-            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response falhou.');
+                    }
+                    return response.json();
+                })
+                .then(response => {
+                    console.log('Resposta do servidor: ', response);
+                    verificarConsulta(response.consulta[0]);
+                    idHorario = response.consulta[0].idHorario;
+                    idUser = response.consulta[0].idUser;
+                })
+                .catch(error => {
+                    console.error('Erro:', error);
+                })
+                .finally(() => {
+                    console.log('Requisição finalizada!');
+                });
         }
-    })
+    });
 
-    // Elemento pai é o DOM.
-    $(document).on('click', '#confirmarPresença',function(){
-        console.log('Id Horario da Consulta: ', idHorario);
-        console.log('Id User: ', idUser);
-        var horario = {
-            idHorario: idHorario,
-            idUser: idUser
+    document.addEventListener('click', function (event) {
+        if (event.target.id === 'confirmarPresença') {
+            console.log('Id Horario da Consulta: ', idHorario);
+            console.log('Id User: ', idUser);
+            const horario = {
+                idHorario: idHorario,
+                idUser: idUser
+            };
+
+            fetch('/recepcionista/principal/verificarConsulta/confirmarPresenca', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(horario)
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response falhou.');
+                    }
+                    return response.json();
+                })
+                .then(response => {
+                    console.log('Resposta do servidor: ', response);
+                    console.log('Dados: ', response.dados[0]);
+                    
+                    putConsulta(response.dados[0]);
+                })
+                .catch(error => {
+                    console.error('Erro:', error);
+                })
+                .finally(() => {
+                    console.log('Requisição finalizada!');
+                });
         }
-        
-        $.ajax({
-            url:'/recepcionista/principal/verificarConsulta/confirmarPresenca',
-            type: 'POST',
-            data: horario
-        })
-        .done(function(response){
-            console.log('Resposta do Servidor: ', response);
-            console.log('Dados: ', response.dados[0])
-            putConsulta(response.dados[0]);
-        })
-        .fail(function(errorThrown,status,xhr){
-            console.log('Falha na Requisição: ', errorThrown)
-            console.log('Status: ', status)
-            console.log(xhr);
-        })
-        .always(function(){
-            console.log('Requisição Finalizada!');
-        })
-    })
-})
+    });
+});
