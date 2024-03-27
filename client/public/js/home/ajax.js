@@ -1,20 +1,44 @@
-$(document).ready(function () {
-    $('.perfil').on('click', function () {
-        $('.containerLoginPerfil').empty();
-        var perfil = $(this).data('perfil');
-        console.log('Perfil clicado: ', perfil)
-        $('.containerLoginPerfil').append(`<button class='btn btn-primary loginPerfil' data-perfil='${perfil}' >Login ${perfil}</button>`)
-        $('.containerLoginPerfil').css({ 'display': 'block' })
-    })
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.perfil').forEach(item => {
+        item.addEventListener('click', function () {
+            document.querySelector('.containerLoginPerfil').innerHTML = '';
 
-    $('.containerLoginPerfil').on('click', '.loginPerfil', function () {
-        var loginPerfil = $(this).data('perfil');
-        console.log('botão clicado para fazer login: ', loginPerfil);
+            const perfil = this.dataset.perfil;
+            console.log('Perfil clicado: ', perfil);
 
-        if (loginPerfil == 'recepcionista') return window.location.href = '/login/recepcionista'
-        if (loginPerfil == 'paciente') return window.location.href = '/user/login'
-        if (loginPerfil == 'professor') return window.location.href = '/login/professor'
-        if (loginPerfil == 'psicologo') return window.location.href = '/psico/login'
-        if (loginPerfil == 'gestor') return window.location.href = '/login/gestor'
-    })
-})
+            const button = document.createElement('button');
+            button.classList.add('btn', 'btn-primary', 'loginPerfil');
+            button.dataset.perfil = perfil;
+            button.textContent = `Login ${perfil}`;
+
+            document.querySelector('.containerLoginPerfil').appendChild(button);
+            document.querySelector('.containerLoginPerfil').style.display = 'block';
+        });
+    });
+
+    document.querySelector('.containerLoginPerfil').addEventListener('click', function (event) {
+        if (event.target.classList.contains('loginPerfil')) {
+            const loginPerfil = event.target.dataset.perfil;
+            console.log('Botão clicado para fazer login: ', loginPerfil);
+            switch (loginPerfil) {
+                case 'recepcionista':
+                    window.location.href = '/login/recepcionista';
+                    break;
+                case 'paciente':
+                    window.location.href = '/user/login';
+                    break;
+                case 'professor':
+                    window.location.href = '/login/professor';
+                    break;
+                case 'psicologo':
+                    window.location.href = '/psico/login';
+                    break;
+                case 'gestor':
+                    window.location.href = '/login/gestor';
+                    break;
+                default:
+                    break;
+            }
+        }
+    });
+});
