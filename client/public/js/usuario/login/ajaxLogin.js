@@ -2,10 +2,12 @@ document.addEventListener('DOMContentLoaded', function () {
     // Fetch para tela de login:
     document.getElementById('formLogin').addEventListener('submit', function (event) {
         event.preventDefault();
+
         const data = {
             emailUsuario: document.getElementById('emailUsuario').value,
             password: document.getElementById('password').value
         };
+
         console.log(data);
 
         fetch('http://localhost:3600/user/login', {
@@ -33,6 +35,7 @@ document.addEventListener('DOMContentLoaded', function () {
             localStorage.setItem('idUser', response.response[0].idUser);
 
             verificarLogin(response.response[0]);
+            window.location.href = '/user/principal'; 
         })
         .catch(function (error) {
             console.error('Erro:', error.message);
