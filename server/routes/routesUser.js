@@ -53,7 +53,7 @@ routerUser.post('/cadastro', async (req, res) => {
 
 });
 routerUser.get('/login', (req, res) => {
-    res.render('usuario/login')
+    res.render('home')
 })
 
 routerUser.post('/login', async (req, res) => {
