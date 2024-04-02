@@ -4,11 +4,12 @@ export default sql
 const conexao = sql.createPool({
     host: 'viaduct.proxy.rlwy.net',
     user: 'root',
-    port: '36191',
-    password: '4fcgEFdgDhChCBbhc-3h6-A1BE-C14dE',
+    port: '59008',
+    password: 'SOcIQaVfgDEqWGVHlkPAEDlJnUICubme',
     database: 'railway',
     waitForConnections: true,
     connectionLimit: 10,
+    
 })
 
 conexao.getConnection((error) => {
