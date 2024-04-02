@@ -23,12 +23,14 @@ routerUser.get('/buscarEndereco', async (req, res)=>{
 routerUser.post('/cadastro', async (req, res) => {
     console.log('Dados Recebidos: ', req.body);
     const { nome, email, nomeUser, cep, logradouro, bairro,localidade, uf,numero, senha} = req.body;
+
     const user = {
         nome: nome,
         email: email,
         nomeUser: nomeUser,
         password: senha
     }
+
     const end ={
         logradouro: logradouro,
         bairro: bairro,
@@ -59,30 +61,34 @@ routerUser.get('/login', (req, res) => {
 routerUser.post('/login', async (req, res) => {
     console.log('Dados Recebidos:', req.body);
     const { emailUsuario, password } = req.body;
+
     const user = {
         emailUsuario: emailUsuario,
         password: password
     }
+
     loginUser(user, async (error, results) => {
         if (error) {
-            console.log('Erro de solicitação select', error.message);
-            res.status(500).send('Erro de solicitação no bd');
+            console.log('Erro de solicitação select.', error.message);
+            res.status(500).send('Erro de solicitação no banco de dados.');
         }
         else if (results.length > 0) {
             console.log('Usuário encontrado!', results);
             let tokenGerado = await gerarToken(results[0].idUser);
-            console.log('token Gerado:', tokenGerado);
+            console.log('Token gerado:', tokenGerado);
 
-            req.session.userId = results[0].idUser // Pegando o id do banco e armazenando na requisição id do session.
+            // Pegando o id do banco e armazenando na requisição id do session.
+            req.session.userId = results[0].idUser 
+            
             // Armazenando o token na requisiçao token do session.
             req.session.token = tokenGerado;
             console.log('Id da sessão: ', req.session.id);
             const idUser = results[0].idUser;
 
-            res.status(200).json({ message: 'autenticação realizada e token enviado para o user', auth: true, token: tokenGerado, response: results });
+            res.status(200).json({ message: 'Autenticação realizada e token enviado para o user', auth: true, token: tokenGerado, response: results });
         }
         else {
-            console.log('usuário não encontrado!');
+            console.log('Usuário não encontrado!');
             res.status(400).send('Usuário não encontrado');
         }
     });
@@ -101,8 +107,10 @@ routerUser.get('/principal/verificarToken', verficarToken, (req, res) => {
 routerUser.post('/principal/verificarToken', verficarToken, (req, res) => {
     console.log('dados recebidos: ', req.body);
     var { idUser } = req.body
+    
     idUser = parseInt(idUser);
     console.log('int: ', idUser);
+    
     getAgenda(idUser, (error, results) => {
         if (error) return res.status(500).json({ message: 'Falha na consulta!' })
         res.status(200).json({ message: 'Enviando dados sobre a consulta: ', data: results });
@@ -131,7 +139,9 @@ routerUser.get('/agendamento/dadosPsico', (req, res) => {
 routerUser.post('/principal/agendamento/buscar', (req, res)=>{
     console.log('Dados Recebidos: ', req.body);
     var dados = req.body;
+    
     var newDados = {}   
+    
     for(var element in dados){
         if(dados.hasOwnProperty(element) && dados[element] !== ''){
             newDados[element] = dados[element];
@@ -144,6 +154,7 @@ routerUser.post('/principal/agendamento/buscar', (req, res)=>{
 routerUser.post('/inserirHorario', (req, res) => {
     console.log('dados recebidos: ', req.body)
     var { idUser, hora } = req.body;
+    
     idUser = parseInt(idUser);
     var horario = {
         idUser: idUser,
@@ -163,14 +174,15 @@ routerUser.post('/inserirHorario', (req, res) => {
 })
 
 routerUser.post('/inserirHorario/wpp', (req, res) => {
-
     console.log('Dados recebidos: ', req.body)
     var { idUser, hora } = req.body;
+
     idUser = parseInt(idUser);
     var horario = {
         idUser: idUser,
         hora: hora
     }
+
     console.log('Horário: ', horario);
     updateHorario(horario, (error, results) => {
         if (error) return res.status(400).json({ message: 'Erro na inserção de dados' })
@@ -194,6 +206,7 @@ routerUser.get('/principal/conta', (req, res) => {
 
 routerUser.post('/principal/conta/detalhes', (req, res) => {
     console.log('Dados recebidos: ', req.body);
+    
     var idUser = parseInt(req.body.idUser)
     console.log('Inteiro de idUser: ', idUser);
 
@@ -250,6 +263,7 @@ routerUser.put('/principal/conta/update/:idUser', (req, res) => {
 routerUser.delete('/principal/conta/deletarConsulta/:idHorario', (req, res) => {
     console.log('Dados para delete: ', req.params.idHorario);
     var idHorario = req.params.idHorario;
+    
     deleteHorario(idHorario, (error, results) => {
         if (error) res.status(500).json({ message: 'Erro na consulta!', error });
         res.status(200).json({ message: 'Id da consulta deletada: ', results })
