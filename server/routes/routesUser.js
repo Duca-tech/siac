@@ -128,6 +128,19 @@ routerUser.get('/agendamento/dadosPsico', (req, res) => {
     })
 })
 
+routerUser.post('/principal/agendamento/buscar', (req, res)=>{
+    console.log('Dados Recebidos: ', req.body);
+    var dados = req.body;
+    var newDados = {}   
+    for(var element in dados){
+        if(dados.hasOwnProperty(element) && dados[element] !== ''){
+            newDados[element] = dados[element];
+        }
+    }
+    console.log('NewDados: ', newDados)
+    
+})
+
 routerUser.post('/inserirHorario', (req, res) => {
     console.log('dados recebidos: ', req.body)
     var { idUser, hora } = req.body;

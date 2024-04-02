@@ -194,6 +194,17 @@ const getAgenda = (idUser, callback) => {
         callback(null, results);
     })
 }
+
+const getHours = (dados, callback) =>{
+    conexao.query(`SELECT horario.hora, agenda.diaSemana, agenda.data, usuario.idUser 
+    FROM horario 
+    INNER JOIN agenda ON horario.idAgenda = agenda.idAgenda 
+    INNER JOIN usuario ON agenda.idUser = usuario.idUser 
+    WHERE agenda.data = ? 
+    AND agenda.diaSemana =  
+    AND usuario.idUser = 84;
+    `)
+}
 // -------------------- FIM DE CONSULTAS NO BANCO PARA USUÁRIOS!
 
 

@@ -13,6 +13,7 @@ $(document).ready(function(){
         selecionarPsico(data.psicologos);
         firstGenerateCalendar(data.agenda, data.horarios);
         SelectMonthGenerateCalendar(data.agenda, data.horarios);
+        search(data.agenda, data.horarios, data.psicologos);
         
         
         

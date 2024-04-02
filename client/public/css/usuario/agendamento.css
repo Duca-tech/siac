@@ -139,6 +139,12 @@ input[type='text']{
     outline: none;
     box-sizing: border-box;
 }
+input.diaSemana{
+    display: none;
+}
+.buttonDiaSemana{
+    display: none;
+}
 .modal-content button{
     background-color: #212121;
     color: #fff;

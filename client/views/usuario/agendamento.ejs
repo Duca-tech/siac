@@ -62,18 +62,32 @@
           <div class="collapse navbar-collapse ms-auto" id="navbarSupportedContent">
             
             <div class="p-2">
-              <input type="date" placeholder="Insira a Data desejada" >
+              <input type="date" class="data" placeholder="Insira a Data desejada" >
+            </div>
+            <div class="containerDiaSemana">
+              <div>
+                <input type="text" disabled class="diaSemana">
+                <button class="buttonDiaSemana">Selecione o dia da Semana</button>
+              </div>
+              <select class="diaSemana">
+                <option disabled selected>Dia da Semana</option>
+                <option>Segunda-Feira</option>
+                <option>Terça-Feira</option>
+                <option>Quarta-Feira</option>
+                <option>Quinta-Feira</option>
+                <option>Sexta-Feira</option>
+              </select>
             </div>
             <div class="p-2"> 
-              <input type="time" placeholder="Insira o Horário Desejado" >
+              <input type="time" class="hora" placeholder="Insira o Horário Desejado" >
             </div>
             <select id="selecionePsico" class="m-2">
               <option aria-disabled="true">Selecione Profissional</option>
               
             </select>
-            <form class="d-flex " role="search">
-              <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
+            
+            <button class="btn btn-outline-success search" type="submit">Search</button>
+          
           </div>
         </div>
       </nav>

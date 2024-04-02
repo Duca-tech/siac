@@ -1,50 +1,52 @@
-CREATE TABLE `agenda` (
-  `idAgenda` int(11) NOT NULL AUTO_INCREMENT,
-  `horaIni` time NOT NULL,
-  `horaFin` time NOT NULL,
-  `data` date NOT NULL,
-  `idPsico` int(11) NOT NULL,
-  `diaSemana` varchar(200) NOT NULL,
-  PRIMARY KEY (`idAgenda`),
-  KEY `idPsico` (`idPsico`),
-  CONSTRAINT `agenda_ibfk_1` FOREIGN KEY (`idPsico`) REFERENCES `profissionalpsicologo` (`idPsico`)
-) ENGINE=InnoDB AUTO_INCREMENT=129 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
-
-
+CREATE TABLE `usuario` (
+  `idUser` int NOT NULL AUTO_INCREMENT,
+  `nome` varchar(250) COLLATE utf8mb4_general_ci NOT NULL,
+  `email` varchar(350) COLLATE utf8mb4_general_ci NOT NULL,
+  `nomeUser` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `password` varchar(250) COLLATE utf8mb4_general_ci NOT NULL,
+  `celular` varchar(15) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `perfil` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  PRIMARY KEY (`idUser`),
+  CONSTRAINT `usuario_chk_1` CHECK ((`perfil` in (_utf8mb4'paciente',_utf8mb4'administrador',_utf8mb4'psicologo',_utf8mb4'gestor',_utf8mb4'recepcionista')))
+) ENGINE=InnoDB AUTO_INCREMENT=87 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
 
 CREATE TABLE `horario` (
-  `idHorario` int(11) NOT NULL AUTO_INCREMENT,
+  `idHorario` int NOT NULL AUTO_INCREMENT,
   `hora` time NOT NULL,
-  `idUser` int(11) DEFAULT NULL,
-  `disponibilidade` tinyint(1) NOT NULL DEFAULT 0,
-  `idAgenda` int(11) NOT NULL,
-  `idPsico` int(11) DEFAULT NULL,
+  `idUser` int DEFAULT NULL,
+  `disponibilidade` tinyint(1) NOT NULL DEFAULT '0',
+  `idAgenda` int NOT NULL,
+  `idPsico` int DEFAULT NULL,
+  `status` enum('disponivel','nao_atendido','presente','agendado') COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'disponivel',
   PRIMARY KEY (`idHorario`),
   KEY `usuario` (`idUser`),
   KEY `fk_idAgenda` (`idAgenda`),
   CONSTRAINT `fk_idAgenda` FOREIGN KEY (`idAgenda`) REFERENCES `agenda` (`idAgenda`) ON DELETE CASCADE,
   CONSTRAINT `horario_ibfk_1` FOREIGN KEY (`idUser`) REFERENCES `usuario` (`idUser`)
-) ENGINE=InnoDB AUTO_INCREMENT=715 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
+) ENGINE=InnoDB AUTO_INCREMENT=835 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
 
+CREATE TABLE `endereco` (
+  `idEnd` int NOT NULL AUTO_INCREMENT,
+  `idUser` int DEFAULT NULL,
+  `logradouro` varchar(255) DEFAULT NULL,
+  `bairro` varchar(255) DEFAULT NULL,
+  `cidade` varchar(255) DEFAULT NULL,
+  `estado` varchar(255) DEFAULT NULL,
+  `cep` varchar(10) DEFAULT NULL,
+  `numero` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`idEnd`),
+  KEY `idUser` (`idUser`),
+  CONSTRAINT `endereco_ibfk_1` FOREIGN KEY (`idUser`) REFERENCES `usuario` (`idUser`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
 
-
-CREATE TABLE `profissionalpsicologo` (
-  `idPsico` int(11) NOT NULL AUTO_INCREMENT,
-  `nome` varchar(100) DEFAULT NULL,
-  `endereco` varchar(255) DEFAULT NULL,
-  `email` varchar(150) DEFAULT NULL,
-  `senha` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`idPsico`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
-
-
-
-CREATE TABLE `usuario` (
-  `idUser` int(11) NOT NULL AUTO_INCREMENT,
-  `nome` varchar(250) NOT NULL,
-  `email` varchar(350) NOT NULL,
-  `nomeUser` varchar(100) DEFAULT NULL,
-  `password` varchar(250) NOT NULL,
-  `celular` varchar(15) DEFAULT NULL,
-  PRIMARY KEY (`idUser`)
-) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
+CREATE TABLE `agenda` (
+  `idAgenda` int NOT NULL AUTO_INCREMENT,
+  `horaIni` time NOT NULL,
+  `horaFin` time NOT NULL,
+  `data` date NOT NULL,
+  `diaSemana` varchar(200) COLLATE utf8mb4_general_ci NOT NULL,
+  `idUser` int DEFAULT NULL,
+  PRIMARY KEY (`idAgenda`),
+  KEY `fk_usuario_id` (`idUser`),
+  CONSTRAINT `fk_usuario_id` FOREIGN KEY (`idUser`) REFERENCES `usuario` (`idUser`)
+) ENGINE=InnoDB AUTO_INCREMENT=141 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
