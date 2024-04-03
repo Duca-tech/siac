@@ -24,9 +24,9 @@ document.addEventListener('DOMContentLoaded', function () {
             return response.json();
         })
         .then(function (response) {
-            console.log('Resposta do servidor', response);
-            console.log('Token:', response.token);
-            console.log('idUser:', response.response[0].idUser);
+            console.log('Resposta do servidor: ', response);
+            console.log('Token: ', response.token);
+            console.log('idUser: ', response.response[0].idUser);
 
             // Salvar o token no localStorage:
             localStorage.setItem('token', response.token);
@@ -34,7 +34,8 @@ document.addEventListener('DOMContentLoaded', function () {
             // Salvar o idUser no localStorage:
             localStorage.setItem('idUser', response.response[0].idUser);
 
-            verificarLogin(response.response[0]);
+            //verificarLogin(response.response[0]);
+
             window.location.href = '/user/principal'; 
         })
         .catch(function (error) {

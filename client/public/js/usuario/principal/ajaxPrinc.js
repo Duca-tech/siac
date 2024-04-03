@@ -3,8 +3,10 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('agendar').addEventListener('click', function () {
         var idUser = localStorage.getItem('idUser');
         var token = localStorage.getItem('token');
-        console.log('Id do usuario: ', idUser);
-        console.log('token do ajax: ', token);
+        
+        console.log('Id do usuário: ', idUser);
+        console.log('Token: ', token);
+        
         var id = {
             idUser: idUser
         };
@@ -24,15 +26,15 @@ document.addEventListener('DOMContentLoaded', function () {
             return response.json();
         })
         .then(function (response) {
-            console.log('resposta do servidor: ', response);
+            console.log('Resposta do servidor: ', response);
             verificaoConsulta(response.data);
             // window.location.href = '/user/agendamento'
         })
         .catch(function (error) {
-            console.error('Falha na conexão com o servidor:', error.message);
+            console.error('Falha na conexão com o servidor. Status: ', error.message);
         })
         .finally(function () {
-            console.log('Requisição finalizada');
+            console.log('Requisição finalizada!');
         });
     });
 
@@ -53,14 +55,14 @@ document.addEventListener('DOMContentLoaded', function () {
             return response.json();
         })
         .then(function () {
-            console.log('Token validado com sucesso');
+            console.log('Token validado com sucesso!');
             window.location.href = '/user/principal/conta';
         })
         .catch(function (error) {
-            console.error('Falha na requisição!', error.message);
+            console.error('Falha na requisição. Status: ', error.message);
         })
         .finally(function () {
-            console.log('Requisição Finalizada!');
+            console.log('Requisição finalizada!');
         });
     });
 
@@ -68,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (e.target.classList.contains('logout')) {
             e.preventDefault();
             var logout = e.target.dataset.id;
-            console.log('Logout: ', logout);
+            console.log('LogOut: ', logout);
             window.location.href = '/';
         }
     });
