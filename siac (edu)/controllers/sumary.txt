@@ -1,0 +1,4 @@
+Esta pasta contém toda a lógica de controle da aplicação.
+Exemplo:
+- authController.js: Responsável por lidar com a autenticação de usuários, 
+incluindo a geração de tokens JWT com base no perfil do usuário.
