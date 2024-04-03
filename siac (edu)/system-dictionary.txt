@@ -1,4 +1,0 @@
-Dicionário de dados:
-
-sumary.txt -> arquvios de resumo da pasta
-auth...js -> arquivos relacionados a login e autenticação de usuário. Diretamente ligados a página de login.

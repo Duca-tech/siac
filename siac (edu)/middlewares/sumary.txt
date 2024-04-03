@@ -1,3 +1,0 @@
-Aqui ficam os middlewares: arquivos para lidar com ações intermediárias entre as requisições e as respostas.
-Exemplo:
-- authMiddleware.js: Um middleware para verificar se o usuário está autenticado antes de acessar determinadas rotas.

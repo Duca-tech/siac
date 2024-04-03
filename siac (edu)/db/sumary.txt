@@ -1,2 +1,0 @@
-Aqui fica o arquivo que armazena o pool de conexão com o banco de dados 
-ou a biblioteca de acesso ao banco de dados que estamos usando.

@@ -1,3 +1,0 @@
-Aqui estão definidas as rotas da sua aplicação.
-Exemplo:
-- userRoutes.js: Define as rotas relacionadas aos usuários, como a rota de login.

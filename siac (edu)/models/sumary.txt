@@ -1,4 +1,0 @@
-Nesta pasta, estão os modelos de dados e lógica de acesso ao banco de dados.
-Exemplos:
-- userModel.js: Contém funções para interagir com a tabela de usuários no banco de dados, 
-como getUserByEmail e getUserProfileById.
