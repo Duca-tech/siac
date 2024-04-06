@@ -1,5 +1,10 @@
+
+var token = localStorage.getItem('token');
 document.addEventListener('DOMContentLoaded', function () {
     // Tela principal quando clica em agendar consulta:
+    
+
+    
     document.getElementById('agendar').addEventListener('click', function () {
         var idUser = localStorage.getItem('idUser');
         var token = localStorage.getItem('token');
@@ -64,12 +69,36 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    document.querySelector('.containerUser').addEventListener('click', function (e) {
-        if (e.target.classList.contains('logout')) {
-            e.preventDefault();
-            var logout = e.target.dataset.id;
-            console.log('Logout: ', logout);
-            window.location.href = '/';
-        }
-    });
+    $('.containerGeral').on('click', '.logout', function(e){
+        e.preventDefault();
+        console.log('clicado!');
+        window.location.href = '/'
+        
+    })
+  
+
+    document.getElementById('criarAgenda').addEventListener('click', function(){
+        console.log('evento de gerar agenda')
+
+        fetch('http://localhost:3600/psico/principal/verificarToken', {
+            method: 'GET',
+            headers: {
+                Authorization: 'Bearer ' + token
+            }
+        })
+        .then(response => response.json())
+        .then(data =>{
+            console.log('Verificação de token bem sucedida', data);
+            window.location.href = '/psico/principal/agenda'
+        })
+        .catch(error=>{
+            console.error('Erro: ', error)
+        })
+        .finally(()=>{
+            console.log('Requisição finalizada')
+        })
+    
+    })
+    
+
 });

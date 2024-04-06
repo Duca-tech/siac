@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         fetch('http://localhost:3600/user/login', {
             method: 'POST',
-            headers: {
+            headers: {  
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(data)
@@ -32,7 +32,9 @@ document.addEventListener('DOMContentLoaded', function () {
             // Salvar o idUser no localStorage:
             localStorage.setItem('idUser', response.response[0].idUser);
 
-            verificarLogin(response.response[0]);
+            localStorage.setItem('perfil', response.response[0].perfil);
+                
+            window.location.href = '/user/principal'
         })
         .catch(function (error) {
             console.error('Erro:', error.message);

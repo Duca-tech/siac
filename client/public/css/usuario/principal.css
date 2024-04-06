@@ -22,3 +22,13 @@ main button{
     background-color: blue;
     cursor: pointer;
 }
+
+#paciente{
+    display: none;
+}
+#recepcionista{
+    display: none;
+}
+#psicologo{
+    display: none;
+}

@@ -1,11 +1,11 @@
 import {formatarData, formatarHorario} from '/js/formatacao/funcao.js'
 
 export function detalheConta(conta){
-    console.log('nome: ', conta[0].nome)
-    $('#nome').val(conta[0].nome);
-    $('#email').val(conta[0].email);
-    $('#nomeUser').val(conta[0].nomeUser);
-    $('#celular').val(conta[0].celular)
+    console.log('nome: ', conta.nome)
+    $('#nome').val(conta.nome);
+    $('#email').val(conta.email);
+    $('#nomeUser').val(conta.nomeUser);
+    $('#celular').val(conta.celular)
 }
 
 export function updateRelizado(usuario){
