@@ -1,57 +1,44 @@
 document.addEventListener('DOMContentLoaded', function () {
-    document.addEventListener('DOMContentLoaded', function () {
-        // Fetch para tela de login:
-        document.getElementById('formLogin').addEventListener('submit', function (event) {
-            event.preventDefault();
-            const data = {
-                emailUsuario: document.getElementById('emailUsuario').value,
-                password: document.getElementById('password').value
-            };
-            console.log(data);
-    
-            fetch('http://localhost:3600/user/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            })
-            .then(function (response) {
-                if (!response.ok) {
-                    throw new Error('Erro na solicitação. Status: ' + response.status);
-                }
-                return response.json();
-            })
-            .then(function (response) {
-                console.log('Resposta do servidor', response);
-                console.log('Token:', response.token);
-                console.log('idUser:', response.response[0].idUser);
+    document.querySelectorAll('.perfil').forEach(item => {
+        item.addEventListener('click', function () {
+            document.querySelector('.containerLoginPerfil').innerHTML = '';
 
-    
-                // Salvar o token no localStorage:
-                localStorage.setItem('token', response.token);
-    
-                // Salvar o idUser no localStorage:
-                localStorage.setItem('idUser', response.response[0].idUser);
-    
-                //salver perfil no localStorage
-                localStorage.setItem('perfil', response.response[0].perfil);
-                
-                window.location.href = '/user/principal'
-            })
-            .catch(function (error) {
-                console.error('Erro:', error.message);
-            })
-            .finally(function () {
-                console.log('Requisição finalizada!');
-            });
-        });
-        
-        // Botão para se cadastrar:
-        document.getElementById('buttonCadastrar').addEventListener('click', function () {
-            window.location.href = '/user/cadastro';
+            const perfil = this.dataset.perfil;
+            console.log('Perfil clicado: ', perfil);
+
+            const button = document.createElement('button');
+            button.classList.add('btn', 'btn-primary', 'loginPerfil');
+            button.dataset.perfil = perfil;
+            button.textContent = `Login ${perfil}`;
+
+            document.querySelector('.containerLoginPerfil').appendChild(button);
+            document.querySelector('.containerLoginPerfil').style.display = 'block';
         });
     });
-    
-    
+
+    document.querySelector('.containerLoginPerfil').addEventListener('click', function (event) {
+        if (event.target.classList.contains('loginPerfil')) {
+            const loginPerfil = event.target.dataset.perfil;
+            console.log('Botão clicado para fazer login: ', loginPerfil);
+            switch (loginPerfil) {
+                case 'recepcionista':
+                    window.location.href = '/login/recepcionista';
+                    break;
+                case 'paciente':
+                    window.location.href = '/user/login';
+                    break;
+                case 'professor':
+                    window.location.href = '/login/professor';
+                    break;
+                case 'psicologo':
+                    window.location.href = '/psico/login';
+                    break;
+                case 'gestor':
+                    window.location.href = '/login/gestor';
+                    break;
+                default:
+                    break;
+            }
+        }
+    });
 });

@@ -49,7 +49,7 @@ const addUser = (user, end, callback) => {
                 return console.log('Erro ao inserir endereço: ', error.message);
             }
 
-            console.log('Usuário e endereço inseridos com sucesso.');
+            console.log('Usuário e endereço inseridos com sucesso!');
             callback(null, results, user);
         });
     });
