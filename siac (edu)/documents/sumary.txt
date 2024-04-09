@@ -28,3 +28,19 @@ Arquitetura e estrutura de pastas: {
     -views: 
     Esta pasta contém as páginas HTML do servidor e os arquivos de visualização.
 }
+
+Back-end:{
+    banco de dados -> db -> models -> routes -> controllers
+}
+
+Front-end: {
+    views -> public (css)
+}
+
+API (comunicação front com back-end): {
+    public (js)
+}
+
+Fluxo completo: {
+    banco de dados <--> db <--> models <--> routes <-->
+}
