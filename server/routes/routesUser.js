@@ -23,11 +23,11 @@ routerUser.get('/buscarEndereco', async (req, res)=>{
 routerUser.post('/cadastro', async (req, res) => {
     console.log('Dados Recebidos: ', req.body);
     const { nome, email, nomeUser, cep, logradouro, bairro,localidade, uf,numero, senha} = req.body;
-
     const user = {
         nome: nome,
         email: email,
         nomeUser: nomeUser,
+        perfil: perfil,
         password: senha
     }
 
@@ -83,7 +83,7 @@ routerUser.post('/login', async (req, res) => {
             // Armazenando o token na requisiçao token do session.
             req.session.token = tokenGerado;
             console.log('Id da sessão: ', req.session.id);
-            const idUser = results[0].idUser;
+        
 
             res.status(200).json({ message: 'Autenticação realizada e token enviado para o user', auth: true, token: tokenGerado, response: results });
         }

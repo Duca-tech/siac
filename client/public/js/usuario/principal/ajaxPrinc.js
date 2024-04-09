@@ -1,5 +1,10 @@
+
+var token = localStorage.getItem('token');
 document.addEventListener('DOMContentLoaded', function () {
     // Tela principal quando clica em agendar consulta:
+    
+
+    
     document.getElementById('agendar').addEventListener('click', function () {
         var idUser = localStorage.getItem('idUser');
         var token = localStorage.getItem('token');
@@ -70,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (e.target.classList.contains('logout')) {
             e.preventDefault();
             var logout = e.target.dataset.id;
-            console.log('LogOut: ', logout);
+            console.log('Logout: ', logout);
             window.location.href = '/';
         }
     });

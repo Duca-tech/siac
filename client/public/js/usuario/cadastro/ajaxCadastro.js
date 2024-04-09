@@ -27,6 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
         var nome = document.getElementById('nome').value;
         var email = document.getElementById('email').value;
         var nomeUser = document.getElementById('nomeUser').value;
+        var perfil = document.getElementById('perfil').value;
         var logradouroInput = document.getElementById('logradouroInput').value;
         var bairroInput = document.getElementById('bairroInput').value;
         var localidadeInput = document.getElementById('localidadeInput').value;
@@ -35,10 +36,13 @@ document.addEventListener('DOMContentLoaded', function () {
         var pass = document.getElementById('pass').value;
         var cep = document.getElementById('cep').value;
 
+        console.log('perfil: ', perfil);
+
         const formData = {
             nome: nome,
             email: email,
             nomeUser: nomeUser,
+            perfil: perfil,
             cep: cep,
             logradouro: logradouroInput,
             bairro: bairroInput,

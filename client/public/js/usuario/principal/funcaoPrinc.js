@@ -7,3 +7,21 @@ function verificaoConsulta(data){
         window.location.href = '/user/agendamento';
     }
 }
+
+function verificarPerfil(perfil){
+
+    if(perfil == 'paciente') document.getElementById('paciente').style.display = 'block'
+    if(perfil == 'psicologo') document.getElementById('psicologo').style.display = 'block'
+    if(perfil == 'recepcionista') document.getElementById('recepcionista').style.display = 'block'
+
+
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    
+    var perfil = localStorage.getItem('perfil');
+    console.log('Perfil: ', perfil)
+    verificarPerfil(perfil)
+
+   
+})

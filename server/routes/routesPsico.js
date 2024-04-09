@@ -56,52 +56,12 @@ routerPsico.delete('/agenda/deletarAgenda/:idAgenda', (req, res) => {
 })
 
 
-routerPsico.post('/login', (req, res) => {
-    console.log('Dados recebidos: ', req.body);
-    const { email, senha } = req.body;
-    var psicoLogin = {
-        email: email,
-        senha: senha
-    }
-    getPsicoLogin(psicoLogin, async (error, results) => {
-        if (error) return res.status(500).json({ message: 'Falha ao buscar psicólogo.' });
-        console.log('psicólogo router.js: ', results[0]);
-        const tokenGerado = await gerarToken(results[0].idPsico);
-        console.log('Token: ', tokenGerado);
-        res.status(200).json({ message: 'Psicólogo encontrado: ', psico: results[0], message: 'Enviando token... ', token: tokenGerado });
-    })
-})
-
-routerPsico.get('/cadastro', (req,res)=>{
-    res.render('psicologo/cadastro')
-})
-
-routerPsico.post('/cadastro', (req, res) => {
-    console.log('Dados recebidos: ', req.body);
-    const { nome, email, cidade, senha } = req.body
-    var psico = {
-        nome: nome,
-        email: email,
-        cidade: cidade,
-        senha: senha
-    }
-    addPsico(psico, (error, results) => {
-        if (results.affectedRows > 0) {
-            res.status(201).json({ message: 'Psicólogo adicionado com sucesso!', results: results });
-        }
-        else {
-            res.status(200).json({ message: 'Já existe um psicólogo com esse cadastro.', results: results })
-        }
-    })
-})
 
 routerPsico.get('/principal/verificarToken', verficarToken, (req, res) => {
     res.status(200).json({ message: 'Token validado com sucesso!' })
+    
 })
 
-routerPsico.get('/principal', (req, res) => {
-    res.render('psicologo/principal');
-})
 
 routerPsico.get('/principal/agenda', (req, res) => {
     res.render('psicologo/agenda');

@@ -35,7 +35,7 @@ process.on('exit', () => {
 // Função para adicionar usuario:
 const addUser = (user, end, callback) => {
     // Inserir usuário
-    conexao.query(`INSERT INTO usuario(nome, email, nomeUser, password) VALUES (?,?,?,?)`, [user.nome, user.email, user.nomeUser, user.password], (error, results, fields) => {
+    conexao.query(`INSERT INTO usuario(nome, email, nomeUser, perfil, password) VALUES (?,?,?,?)`, [user.nome, user.email, user.nomeUser, user.perfil, user.password], (error, results, fields) => {
         if (error) {
             return console.log('Erro ao inserir usuário: ', error.message);
         }
@@ -148,7 +148,12 @@ const updateHorario = (horario, callback) => {
 }
 
 const getUser = (idUser, callback) => {
-    conexao.query(`SELECT horario.*, agenda.*, profissionalpsicologo.*, usuario.* FROM horario INNER JOIN agenda ON horario.idAgenda = agenda.idAgenda INNER JOIN profissionalpsicologo ON agenda.idPsico = profissionalpsicologo.idPsico INNER JOIN usuario ON horario.idUser = usuario.idUser WHERE horario.idUser = ?;`, [idUser], (error, results) => {
+    conexao.query(`SELECT horario.*, agenda.*, usuario.*
+        FROM horario
+        INNER JOIN agenda ON horario.idAgenda = agenda.idAgenda
+        INNER JOIN usuario ON agenda.idUser = usuario.idUser
+        WHERE horario.idUser = ?;
+    `, [idUser], (error, results) => {
         if (error) return console.log('Erro na consulta.', error);
         else if (results.length > 0) {
             console.log('Usuário encontrado: ', results);
@@ -197,14 +202,15 @@ const getAgenda = (idUser, callback) => {
 }
 
 const getHours = (dados, callback) =>{
-    conexao.query(`SELECT horario.hora, agenda.diaSemana, agenda.data, usuario.idUser 
+    var query = `SELECT horario.hora, agenda.diaSemana, agenda.data, usuario.idUser 
     FROM horario 
     INNER JOIN agenda ON horario.idAgenda = agenda.idAgenda 
     INNER JOIN usuario ON agenda.idUser = usuario.idUser 
-    WHERE agenda.data = ? 
-    AND agenda.diaSemana =  
-    AND usuario.idUser = 84;
-    `)
+    WHERE 1=1 `
+    if(dados.diaSemana) query += `AND agenda.diaSemana = ?`
+    if(dados.data) query += `AND agenda.data = ?`
+    if(dados.idUser) query += `AND usuario.idUser = ?`
+    
 }
 // -------------------- FIM DE CONSULTAS NO BANCO PARA USUÁRIOS!
 
