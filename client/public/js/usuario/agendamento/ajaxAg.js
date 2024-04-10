@@ -161,4 +161,58 @@ $(document).ready(function(){
     })
 
 
+    var search = document.querySelector('.search');
+  search.addEventListener('click', function(){
+
+    var data = document.querySelector('.data').value;
+    var diaSemanaSelect = document.querySelector('.selectDiaSemana').value
+    var diaSemanaInput = document.querySelector('.diaSemana').value
+    var hora = document.querySelector('.hora').value
+    var psico = document.getElementById('selecionePsico').value
+    var diaSemana
+
+    if(diaSemanaInput){
+        diaSemana = diaSemanaInput
+    } 
+    else{
+        diaSemana = diaSemanaSelect
+    }
+
+    if(diaSemana == 'Dia da Semana') diaSemana = '';
+    if(psico =='Selecione Profissional') psico = '';
+     
+
+    console.log('data: ', data);
+    console.log('diaSemana: ', diaSemana);
+    console.log('hora: ', hora);
+    console.log('psico: ',psico);  
+
+    var dados = {
+      data: data,
+      diaSemana: diaSemana,
+      hora: hora,
+      psico: psico
+    }
+
+    var post = {
+      method: 'POST',
+      headers:{
+        'Content-Type': 'Application/json' //Dados enviados são json
+      },
+      body: JSON.stringify(dados)
+    }
+
+    fetch('http://localhost:3600/user/principal/agendamento/buscar', post)
+    .then(response=> response.json())
+    .then(data => {
+      console.log('Dados recebidos: ', data)
+      searchCalendar(data.dados);
+    })
+    .catch(error=>{
+      console.error('Erro: ', error)
+    })
+    .finally(()=>console.log('Requisição finalizada'))
+  })
+
+
 })

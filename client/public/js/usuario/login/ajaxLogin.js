@@ -34,7 +34,10 @@ document.addEventListener('DOMContentLoaded', function () {
             // Salvar o idUser no localStorage:
             localStorage.setItem('idUser', response.response[0].idUser);
 
-            verificarLogin(response.response[0]);
+            //salvar perfil do usuário 
+            localStorage.setItem('perfil', response.response[0].perfil);
+
+            window.location.href = '/user/principal'
         })
         .catch(function (error) {
             console.error('Erro:', error.message);

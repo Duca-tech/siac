@@ -1,7 +1,8 @@
 import {formatarData, formatarHorario} from '/js/formatacao/funcao.js'
 $('#date').change(function () {
     var dataAtual = new Date(); //Data atual.
-    var data = $(this).val();
+    var data = $(this).val() + 'T12:00:00';
+    console.log('Data: ', data)
     var diaSemana = new Date(data);
     var diaSemanaFormatado = diaSemana.toLocaleDateString('pt-BR', { weekday: 'long' })
     console.log('Dia da semana: ', diaSemanaFormatado);
@@ -13,7 +14,7 @@ $('#date').change(function () {
             'display': 'none'
         })
         alert('Não pode Inserir uma data anterior a data de hoje');
-
+x
     }
     else {
         $('#diaSemana').val(diaSemanaFormatado);

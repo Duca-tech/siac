@@ -79,4 +79,26 @@ document.addEventListener('DOMContentLoaded', function () {
             window.location.href = '/';
         }
     });
+
+    document.getElementById('criarAgenda').addEventListener('click', function(){
+        fetch('http://localhost:3600/user/principal/verificarToken', {
+            method:'GET',
+            headers:{ 
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            }
+        })
+        .then(response => response.json())
+        .then(data =>{
+            console.log('Resposta do Servidor: ', data)
+            window.location.href = '/psico/principal/agenda'
+            
+        })
+        .catch(error=>{
+            console.error(error)
+        })
+        .finally(()=>{
+            console.log('Requisição Finalizada !');
+        })
+    })
 });

@@ -79,8 +79,10 @@ function firstGenerateCalendar(agenda, horarios){
   }
 
 }
-
+//Geração de Calendário com base na escolha do Mês 
 function generateCalendar(optionValue, agenda, horarios){
+  
+  document.getElementById('calendar').innerHTML = '';
   console.log('agenda: ', agenda)
   const calendar = document.getElementById('calendar');
   const currentDate = new Date(0,optionValue);
@@ -90,6 +92,10 @@ function generateCalendar(optionValue, agenda, horarios){
   var selectMonth = document.querySelector('.selectMonth');
   selectMonth.value = month;
   const year = currentDate.getFullYear();
+
+  var agendaData = eliminarElementosDuplicados(agenda.data);
+
+  console.log('AgendaData: ', agendaData)
 
   const firstDayOfMonth = new Date(year, month, 1);
   console.log('firstDayOfMonth: ', firstDayOfMonth);
@@ -101,7 +107,7 @@ function generateCalendar(optionValue, agenda, horarios){
   const firstDayOfWeek = firstDayOfMonth.getDay();
   console.log('firstDayOfWeek: ', firstDayOfWeek);
   const totalDays = lastDayfMonth.getDate();
-  console.log('totalDays: ', totalDays);
+  console.log('totalDays: ', totalDays);  
 
   for(let i = 0; i< firstDayOfWeek; i++){
     let blankDay = document.createElement('div');
@@ -121,7 +127,7 @@ function generateCalendar(optionValue, agenda, horarios){
       var agendaMonth = agendaDate.getMonth();
       console.log('AgendaDate: ', agendaDate);
       console.log('AgendaDay: ', agendaDay);
-      console.log('AgendaMonth', agendaMonth);
+      console.log('AgendaMonth: ', agendaMonth);
 
       if(agendaDay == day && agendaMonth == month){
         
@@ -153,6 +159,43 @@ function generateCalendar(optionValue, agenda, horarios){
 
 }
 
+function searchCalendar(dados) {
+  var diaSemana = [];
+  var hora = [];
+  var data = [];
+  var nomePsico = [];
+
+  dados.forEach(element => {
+    diaSemana.push(element.diaSemana);
+    hora.push(element.hora);
+    data.push(element.data);
+    nomePsico.push(element.nome);
+  });
+
+  diaSemana = eliminarElementosDuplicados(diaSemana)
+  hora = eliminarElementosDuplicados(hora)
+  data = eliminarElementosDuplicados(data)
+  nomePsico = eliminarElementosDuplicados(nomePsico)
+
+
+
+  console.log('Dia da Semana: ', diaSemana);
+  console.log('hora: ', hora);
+  console.log('data: ', data);
+  console.log('nome do psicólogo: ', nomePsico);
+
+  var mes = []
+  data.forEach(element=>{
+    var date = new Date(element);
+    mes.push(date.getMonth());
+  })
+  console.log('mês: ', mes);
+
+  desabilitarMesesSearch(mes);
+
+  generateCalendar(mes[0], dados, dados);
+}
+
 
 function selecionarPsico(psicologos){
   console.log('Psicologos: ', psicologos);
@@ -173,7 +216,6 @@ function selecionarPsico(psicologos){
     generateCalendar(ValorOption, agenda, horarios);
   })
 }
-function gerarDiaSemanaData(){
   document.querySelector('.data').addEventListener('change',function () {
     var dataAtual = new Date(); //Data atual.
     var data = $(this).val();
@@ -211,58 +253,6 @@ function gerarDiaSemanaData(){
   })
   
 
-}
-
-
-
-function search(agenda, horarios, psicologos){
-  gerarDiaSemanaData();
-
-  console.log('Agenda: ', agenda);
-  console.log('horarios:', horarios)
-  console.log('Psicos: ', psicologos)
-
-  var search = document.querySelector('.search');
-  search.addEventListener('click', function(){
-
-    var data = document.querySelector('.data').value;
-    var diaSemana = document.querySelector('.diaSemana').value
-    var hora = document.querySelector('.hora').value
-    var psico = document.getElementById('selecionePsico').value
-
-    console.log('data: ', data);
-    console.log('diaSemana: ', diaSemana);
-    console.log('hora: ', hora);
-    console.log('psico: ',psico);
-
-    var dados = {
-      data: data,
-      diaSemana: diaSemana,
-      hora: hora,
-      psico: psico
-    }
-
-    var post = {
-      method: 'POST',
-      headers:{
-        'Content-Type': 'Application/json' //Dados enviados são json
-      },
-      body: JSON.stringify(dados)
-    }
-
-    fetch('http://localhost:3600/user/principal/agendamento/buscar', post)
-    .then(response=> response.json())
-    .then(data => {
-      console.log('Dados recebidos: ', data)
-    })
-    .catch(error=>{
-      console.error('Erro: ', error)
-    })
-    .finally(()=>console.log('Requisição finalizada'))
-  })
-
-}
-
 $('.buttonDiaSemana').on('click', function(){
   console.log($(this).val());
   $('input.diaSemana').css({
@@ -276,6 +266,42 @@ $('.buttonDiaSemana').on('click', function(){
   })
   $('.data').val('dd/mm/aaaa');
 })
+
+function eliminarElementosDuplicados(array){
+
+  var conjunto = new Set(array);
+
+  const arraySemDuplicidade = [...conjunto]
+  return arraySemDuplicidade;
+
+}
+
+function desabilitarMesesSearch(mes) {
+  
+
+  var selectMonth = document.querySelector('.selectMonth');
+
+  var options = selectMonth.options;
+  for (let i = 0; i < options.length; i++) {
+    options[i].disabled = true;
+
+    var optionValue = parseInt(options[i].value);
+    for (let j = 0; j < mes.length; j++) {
+      // Verifique se o valor do mês é igual ao valor da opção
+      
+      if (optionValue == mes[j]) {
+        // Se for igual, desabilite a opção
+        console.log('option value: ', optionValue)
+        console.log('mes: ', mes[j])
+        options[i].disabled = false
+        // Saia do loop interno, pois já encontramos uma correspondência
+      }
+     
+        
+    }
+  }
+}
+
     
 
 

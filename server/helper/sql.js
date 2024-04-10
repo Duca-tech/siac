@@ -202,15 +202,35 @@ const getAgenda = (idUser, callback) => {
 }
 
 const getHours = (dados, callback) =>{
-    var query = `SELECT horario.hora, agenda.diaSemana, agenda.data, usuario.idUser 
+    var query = `SELECT horario.*, agenda.*, usuario.*
     FROM horario 
     INNER JOIN agenda ON horario.idAgenda = agenda.idAgenda 
     INNER JOIN usuario ON agenda.idUser = usuario.idUser 
     WHERE 1=1 `
-    if(dados.diaSemana) query += `AND agenda.diaSemana = ?`
-    if(dados.data) query += `AND agenda.data = ?`
-    if(dados.idUser) query += `AND usuario.idUser = ?`
+    var parametros = []
+    if(dados.diaSemana){ 
+        query += `AND agenda.diaSemana = ?`
+        parametros.push(dados.diaSemana)
+    }
+    if(dados.data){
+        query += `AND agenda.data = ?`
+        parametros.push(dados.data)
+    }
+
+    if(dados.idUser){
+        query += `AND usuario.idUser = ?`
+        parametros.push(dados.idUser)
+    }
     
+    if(dados.hora) {
+        query += `AND horario.hora = ?`
+        parametros.push(dados.hora);
+    }
+    conexao.query(query, parametros, (error, results)=>{
+        if(error) return console.log('Erro na Consulta do Banco!')
+        console.log('Resultado da Conulta: ', results);
+        callback(null, results)
+    })
 }
 // -------------------- FIM DE CONSULTAS NO BANCO PARA USUÁRIOS!
 
@@ -400,6 +420,7 @@ export  {
     deleteHorario,
     getAgenda,
     addAgenda,
+    getHours,
     deleteAgenda,
     getPsicoAgenda,
     getPsicoLogin,

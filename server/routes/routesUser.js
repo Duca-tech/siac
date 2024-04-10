@@ -1,5 +1,5 @@
 import express  from 'express';
-import  {addUser,loginUser,getPsico,getHorario,updateHorario,getUser,updateUser,deleteHorario,getAgenda,addAgenda,deleteAgenda,getPsicoAgenda,getPsicoLogin,verificarConsulta,addPsico,putStatusConsult,addRecep,updateRecep} from '../helper/sql.js'
+import  {addUser,loginUser,getPsico,getHorario,updateHorario,getUser,updateUser,deleteHorario,getAgenda, getHours,addAgenda,deleteAgenda,getPsicoAgenda,getPsicoLogin,verificarConsulta,addPsico,putStatusConsult,addRecep,updateRecep} from '../helper/sql.js'
 const routerUser = express.Router();
 import {gerarToken,verficarToken,tokenDestroyer} from '../config/token/token.js'
 import {enviarMensagem} from '../config/twilio/twilio.js';
@@ -139,15 +139,10 @@ routerUser.get('/agendamento/dadosPsico', (req, res) => {
 routerUser.post('/principal/agendamento/buscar', (req, res)=>{
     console.log('Dados Recebidos: ', req.body);
     var dados = req.body;
-    
-    var newDados = {}   
-    
-    for(var element in dados){
-        if(dados.hasOwnProperty(element) && dados[element] !== ''){
-            newDados[element] = dados[element];
-        }
-    }
-    console.log('NewDados: ', newDados)
+    getHours(dados, (error, results)=>{
+        res.status(200).json({message: 'Resultado da Consulta com banco', dados: results});
+    })
+
     
 })
 
