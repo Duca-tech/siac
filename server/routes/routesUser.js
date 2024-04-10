@@ -129,9 +129,7 @@ routerUser.get('/agendamento/dadosPsico', (req, res) => {
         if (error) return res.status(400).json({ message: 'Falha ao buscar Consultas' });
         else {
             console.log('Resultado da Consulta: ', results);
-            if (results.psicologos.length == 0) return res.status.json({ message: 'Sem psicologos' });
-            if (results.agenda.length == 0) return res.status(200).json({ message: 'Sem Agenda!' });
-            res.status(200).json({ message: 'Agenda: ', agenda: results.agenda, message: 'Psicologo: ', psicologos: results.psicologos, message: 'Horários: ', horarios: results.horarios })
+            res.status(200).json({message: 'Resultado da busca de Agenda, Psicos e Horarios: ', psicologos: results.psicologos, agenda: results.agenda, horarios: results.horarios });
         }
     })
 })

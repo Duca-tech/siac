@@ -1,7 +1,7 @@
 
 
 
- function verificacao(psicologos, agenda, horarios){
+ function verificacao(agenda){
     if(!agenda){
         $('#psicoDados').append(`<h3>Sem agenda para consultas!</h3>`);
     }
@@ -93,9 +93,7 @@ function generateCalendar(optionValue, agenda, horarios){
   selectMonth.value = month;
   const year = currentDate.getFullYear();
 
-  var agendaData = eliminarElementosDuplicados(agenda.data);
-
-  console.log('AgendaData: ', agendaData)
+  
 
   const firstDayOfMonth = new Date(year, month, 1);
   console.log('firstDayOfMonth: ', firstDayOfMonth);
@@ -121,6 +119,7 @@ function generateCalendar(optionValue, agenda, horarios){
     // daySquares.classList.add('borda');
     daySquares.textContent = day;
     daySquares.id = `day-${day}`
+    
     for(let j = 0; j<agenda.length; j++ ){
       var agendaDate = new Date(agenda[j].data);
       var agendaDay = agendaDate.getDate();
@@ -159,46 +158,42 @@ function generateCalendar(optionValue, agenda, horarios){
 
 }
 
-function searchCalendar(dados) {
+function searchCalendar(agenda, horarios, psicos) {
   var diaSemana = [];
   var hora = [];
   var data = [];
   var nomePsico = [];
 
-  dados.forEach(element => {
-    diaSemana.push(element.diaSemana);
-    hora.push(element.hora);
-    data.push(element.data);
-    nomePsico.push(element.nome);
-  });
+  // dados.forEach(element => {
+  //   diaSemana.push(element.diaSemana);
+  //   hora.push(element.hora);
+  //   data.push(element.data);
+  //   nomePsico.push(element.nome);
+  // });
 
-  diaSemana = eliminarElementosDuplicados(diaSemana)
-  hora = eliminarElementosDuplicados(hora)
-  data = eliminarElementosDuplicados(data)
-  nomePsico = eliminarElementosDuplicados(nomePsico)
+  // diaSemana = eliminarElementosDuplicados(diaSemana)
+  // hora = eliminarElementosDuplicados(hora)
+  // data = eliminarElementosDuplicados(data)
+  // nomePsico = eliminarElementosDuplicados(nomePsico)
 
 
 
-  console.log('Dia da Semana: ', diaSemana);
-  console.log('hora: ', hora);
-  console.log('data: ', data);
-  console.log('nome do psicólogo: ', nomePsico);
+ 
 
   var mes = []
-  data.forEach(element=>{
-    var date = new Date(element);
+  agenda.forEach(element=>{
+    var date = new Date(element.data);
     mes.push(date.getMonth());
   })
   console.log('mês: ', mes);
 
   desabilitarMesesSearch(mes);
 
-  generateCalendar(mes[0], dados, dados);
+  generateCalendar(mes[0], agenda, horarios);
 }
 
 
 function selecionarPsico(psicologos){
-  console.log('Psicologos: ', psicologos);
     psicologos.map(Element=>{
       var option = document.createElement('option');
       option.value = Element.idUser
@@ -268,11 +263,46 @@ $('.buttonDiaSemana').on('click', function(){
 })
 
 function eliminarElementosDuplicados(array){
+  var agenda = []
+  var horarios = []
+  var psicos = []
+  array.map(element=>{
+    agenda.push({
+      data: element.data,
+      diaSemana: element.diaSemana,
+      horaIni: element.horaIni,
+      horaFin: element.horaFin,
+      idAgenda: element.idAgenda
+    })
+    horarios.push({
+      idHorario: element.idHorario,
+      hora: element.hora,
+      idAgenda: element.idAgenda,
+      disponibilidade: element.disponibilidade
+    })
 
-  var conjunto = new Set(array);
+    psicos.push({
+      nome: element.nome,
+      idUser: element.idUser
+    })
 
-  const arraySemDuplicidade = [...conjunto]
-  return arraySemDuplicidade;
+  })
+
+  console.log('psicos: ', psicos);
+  console.log('Agenda: ', agenda);
+  console.log('Horarios: ',horarios)
+  
+  var agendaSemDup = new Set(agenda);
+  var psicosSemDup = []
+  var horariosSemDup = []
+ agenda = Array.from(agendaSemDup);
+
+  //  console.log('psicos: ', psicos);
+   console.log('AgendaSemDup: ', agenda);
+  //  console.log('Horarios: ',horarios)
+  
+
+  return [agenda, horarios, psicos];
 
 }
 
