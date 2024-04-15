@@ -1,7 +1,7 @@
 import express  from 'express';
-import  {addUser,loginUser,getPsico,getHorario,updateHorario,getUser,updateUser,deleteHorario,getAgenda,addAgenda,deleteAgenda,getPsicoAgenda,getPsicoLogin,verificarConsulta,addPsico,putStatusConsult,addRecep,updateRecep} from '../helper/sql.js'
+import  {addUser,loginUser,getPsico,getHorario,updateHorario,getUser,verificarPerfil,updateUser,deleteHorario,getAgenda,addAgenda,deleteAgenda,getPsicoAgenda,verificarConsulta,putStatusConsult} from '../helper/sql.js'
 const routerPsico = express.Router();
-import {gerarToken,verficarToken,tokenDestroyer} from '../config/token/token.js'
+import {gerarToken,verificarToken,tokenDestroyer} from '../config/token/token.js'
 import {enviarMensagem} from '../config/twilio/twilio.js';
 import session from 'express-session';
 
@@ -57,10 +57,18 @@ routerPsico.delete('/agenda/deletarAgenda/:idAgenda', (req, res) => {
 
 
 
-routerPsico.get('/principal/verificarToken', verficarToken, (req, res) => {
-    res.status(200).json({ message: 'Token validado com sucesso!' })
-    
+routerPsico.get('/principal/verificarToken/:idUser', verificarToken, (req, res) => {
+    var idUser = req.params.idUser;
+    console.log('IdUser servidor: ', idUser);
+    verificarPerfil(idUser, (error, results)=>{
+        
+        Console.log('Results: ',results);
+        res.status(200).json({message: 'Resposta do Servidor a results ', data: results})
+    })
 })
+    
+    
+
 
 
 routerPsico.get('/principal/agenda', (req, res) => {

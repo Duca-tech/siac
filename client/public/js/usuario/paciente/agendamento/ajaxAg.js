@@ -13,7 +13,7 @@ $(document).ready(function(){
         selecionarPsico(data.psicologos);
         firstGenerateCalendar(data.agenda, data.horarios);
         SelectMonthGenerateCalendar(data.agenda, data.horarios);
-        search(data.agenda, data.horarios, data.psicologos);
+        // search(data.agenda, data.horarios, data.psicologos);
         
         
         
@@ -213,6 +213,19 @@ $(document).ready(function(){
       console.error('Erro: ', error)
     })
     .finally(()=>console.log('Requisição finalizada'))
+  })
+
+
+  $('.calendar-grid').on('change', '.select-hours',  function(){
+    var Selecthorario = $(this).val();
+    console.log('Horario escolhido: ', horario);
+    
+    var horario = $(this).find('option:selected');
+
+    var idHorario = horario.id
+    console.log('idHorario: ', idHorario);
+
+    containerConf(horario)
   })
 
 

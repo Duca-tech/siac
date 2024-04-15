@@ -1,7 +1,7 @@
 import express  from 'express';
-import  {addUser,loginUser,getPsico,getHorario,updateHorario,getUser,updateUser,deleteHorario,getAgenda, getHours,addAgenda,deleteAgenda,getPsicoAgenda,getPsicoLogin,verificarConsulta,addPsico,putStatusConsult,addRecep,updateRecep} from '../helper/sql.js'
+import  {addUser,loginUser,getPsico,getHorario,updateHorario,getUser,updateUser,deleteHorario,getAgenda, getHours,addAgenda,deleteAgenda,getPsicoAgenda,verificarConsulta,putStatusConsult} from '../helper/sql.js'
 const routerUser = express.Router();
-import {gerarToken,verficarToken,tokenDestroyer} from '../config/token/token.js'
+import {gerarToken,verificarToken,tokenDestroyer} from '../config/token/token.js'
 import {enviarMensagem} from '../config/twilio/twilio.js';
 import session from 'express-session';
 
@@ -22,7 +22,7 @@ routerUser.get('/buscarEndereco', async (req, res)=>{
 
 routerUser.post('/cadastro', async (req, res) => {
     console.log('Dados Recebidos: ', req.body);
-    const { nome, email, nomeUser, cep, logradouro, bairro,localidade, uf,numero, senha} = req.body;
+    const { nome, email, nomeUser, perfil, cep, logradouro, bairro,localidade, uf,numero, senha} = req.body;
     const user = {
         nome: nome,
         email: email,
@@ -95,16 +95,16 @@ routerUser.post('/login', async (req, res) => {
 })
 
 // Abrir página principal:
-routerUser.get('/principal', (req, res) => {
+routerUser.get('/principal', verificarToken, (req, res) => {
     res.render('usuario/principal');
 })
 
-routerUser.get('/principal/verificarToken', verficarToken, (req, res) => {
+routerUser.get('/principal/verificarToken', verificarToken, (req, res) => {
     res.status(200).json({ message: 'token verificado com Sucesso' });
 })
 
 // Verificar token:
-routerUser.post('/principal/verificarToken', verficarToken, (req, res) => {
+routerUser.post('/principal/verificarToken', verificarToken, (req, res) => {
     console.log('dados recebidos: ', req.body);
     var { idUser } = req.body
     
@@ -118,7 +118,7 @@ routerUser.post('/principal/verificarToken', verficarToken, (req, res) => {
 })
 
 // Abrir página de Agendamento
-routerUser.get('/agendamento', (req, res) => {
+routerUser.get('/agendamento', verificarToken, (req, res) => {
     res.render('usuario/agendamento');
 })
 
@@ -193,7 +193,7 @@ routerUser.post('/inserirHorario/wpp', (req, res) => {
     });
 })
 
-routerUser.get('/principal/conta', (req, res) => {
+routerUser.get('/principal/conta', verificarToken, (req, res) => {
     res.render('usuario/contaUsuario');
 })
 

@@ -1,16 +1,18 @@
 
+var idUser = localStorage.getItem('idUser');
 var token = localStorage.getItem('token');
+var perfil = localStorage.getItem('perfil');
 document.addEventListener('DOMContentLoaded', function () {
     // Tela principal quando clica em agendar consulta:
     
 
     
     document.getElementById('agendar').addEventListener('click', function () {
-        var idUser = localStorage.getItem('idUser');
-        var token = localStorage.getItem('token');
+        
         
         console.log('Id do usuário: ', idUser);
         console.log('Token: ', token);
+        console.log('perfil: ', perfil);
         
         var id = {
             idUser: idUser
@@ -32,8 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
         })
         .then(function (response) {
             console.log('Resposta do servidor: ', response);
-            verificaoConsulta(response.data);
-            // window.location.href = '/user/agendamento'
+            verificaoConsulta(response.data, perfil);
         })
         .catch(function (error) {
             console.error('Falha na conexão com o servidor. Status: ', error.message);
@@ -44,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     document.getElementById('conta').addEventListener('click', function () {
-        var token = localStorage.getItem('token');
+
         console.log(token);
         
         fetch('/user/principal/verificarToken', {
@@ -81,7 +82,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     document.getElementById('criarAgenda').addEventListener('click', function(){
-        fetch('http://localhost:3600/user/principal/verificarToken', {
+        fetch(`http://localhost:3600/user/principal/verificarToken/${idUser}`, {
             method:'GET',
             headers:{ 
                 'Content-Type': 'application/json',
@@ -91,7 +92,7 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(response => response.json())
         .then(data =>{
             console.log('Resposta do Servidor: ', data)
-            window.location.href = '/psico/principal/agenda'
+            // window.location.href = '/psico/principal/agenda'
             
         })
         .catch(error=>{
@@ -100,5 +101,10 @@ document.addEventListener('DOMContentLoaded', function () {
         .finally(()=>{
             console.log('Requisição Finalizada !');
         })
+    })
+
+    $('.containerUser').on('click', '#logout', function(e){
+        e.preventDefault();
+        window.location.href = '/'
     })
 });

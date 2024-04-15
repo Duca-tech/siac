@@ -156,6 +156,33 @@ input.diaSemana{
     transition: all 0.3s ease;
 }
 
+.containerConf{
+    border: 1px solid red;
+    border-radius: 3px;
+    display: inline-block;
+    padding: 20px;
+}
+
+.confirmarConsulta{
+    margin: 10px;
+    border-radius: 10px;
+    background-color:#00FF00;
+    padding: 5px;
+}
+.confirmarConsulta:hover{
+    background-color: darkgreen;
+}
+
+.cancelarConsulta{
+    margin: 10px;
+    border-radius: 10px;
+    background-color:tomato;
+    padding: 5px;
+}
+.cancelarConsulta:hover{
+    background-color: red;
+}
+
 @media screen and(max-width: 1200px) {
     .calendar-grid{
         grid-template-columns: repeat(5, 1fr);

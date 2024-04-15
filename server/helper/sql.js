@@ -1,3 +1,4 @@
+import { callActionApi } from 'adminjs';
 import sql from 'mysql2';
 export default sql
 
@@ -35,9 +36,9 @@ process.on('exit', () => {
 // Função para adicionar usuario:
 const addUser = (user, end, callback) => {
     // Inserir usuário
-    conexao.query(`INSERT INTO usuario(nome, email, nomeUser, perfil, password) VALUES (?,?,?,?)`, [user.nome, user.email, user.nomeUser, user.perfil, user.password], (error, results, fields) => {
+    conexao.query(`INSERT INTO usuario(nome, email, nomeUser, perfil, password) VALUES (?,?,?,?,?)`, [user.nome, user.email, user.nomeUser, user.perfil, user.password], (error, results, fields) => {
         if (error) {
-            return console.log('Erro ao inserir usuário: ', error.message);
+            return console.log('Erro ao inserir usuário: ', error);
         }
 
         // Obter o ID do usuário inserido
@@ -54,6 +55,19 @@ const addUser = (user, end, callback) => {
         });
     });
 };
+
+//Esqueci Senha
+const getEmail = (email, callback)=>{
+    var query = `SELECT * FROM usuario WHERE email = ?`
+    conexao.query(query, [email], (error, results)=>{
+        if(error) return console.log('Erro: ', error);
+        console.log('Dados do usuário: ', results);
+        callback(null, results[0]);
+        
+    })
+}
+
+
 // Pegar usuário:
 const loginUser = (user, callback) => {
     conexao.query(`SELECT * FROM usuario WHERE (email = ? or nomeUser = ?) AND password = ?`, [user.emailUsuario, user.emailUsuario, user.password], (error, results) => {
@@ -315,70 +329,24 @@ const getPsicoAgenda = (idPsico, callback) => {
     })
 }
 
-const getPsicoLogin = (psicoLogin, callback) => {
-    conexao.query(`SELECT * FROM profissionalpsicologo WHERE email = ? AND senha = ?`, [psicoLogin.email, psicoLogin.senha], (error, results) => {
-        if (error) return console.log('Erro na consulta');
-        else if (results.length > 0) {
-            console.log('Psicologo encontrado sql.js: ', results[0]);
-            callback(null, results);
-        }
-        else {
-            console.log('psicologo não encontrado');
-        }
-    })
-}
 
-const addPsico = (psico, callback) => {
-    conexao.query(`INSERT INTO profissionalpsicologo (nome, email, cidade, senha)
-    SELECT ?, ?, ?, ? 
-    FROM DUAL 
-    WHERE NOT EXISTS (
-        SELECT 1 FROM profissionalpsicologo WHERE email = ?
-    )`, [psico.nome, psico.email, psico.cidade, psico.senha, psico.email], (error, results) => {
-        if (error) return console.log('Erro na consulta, ', error);
-        console.log('Resultado da consulta: ', results);
-        callback(null, results);
-    })
-}
+
 // -------------------- FIM DE CONSULTAS NO BANCO PARA PSICÓLOGOS!
 
+//---------------------CONSULTA DE VERIFICAÇÃO DE PERFIL!
+const verificarPerfil = (idUser, callback) =>{
+    var query = `SELECT PERFIL FROM USUARIO WHERE idUser = ?`
+
+    conexao.query(query, [idUser], (error, results)=>{
+        if(error) return console.log('Erro: ', error)
+        console.log('Resultado da consulta', results[0]);
+        callback(null, results[0]);
+    })
+}
 
 //-------------------- INÍCIO DE CONSULTAS NO BANCO PARA RECEPCIONISTAS:
-const addRecep = (recepcionista, callback) => {
-    conexao.query(`INSERT INTO recepcionista (nome, email, nomeRecep, password, celular, cpf) VALUES (?,?,?,?,?,?)`, [recepcionista.nome, recepcionista.email, recepcionista.nomeRecep, recepcionista.password, recepcionista.celular, recepcionista.cpf], (error, results, fields) => {
-        if (error) return console.log('Erro ao executar a consulta: ', error.message);
-        console.log('Dados Inseridos: ', recepcionista)
-        console.log('Dados das colunas: ', results);
-        callback(null, results, user);
-    })
-}
 
-// Atualiza recepcionista:
-const updateRecep = (recepcionista, callback) => {
-    console.log('Id Recepcionista: ', recepcionista.idRecep)
-    conexao.query(`UPDATE recepcionista SET nome = ?, email = ?, celular = ?, nomeRecep = ? WHERE idRecep = ?`, [recepcionista.nome, recepcionista.email, recepcionista.celular, recepcionista.nomeRecep, recepcionista.idRecep], (error, results) => {
-        if (error) {
-            return console.log('Erro ao atualizar: ', error);
-        }
-        else {
-            console.log('Usuário atualizado com sucesso!', usuario);
-            callback(null, results, usuario);
-        }
-    })
-}
 
-// Deletar recepcionista:
-const deleteRecep = (recepcionista, callback) => {
-    conexao.query(`DELETE FROM recepcionista WHERE idRecep = ? `, [idRecep], (error, results) => {
-        if (error) {
-            return console.log('Erro na consulta: ', error);
-        }
-        else {
-            console.log('Recepcionista deletado com sucesso: ', results);
-            callback(null, results)
-        }
-    })
-}
 // -------------------- FIM DE CONSULTAS NO BANCO PARA RECEPCIONISTAS!
 
 
@@ -416,6 +384,7 @@ export  {
     getHorario,
     updateHorario,
     getUser,
+    verificarPerfil,
     updateUser,
     deleteHorario,
     getAgenda,
@@ -423,10 +392,8 @@ export  {
     getHours,
     deleteAgenda,
     getPsicoAgenda,
-    getPsicoLogin,
+    getEmail,
     verificarConsulta,
-    addPsico,
-    putStatusConsult,
-    addRecep,
-    updateRecep
+    
+    putStatusConsult
 }

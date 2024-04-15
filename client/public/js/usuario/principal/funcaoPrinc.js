@@ -1,10 +1,11 @@
-function verificaoConsulta(data){
+function verificaoConsulta(data, perfil){
     if(data.length>0){
         alert('Você ja tem uma consulta marcada, veja nos detalhes da sua conta.')
         window.location.href='/user/principal/conta'
     }
     else{
-        window.location.href = '/user/agendamento';
+        if(perfil =='paciente') return window.location.href = '/user/agendamento';
+        window.location.href = '/'
     }
 }
 

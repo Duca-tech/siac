@@ -1,0 +1,42 @@
+
+body,html{
+    margin: 0;
+    padding: 0;
+}
+
+.containerGeral{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.containerEmail{
+    width: 300px;
+    background-color: #f0f0f0;
+    padding: 20px;
+    border: 1px solid #ccc;
+}
+.borda{
+    border: 1px solid red;
+}
+.containerEmail input{
+    width: 250px;
+    padding: 5px;
+    border-radius: 3px;
+}
+
+
+.containerInfo{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    text-align: center;
+}
+.buttonEnviar{
+    margin: 5px;
+}

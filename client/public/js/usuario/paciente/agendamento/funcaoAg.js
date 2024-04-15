@@ -67,6 +67,7 @@ function firstGenerateCalendar(agenda, horarios){
             var buttonOption = document.createElement('option');
             buttonOption.className = 'option-hours'
             buttonOption.textContent = horarios[x].hora;
+            buttonOption.id = horarios[x].idHorario;
             selectHours.append(buttonOption);
             daySquares.append(selectHours); 
           
@@ -145,6 +146,7 @@ function generateCalendar(optionValue, agenda, horarios){
             var buttonOption = document.createElement('option');
             buttonOption.className = 'option-hours'
             buttonOption.textContent = horarios[x].hora;
+            buttonOption.id = horarios[x].idHorario;
             selectHours.append(buttonOption);
             daySquares.append(selectHours); 
           
@@ -330,6 +332,34 @@ function desabilitarMesesSearch(mes) {
         
     }
   }
+}
+
+
+function containerConf(horario){
+
+  var container = document.createElement('div')
+  container.setAttribute('class', 'containerConf')
+  var text = `Tem certeza que deseja Marcar essa consulta: ` + horario+ `?`
+  var BotaoConfirmar = document.createElement('button');
+  BotaoConfirmar.textContent = 'Confirmar'
+  BotaoConfirmar.setAttribute('class','confirmarConsulta');
+  var botaoCancelar = document.createElement('button');
+  botaoCancelar.textContent = 'Cancelar'
+  botaoCancelar.setAttribute('class', 'cancelarConsulta')
+
+  container.append(text);
+  container.append(BotaoConfirmar);
+  container.append(botaoCancelar);
+
+
+  document.querySelector('.planner').append(container)
+
+  document.querySelector('.confirmarConsulta').addEventListener('click', function(){
+    console.log('Evento de confirmar consulta Clicado!');
+  })
+
+
+
 }
 
     
