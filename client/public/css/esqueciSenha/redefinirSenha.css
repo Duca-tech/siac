@@ -1,0 +1,27 @@
+html, body{
+    margin: 0;
+    padding: 0;
+}
+
+.containerForm{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 10px;
+    background-color: aliceblue;
+    border-radius: 5px;
+}
+
+.containerForm input {
+    padding: 5px;
+    margin-bottom: 15px;
+}
+.containerForm button{
+    padding: 5px;
+    margin: 10px;
+}
+
+.containerForm button:hover{
+    cursor: pointer;
+}

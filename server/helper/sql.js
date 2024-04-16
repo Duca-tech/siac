@@ -62,7 +62,7 @@ const getEmail = (email, callback)=>{
     conexao.query(query, [email], (error, results)=>{
         if(error) return console.log('Erro: ', error);
         console.log('Dados do usuário: ', results);
-        callback(null, results[0]);
+        callback(null, results);
         
     })
 }

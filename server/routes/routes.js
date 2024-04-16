@@ -31,20 +31,20 @@ router.post('/esqueciSenha', (req,res)=>{
             // Enviar o email com o link de redefinição de senha
         const transporter = nodemailer.createTransport({
             // Configurações do serviço de email (exemplo usando SMTP)
-            host: 'gmail',
-            port: 587,
-            secure: false,
+            service: 'gmail',
             auth: {
                 user: 'wilsonducattijr@gmail.com',
                 pass: 'kvkb iucy iewp azlu',
             },
         });
 
+        console.log('Rotas: ', results[0].email)
+
         const mailOptions = {
             from: 'wilsonducattijr@gmail.com',
             to: email,
             subject: 'Link de redefinição de senha',
-            text: `Use este link para redefinir sua senha: http://localhost:3000/redefinir-senha/${token}`,
+            text: `Use este link para redefinir sua senha: http://localhost:3600/redefinir-senha/${token}`,
         };
         
         transporter.sendMail(mailOptions, (error, info) => {
@@ -63,9 +63,9 @@ router.post('/esqueciSenha', (req,res)=>{
 })
 
 
-router.get('/redefinir-senha/:${token}', (req,res)=>{
+router.get('/redefinir-senha/:token', (req,res)=>{
     var {token} = req.params;
-    res.render()
+    res.render('redefinirSenha');
 })
 
 
