@@ -1,4 +1,0 @@
-Dicionário de dados:
-
-- auth....js -> arquivos com pré-fixo "auth" são relacionados a login e autenticação de usuário. Estão diretamente ligados a página de login.
-- sumary.txt -> arquvio de resumo de toda a arquitetura do sistema.
