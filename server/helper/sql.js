@@ -66,6 +66,14 @@ const getEmail = (email, callback)=>{
         
     })
 }
+const updateSenha = (update, callback)=>{
+    var query = `UPDATE usuario set senha = ? where idUser = ?`;
+    conexao.query(query, [update.senha, update.idUser], (error, results)=>{
+        if(error) return console.log('erro na consulta: ', error);
+        console.log('resultado da consulta: ', results);
+        callback(null, results);
+    })
+}
 
 
 // Pegar usuário:
@@ -393,6 +401,7 @@ export  {
     deleteAgenda,
     getPsicoAgenda,
     getEmail,
+    updateSenha,
     verificarConsulta,
     
     putStatusConsult

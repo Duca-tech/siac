@@ -119,7 +119,7 @@ routerUser.post('/principal/verificarToken', verificarToken, (req, res) => {
 
 // Abrir página de Agendamento
 routerUser.get('/agendamento', verificarToken, (req, res) => {
-    res.render('usuario/agendamento');
+    res.render('usuario/paciente/agendamento');
 })
 
 // Pegar dados do psicólogo e agenda, e exibir na tela de agendamento:

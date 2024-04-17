@@ -1,5 +1,5 @@
 import express  from 'express';
-import  {addUser,loginUser,getPsico,getEmail,getHorario,updateHorario,getUser,updateUser,deleteHorario,getAgenda,addAgenda,deleteAgenda,getPsicoAgenda,verificarConsulta,putStatusConsult} from '../helper/sql.js'
+import  {addUser,loginUser,getPsico,getEmail,updateSenha,getHorario,updateHorario,getUser,updateUser,deleteHorario,getAgenda,addAgenda,deleteAgenda,getPsicoAgenda,verificarConsulta,putStatusConsult} from '../helper/sql.js'
 const router = express.Router();
 import {gerarToken,verificarToken,tokenDestroyer} from '../config/token/token.js'
 import {enviarMensagem} from '../config/twilio/twilio.js';
@@ -42,7 +42,7 @@ router.post('/esqueciSenha', (req,res)=>{
 
         const mailOptions = {
             from: 'wilsonducattijr@gmail.com',
-            to: email,
+            to: results[0].email,
             subject: 'Link de redefinição de senha',
             text: `Use este link para redefinir sua senha: http://localhost:3600/redefinir-senha/${token}`,
         };
@@ -53,7 +53,7 @@ router.post('/esqueciSenha', (req,res)=>{
                 res.send('Ocorreu um erro ao enviar o email.');
             } else {
                 console.log('Email enviado:', info.response);
-                res.send('Email enviado com sucesso. Verifique sua caixa de entrada.');
+                res.status(200).json({message: 'E-mail enviado com Sucesso', results: results[0]});
             }
         });
         
@@ -66,6 +66,17 @@ router.post('/esqueciSenha', (req,res)=>{
 router.get('/redefinir-senha/:token', (req,res)=>{
     var {token} = req.params;
     res.render('redefinirSenha');
+})
+router.post('/redefinirSenha', (req,res)=>{
+    console.log('Dados recebidos da rota redefinir Senha: ', req.body);
+    var {senha, idUser} = req.body;
+    var update = {
+        senha: senha,
+        idUser: idUser
+    }
+    updateSenha(update, (error, results)=>{
+
+    })
 })
 
 

@@ -108,8 +108,8 @@ routerRecep.post('/recepcionista/cadastro', async (req, res) => {
 //     }
 // });
 
-routerRecep.get('/recepcionista/principal/verificarConsulta', (req, res) => {
-    res.render('recepcionista/verificacaoAgendamento')
+routerRecep.get('/principal/verificarConsulta', verificarToken, (req, res) => {
+    res.render('usuario/recepcionista/verificacaoAgendamento')
 })
 
 routerRecep.post('/recepcionista/principal/verificarConsulta', (req, res) => {

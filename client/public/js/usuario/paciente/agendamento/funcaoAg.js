@@ -265,17 +265,24 @@ $('.buttonDiaSemana').on('click', function(){
 })
 
 function eliminarElementosDuplicados(array){
+  console.log('Array com elementos duplicados: ', array);
   var agenda = []
   var horarios = []
   var psicos = []
+  var agendaSemDupId = new Set();
+  var psicoSemDupId = new Set();
+
   array.map(element=>{
-    agenda.push({
-      data: element.data,
-      diaSemana: element.diaSemana,
-      horaIni: element.horaIni,
-      horaFin: element.horaFin,
-      idAgenda: element.idAgenda
-    })
+    if(!agendaSemDupId.has(element.idAgenda)){
+      agendaSemDupId.add(element.idAgenda);
+      agenda.push({
+        data: element.data,
+        diaSemana: element.diaSemana,
+        horaIni: element.horaIni,
+        horaFin: element.horaFin,
+        idAgenda: element.idAgenda
+      })
+    }
     horarios.push({
       idHorario: element.idHorario,
       hora: element.hora,
@@ -283,22 +290,19 @@ function eliminarElementosDuplicados(array){
       disponibilidade: element.disponibilidade
     })
 
-    psicos.push({
-      nome: element.nome,
-      idUser: element.idUser
-    })
-
+    if(!psicoSemDupId.has(element.idUser)){
+      psicoSemDupId.add(element.idUser);
+      psicos.push({
+        nome: element.nome,
+        idUser: element.idUser
+      })
+    }
   })
 
   console.log('psicos: ', psicos);
   console.log('Agenda: ', agenda);
   console.log('Horarios: ',horarios)
   
-  var agendaSemDup = new Set(agenda);
-  var psicosSemDup = []
-  var horariosSemDup = []
- agenda = Array.from(agendaSemDup);
-
   //  console.log('psicos: ', psicos);
    console.log('AgendaSemDup: ', agenda);
   //  console.log('Horarios: ',horarios)

@@ -171,7 +171,7 @@ $(document).ready(function(){
     var psico = document.getElementById('selecionePsico').value
     var diaSemana
 
-    if(diaSemanaInput){
+    if(diaSemanaInput && diaSemanaInput != 'Invalid Date'){
         diaSemana = diaSemanaInput
     } 
     else{

@@ -107,4 +107,12 @@ document.addEventListener('DOMContentLoaded', function () {
         e.preventDefault();
         window.location.href = '/'
     })
+
+    document.getElementById('verificarAgenda').addEventListener('click', function(){
+        window.location.href = '/recepcionista/principal/verificarConsulta'
+    })
+
+    document.getElementById('criarAgenda').addEventListener('click', function(){
+        window.location.href = '/psico/principal/agenda'
+    })
 });

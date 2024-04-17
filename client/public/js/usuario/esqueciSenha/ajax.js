@@ -19,6 +19,9 @@ document.addEventListener('DOMContentLoaded', function(){
         .then(response => response.json())
         .then(data =>{
             console.log('Dados do Servidor: ', data);
+            console.log('data.results.idUser: ', data.results.idUser);
+            localStorage.setItem('redefSenha', data.results.idUser);
+
         })
     })
 

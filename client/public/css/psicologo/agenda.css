@@ -42,3 +42,20 @@ input{
 
 }
 
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 4fr; /* Define duas colunas, sendo a segunda o dobro da primeira */
+    gap: 10px; /* Espaçamento entre as colunas */
+  }
+  
+  .col1 {
+    background-color: #ccc;
+    padding: 20px;
+  }
+  
+  .col2 {
+    background-color: #eee;
+    padding: 20px;
+  }
+  
+

@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(response => {
             console.log('Resposta do servidor:', response);
             detalheConta(response.data[0]);
-            consultas(data[0]);
+            consultas(response.data[0]);
         })
         .catch((error) => {
             console.error('Erro na requisição:', error);

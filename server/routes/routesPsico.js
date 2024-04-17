@@ -71,8 +71,8 @@ routerPsico.get('/principal/verificarToken/:idUser', verificarToken, (req, res) 
 
 
 
-routerPsico.get('/principal/agenda', (req, res) => {
-    res.render('psicologo/agenda');
+routerPsico.get('/principal/agenda', verificarToken, (req, res) => {
+    res.render('usuario/psicologo/agenda');
 })
 // -------------------- FIM DA CONFIGURAÇÃO DE ROTAS PARA PSICÓLOGO!
 
