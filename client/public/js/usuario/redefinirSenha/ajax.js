@@ -1,7 +1,13 @@
+var idUser = localStorage.getItem('redefSenha');
+import objId from '/js/usuario/esqueciSenha/ajax.js';
+
+console.log(objId); // Acesso a propriedade objId do objeto exportado
+
+
 document.addEventListener('DOMContentLoaded', function(){
 
-    var idUser = localStorage.getItem('redefSenha');
     console.log('redefSenha idUser: ', idUser);
+    console.log('redefSenha idUser: ', objId.idUser);
 
     var primeiraSenha = document.getElementById('primeiraSenha');
     var segundaSenha = document.getElementById('segundaSenha');
@@ -14,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function(){
     button.addEventListener('click', function(){
         console.log('senha nova: ', segundaSenha.value);
         var senha = {
-            senha: senha,
+            senha: segundaSenha.value,
             idUser: idUser
         }
 

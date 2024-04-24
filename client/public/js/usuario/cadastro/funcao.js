@@ -9,3 +9,14 @@ function inserirEndereco(data){
     containerCep.style.display = 'block';
     
 }
+
+function verifcarCadastro(data){
+    if(data == 'Usuário ja cadastrado no Sistema'){
+        alert(data)
+    }
+    
+    if (data == 'Usuário inserido com sucesso!'){
+        alert(data);
+        window.location.href = '/user/login';
+    }
+}

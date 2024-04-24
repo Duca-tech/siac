@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function () {
             })
             .then(data => {
                 console.log('Resposta do servidor:', data);
-                window.location.href = '/user/login';
+                verifcarCadastro(data.data)
                 // Faça algo com a resposta, se necessário
             })
             .catch(error => {

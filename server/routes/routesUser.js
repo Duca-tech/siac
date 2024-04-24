@@ -1,5 +1,5 @@
 import express  from 'express';
-import  {addUser,loginUser,getPsico,getHorario,updateHorario,getUser,updateUser,deleteHorario,getAgenda, getHours,addAgenda,deleteAgenda,getPsicoAgenda,verificarConsulta,putStatusConsult} from '../helper/sql.js'
+import  {addUser,loginUser,getPsico,getHorario,addHora, updateHorario,getUser,updateUser,deleteHorario,getAgenda, getHours,addAgenda,deleteAgenda,getPsicoAgenda,verificarConsulta,putStatusConsult} from '../helper/sql.js'
 const routerUser = express.Router();
 import {gerarToken,verificarToken,tokenDestroyer} from '../config/token/token.js'
 import {enviarMensagem} from '../config/twilio/twilio.js';
@@ -46,11 +46,7 @@ routerUser.post('/cadastro', async (req, res) => {
             console.log('Erro ao adicionar cliente ', error.message);
             res.status(500).send('Erro ao Adicionar Cliente');
         }
-        else if (results.affectedRows > 0) {
-            console.log('Usuario adicionado com sucesso', usuario);
-            
-            res.status(201).json({message: 'Usuario e endereço adicionado com sucesso: ', data: results, user: usuario}); // Método send não aceita múltiplos argumentos.
-        }
+        res.status(201).json({data: results, user: usuario});
     });
 
 });
@@ -142,6 +138,17 @@ routerUser.post('/principal/agendamento/buscar', (req, res)=>{
     })
 
     
+})
+
+routerUser.post('/agendamento/agendarConsulta', (req, res)=>{
+    console.log('Dados recebidos: ', req.body);
+    var horario = {
+        hora: req.body.hora,
+        idHorario: req.body.idHorario
+    }
+    addHora(horario, (error, results)=>{
+        res.status(200).json({message: 'Consulta agendada com Sucesso', results});
+    })
 })
 
 routerUser.post('/inserirHorario', (req, res) => {

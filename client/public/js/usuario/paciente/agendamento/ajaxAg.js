@@ -11,7 +11,8 @@ $(document).ready(function(){
         console.log('Psicologos, agenda e horários:  ', data);
         verificacao(data.psicologos, data.agenda, data.horarios);
         selecionarPsico(data.psicologos);
-        firstGenerateCalendar(data.agenda, data.horarios);
+        // firstGenerateCalendar(data.agenda, data.horarios);
+        searchCalendar(data.agenda, data.horarios);
         SelectMonthGenerateCalendar(data.agenda, data.horarios);
         // search(data.agenda, data.horarios, data.psicologos);
         
@@ -206,8 +207,9 @@ $(document).ready(function(){
     .then(response=> response.json())
     .then(data => {
       console.log('Dados recebidos: ', data)
-      var [agenda, horarios, psicos] = eliminarElementosDuplicados(data.dados)
-      searchCalendar(agenda, horarios, psicos);
+      verificacaoHorario(data.dados);
+    //   var [agenda, horarios, psicos] = eliminarElementosDuplicados(data.dados)
+    //   searchCalendar(agenda, horarios, psicos);
     })
     .catch(error=>{
       console.error('Erro: ', error)
@@ -216,17 +218,59 @@ $(document).ready(function(){
   })
 
 
-  $('.calendar-grid').on('change', '.select-hours',  function(){
-    var Selecthorario = $(this).val();
-    console.log('Horario escolhido: ', horario);
-    
-    var horario = $(this).find('option:selected');
+    $('.calendar-grid').on('change', '.select-hours', function() {
+        var Selecthorario = $(this).val();
+        var idHorario = $(this).find(':selected').attr('id');
+        
+        containerConf(Selecthorario, idHorario);
 
-    var idHorario = horario.id
-    console.log('idHorario: ', idHorario);
+        // Definindo os atributos de dados nos elementos relevantes
+        $('.confirmarConsulta').data('Selecthorario', Selecthorario);
+        $('.confirmarConsulta').data('idHorario', idHorario);
 
-    containerConf(horario)
-  })
+    });
+
+    $('.planner').on('click', '.containerConf .confirmarConsulta', function() {
+        // Acessando os atributos de dados definidos anteriormente
+        var Selecthorario = $('.confirmarConsulta').data('Selecthorario');
+        var idHorario = $('.confirmarConsulta').data('idHorario');
+
+        console.log('selectHorario: ', Selecthorario);
+        console.log('idHorario: ', idHorario);
+
+        var loader = document.querySelector('.loader');
+        loader.style.display = 'block';
+
+        var containerCof = document.querySelector('.containerConf');
+        containerCof.style.display = 'none';
+        
+        var objHorario = {
+            hora: Selecthorario,
+            idHorario: idHorario
+        };
+
+        fetch('http://localhost:3600/user/agendamento/agendarConsulta', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(objHorario)
+        })
+        .then(response => response.json())
+        .then(data =>{
+            console.log('Resposta do servidor: ', data);
+
+            setTimeout(() => {
+                loader.style.display = 'none'
+                alert('Agendamento marcado com Sucesso!');
+                location.reload();
+            }, 3000);   
+        })
+        .catch(function(error) {
+            console.error('Erro ao agendar consulta:', error);
+        });
+    });
 
 
 })
+

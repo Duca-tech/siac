@@ -157,10 +157,14 @@ input.diaSemana{
 }
 
 .containerConf{
-    border: 1px solid red;
-    border-radius: 3px;
+    background-color: thistle;
+    border-radius: 6px;
     display: inline-block;
     padding: 20px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
 }
 
 .confirmarConsulta{
@@ -210,3 +214,17 @@ input.diaSemana{
         
     }
 }
+
+.loader {
+    border: 8px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 8px solid #3498db;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }

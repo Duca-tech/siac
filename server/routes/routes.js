@@ -13,7 +13,7 @@ router.get('/', (req, res) => {
     res.render('home');
 }) 
 
-router.get('/esqueciSenha.ejs', (req, res)=>{
+router.get('/esqueciSenha', (req, res)=>{
     res.render('esqueciSenha');
 })
 

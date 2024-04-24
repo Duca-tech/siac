@@ -35,25 +35,39 @@ process.on('exit', () => {
 // -------------------- INÍCIO DE CONSULTAS NO BANCO PARA USUÁRIOS:
 // Função para adicionar usuario:
 const addUser = (user, end, callback) => {
-    // Inserir usuário
-    conexao.query(`INSERT INTO usuario(nome, email, nomeUser, perfil, password) VALUES (?,?,?,?,?)`, [user.nome, user.email, user.nomeUser, user.perfil, user.password], (error, results, fields) => {
-        if (error) {
-            return console.log('Erro ao inserir usuário: ', error);
+
+    //verificar se usuário ja existe
+    conexao.query(`SELECT * FROM usuario WHERE email = ?`, [user.email], (error, results)=>{
+        if (error) return console.log('Erro na consulta: ', error);
+        if(results.length>0){
+            console.log('Usuario encontrado: ', results);
+            var message = 'Usuário ja cadastrado no Sistema';
+            callback(null, message, user);
         }
+        else{
+             // Inserir usuário
+            conexao.query(`INSERT INTO usuario(nome, email, nomeUser, perfil, password) VALUES (?,?,?,?,?)`, [user.nome, user.email, user.nomeUser, user.perfil, user.password], (error, results, fields) => {
+                if (error) {
+                    return console.log('Erro ao inserir usuário: ', error);
+                }
 
-        // Obter o ID do usuário inserido
-        const usuarioId = results.insertId;
+                // Obter o ID do usuário inserido
+                const usuarioId = results.insertId;
 
-        // Inserir endereço associado ao usuário
-        conexao.query(`INSERT INTO endereco(idUser, logradouro, bairro, cidade, estado, numero) VALUES(?,?,?,?,?,?)`, [usuarioId, end.logradouro, end.bairro, end.localidade, end.uf, end.numero], (error, results, fields) => {
-            if (error) {
-                return console.log('Erro ao inserir endereço: ', error.message);
-            }
+                // Inserir endereço associado ao usuário
+                conexao.query(`INSERT INTO endereco(idUser, logradouro, bairro, cidade, estado, numero) VALUES(?,?,?,?,?,?)`, [usuarioId, end.logradouro, end.bairro, end.localidade, end.uf, end.numero], (error, results, fields) => {
+                    if (error) {
+                        return console.log('Erro ao inserir endereço: ', error.message);
+                    }
 
-            console.log('Usuário e endereço inseridos com sucesso!');
-            callback(null, results, user);
-        });
-    });
+                    console.log('Usuário inserido com sucesso!');
+                    message = 'Usuário inserido com sucesso!';
+                    callback(null, message, user);
+                });
+            });
+        }
+    })
+   
 };
 
 //Esqueci Senha
@@ -104,7 +118,7 @@ const getPsico = (callback) => {
                 if (error) return console.log('Falha na consulta de horário');
                 else if (results2.length > 0) {
                     console.log('Agendas encontradas!', results2);
-                    conexao.query(`SELECT * FROM horario`, (error, results3) => {
+                    conexao.query(`SELECT * FROM horario where disponibilidade = 0`, (error, results3) => {
                         if (error) {
                             return console.log('Erro na consulta.');
                         }
@@ -153,6 +167,18 @@ const getHorario = (horario, callback) => {
                 }
             })
         }
+    })
+}
+
+
+const addHora = (horario, callback) =>{
+    const query = `update horario set disponibilidade = 1, status = 'agendado' where idHorario = ?`
+
+    conexao.query(query, [horario.idHorario], (error, results)=>{
+        if(error) return console.log('Erro na consulta: ', error)
+
+        console.log('Resultado da Consulta: ', results);
+        callback(null, results);
     })
 }
 
@@ -390,6 +416,7 @@ export  {
     loginUser,
     getPsico,
     getHorario,
+    addHora,
     updateHorario,
     getUser,
     verificarPerfil,
