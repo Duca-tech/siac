@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="/css/usuario/agendamento.css">
     <title>Tela de Agendamento</title>
     
@@ -92,7 +93,7 @@
         </div>
       </nav>
         
-        <div class="planner ">
+        <div class="planner borda">
             <h1>Event Calendar</h1>
             <div class="containerSelectMonth">
               <select class="selectMonth">
@@ -111,8 +112,11 @@
                 <option value="11">Dezembro</option>
               </select>
             </div>
+            
+            
+            <div id="calendar" class="calendar-grid">
               
-            <div id="calendar" class="calendar-grid"></div>
+            </div>
         </div>
         
         <div class="loader" id="loader"></div>

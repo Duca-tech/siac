@@ -30,6 +30,10 @@ body{
     padding: 5px;
     border-radius: 3px;
     color: #888;
+    width: 100px;
+}
+.select-hours option i{
+    margin-right: 5px;
 }
 
 .calendar-grid{
@@ -66,6 +70,10 @@ body{
     min-height: 70px;
     box-shadow: 0 4px 8px rgba(0,0,0,1);
 }
+.gridCalendarDay{
+    height: 100px;
+}
+
 .option-hours{
     padding: 3px;
     border-radius: 5px;
@@ -228,3 +236,10 @@ input.diaSemana{
     left: 50%;
     transform: translate(-50%, -50%);
   }
+  .box{
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+  }
+  

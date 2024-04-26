@@ -82,6 +82,8 @@
 // }
 //Geração de Calendário com base na escolha do Mês 
 function generateCalendar(optionValue, agenda, horarios){
+
+
   
   document.getElementById('calendar').innerHTML = '';
   console.log('agenda: ', agenda)
@@ -108,9 +110,11 @@ function generateCalendar(optionValue, agenda, horarios){
   const totalDays = lastDayfMonth.getDate();
   console.log('totalDays: ', totalDays);  
 
+  cabecalhoCalendar(); // gerará o cabeçalho dos dias da Semana
+
   for(let i = 0; i< firstDayOfWeek; i++){
     let blankDay = document.createElement('div');
-    // blankDay.classList.add('borda');
+    blankDay.classList.add('borda');
     
     calendar.appendChild(blankDay);
   }
@@ -135,7 +139,9 @@ function generateCalendar(optionValue, agenda, horarios){
         var selectHours = document.createElement('select')
         selectHours.className = 'select-hours'
         var option = document.createElement('option');
-        option.textContent = 'Horários Disponíveis'
+        
+        option.textContent = 'Horários'
+        
         // Defina os atributos disabled e selected para desabilitar e selecionar a opção inicial
         option.disabled = true;
         option.selected = true;
@@ -325,12 +331,12 @@ function desabilitarMesesSearch(mes) {
 }
 
 function verificacaoHorario(data){
-  if (data = []){
+  if (data.length == 0){
     alert('nenhuma Consulta Encontrada');
     location.reload();
   }
   else{
-    var [agenda, horarios, psicos] = eliminarElementosDuplicados(data.dados)
+    var [agenda, horarios, psicos] = eliminarElementosDuplicados(data)
     searchCalendar(agenda, horarios, psicos);
   }
 }
@@ -366,7 +372,22 @@ function containerConf(horario, id){
 
 
 }
+function cabecalhoCalendar(){
+  for (let i = 0; i<7; i++){
+    var box = document.createElement('div')
+    box.classList.add('box');
+    if(i = 0){box.textContent = 'Segunda-Feira'}
+    else if(i=1){box.textContent = 'Terça-Feira'}
+    else if(i=2){box.textContent = 'Quarta-Feira'}
+    else if(i=3){box.textContent = 'Quinta-Feira'}
+    else if(i=4){box.textContent = 'Sexta-Feira'}
+    else if(i=5){box.textContent = 'Sábado'}
+    else if(i=6){box.textContent = 'Domingo'}
 
+    document.querySelector('.calendar-grid').appendChild(box);
+  }
+
+}
     
 
 

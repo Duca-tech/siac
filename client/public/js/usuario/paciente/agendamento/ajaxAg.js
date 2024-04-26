@@ -207,6 +207,7 @@ $(document).ready(function(){
     .then(response=> response.json())
     .then(data => {
       console.log('Dados recebidos: ', data)
+      console.log('Data.dados: ', data.dados)
       verificacaoHorario(data.dados);
     //   var [agenda, horarios, psicos] = eliminarElementosDuplicados(data.dados)
     //   searchCalendar(agenda, horarios, psicos);
