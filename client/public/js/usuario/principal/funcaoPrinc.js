@@ -22,8 +22,8 @@ function verificaoConsulta(data, perfil){
 
 function verificarPerfil(perfil){
 
-    if(perfil == 'paciente') document.getElementById('paciente').style.display = 'block'
-    if(perfil == 'psicologo') document.getElementById('psicologo').style.display = 'block'
+    if(perfil == 'paciente') document.getElementById('agendar-consulta').style.display = 'block'
+    if(perfil == 'psicologo') document.getElementById('criar-agenda').style.display = 'block'
     if(perfil == 'recepcionista') document.getElementById('recepcionista').style.display = 'block'
 
 
@@ -37,3 +37,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
    
 })
+
+/*--------------------------------------------------------------------------------- */
+/*--------------------------------------------------------------------------------- */
+
+

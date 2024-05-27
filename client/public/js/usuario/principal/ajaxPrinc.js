@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function () {
     
 
     
-    document.getElementById('agendar').addEventListener('click', function () {
+    document.querySelector('.main .quick-access .item').addEventListener('click', function () {
         
         
         console.log('Id do usuário: ', idUser);
@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    document.getElementById('conta').addEventListener('click', function () {
+    document.querySelector('.right-section .profile').addEventListener('click', function () {
 
         console.log(token);
         
@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    document.querySelector('.containerUser').addEventListener('click', function (e) {
+    document.querySelector('#logout').addEventListener('click', function (e) {
         if (e.target.classList.contains('logout')) {
             e.preventDefault();
             var logout = e.target.dataset.id;
@@ -81,18 +81,22 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    document.getElementById('criarAgenda').addEventListener('click', function(){
-        fetch(`http://localhost:3600/user/principal/verificarToken/${idUser}`, {
+    document.getElementById('criar-agenda').addEventListener('click', function(){
+        var id ={
+            idUser: idUser
+        }
+        fetch(`/user/principal/verificarToken`, {
             method:'GET',
             headers:{ 
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + token
-            }
+            },
+            body: id
         })
         .then(response => response.json())
         .then(data =>{
             console.log('Resposta do Servidor: ', data)
-            // window.location.href = '/psico/principal/agenda'
+            verificaoConsulta(response.data, perfil);
             
         })
         .catch(error=>{
@@ -103,7 +107,7 @@ document.addEventListener('DOMContentLoaded', function () {
         })
     })
 
-    $('.containerUser').on('click', '#logout', function(e){
+    $('#logout').on('click', function(e){
         e.preventDefault();
         window.location.href = '/'
     })
@@ -112,7 +116,7 @@ document.addEventListener('DOMContentLoaded', function () {
         window.location.href = '/recepcionista/principal/verificarConsulta'
     })
 
-    document.getElementById('criarAgenda').addEventListener('click', function(){
+    document.getElementById('criar-agenda').addEventListener('click', function(){
         window.location.href = '/psico/principal/agenda'
     })
 });
