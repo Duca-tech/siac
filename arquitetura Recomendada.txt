@@ -1,0 +1,28 @@
+Arquitetura Recomendada
+meu-projeto/
+│
+├── node_modules/          (Pasta gerada pelo npm para armazenar as dependências do projeto)
+│
+├── public/                (Pasta para arquivos públicos acessíveis pelo navegador)
+│   ├── css/               (Estilos CSS)
+│   ├── js/                (Scripts JavaScript)
+│   └── img/               (Imagens)
+│
+├── src/                   (Código-fonte do projeto)
+│   ├── controllers/       (Controladores que lidam com as requisições HTTP)
+│   ├── models/            (Modelos de dados e lógica de negócios)
+│   ├── routes/            (Definição de rotas da aplicação)
+│   ├── services/          (Serviços de utilidade, como autenticação, envio de e-mails, etc.)
+│   ├── views/             (Arquivos de visualização, se estiver usando um mecanismo de template)
+│   └── app.js             (Arquivo principal da aplicação, onde o servidor é configurado)
+│
+├── config/                (Arquivos de configuração)
+│   ├── database.js        (Configuração do banco de dados)
+│   ├── middleware.js      (Definição de middlewares)
+│   └── ...                (Outros arquivos de configuração, se necessário)
+│
+├── tests/                 (Testes automatizados)
+│
+├── .gitignore             (Arquivo que lista arquivos/pastas que devem ser ignorados pelo Git)
+├── package.json           (Arquivo de manifesto do projeto, incluindo dependências e scripts de execução)
+└── README.md              (Documentação do projeto)

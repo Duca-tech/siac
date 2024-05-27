@@ -9,7 +9,7 @@
     "start": "nodemon server/index.mjs"
   },
   "keywords": [],
-  "author": "Wilson Ducatti Junior",
+  "author": "Wilson Ducatti Junior, Eduardo Gimenes, Alexandre Donizete, Raul Peres, Felipe Boladão e Henrique Model",
   "license": "ISC",
   "dependencies": {
     "adminjs": "^7.7.2",

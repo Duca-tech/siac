@@ -39,9 +39,6 @@
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* sombra suave */
     }
 
-    .containerSiac{
-
-    }
     .siac{
         width: 100px;
         height: auto;
@@ -126,5 +123,19 @@
         font-size: 20px; /* Tamanho da fonte */
         font-weight: 250;
         text-align: center; /* Alinhamento do texto */
+    }
+
+    .cadastrarUser{
+        padding: 5px;
+        border-radius: 3px;
+        border: #ccc;
+        text-decoration: none;
+        background-color: #008B8B;
+        color: white;
+    }
+    .cadastrarUser:hover{
+        background-color: #4682B4;
+        padding: 8px;
+        
     }
     

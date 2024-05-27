@@ -5,7 +5,8 @@ import {router} from './routes/routes.js';
 import {routerUser} from './routes/routesUser.js';
 import {routerPsico} from './routes/routesPsico.js';
 import {routerRecep} from './routes/routesRecep.js'
-import {session} from './routes/routes.js';
+
+import session from 'express-session'
 const app = express(); // Instancia a lib "express" que nada mais serve para tratar requisições cliente-servidor.
 import {exec} from 'child_process';
 import path from 'path';
@@ -16,8 +17,9 @@ const chaveSecretaSession = process.env.SESSION_SECRET_KEY;
 
 app.use(session({
     secret: chaveSecretaSession,
-    resave: 'false', // O que é isso?
-    saveUninitialized: true // O que é isso?
+    resave: 'false', 
+    saveUninitialized: true,
+    cookie: {secure: false}
 
 }))
 
@@ -103,6 +105,10 @@ app.listen(porta, ()=>{
         console.log(`Opera GX iniciado!`);
     });
 })
+
+export {
+    session
+}
 
 
 

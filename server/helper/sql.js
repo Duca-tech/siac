@@ -3,11 +3,11 @@ import sql from 'mysql2';
 export default sql
 
 const conexao = sql.createPool({
-    host: 'viaduct.proxy.rlwy.net',
-    user: 'root',
-    port: '59008',
-    password: 'SOcIQaVfgDEqWGVHlkPAEDlJnUICubme',
-    database: 'railway',
+    host: '152.67.55.50',
+    user: 'siac',
+    port: '3306',
+    password: 'SiacImes01!',
+    database: 'siac',
     waitForConnections: true,
     connectionLimit: 10,
     
@@ -37,12 +37,12 @@ process.on('exit', () => {
 const addUser = (user, end, callback) => {
 
     //verificar se usuário ja existe
-    conexao.query(`SELECT * FROM usuario WHERE email = ?`, [user.email], (error, results)=>{
+    conexao.query(`SELECT nome, email, perfil FROM usuario WHERE email = ?`, [user.email], (error, results)=>{
         if (error) return console.log('Erro na consulta: ', error);
         if(results.length>0){
             console.log('Usuario encontrado: ', results);
             var message = 'Usuário ja cadastrado no Sistema';
-            callback(null, message, user);
+            callback(null, message, results);
         }
         else{
              // Inserir usuário
@@ -81,18 +81,19 @@ const getEmail = (email, callback)=>{
     })
 }
 const updateSenha = (update, callback)=>{
-    var query = `UPDATE usuario set senha = ? where idUser = ?`;
+    var query = `UPDATE usuario set password = ? where idUser = ?`;
     conexao.query(query, [update.senha, update.idUser], (error, results)=>{
         if(error) return console.log('erro na consulta: ', error);
         console.log('resultado da consulta: ', results);
-        callback(null, results);
+        var message = 'senha atualizada com sucesso!';
+        callback(null, message, results);
     })
 }
 
 
 // Pegar usuário:
 const loginUser = (user, callback) => {
-    conexao.query(`SELECT * FROM usuario WHERE (email = ? or nomeUser = ?) AND password = ?`, [user.emailUsuario, user.emailUsuario, user.password], (error, results) => {
+    conexao.query(`SELECT * FROM usuario WHERE (email = ?) AND password = ?`, [user.emailUsuario, user.password], (error, results) => {
         if (error) {
             return console.log('Erro ao selecionar usuário.');
         }
@@ -140,7 +141,8 @@ const getPsico = (callback) => {
         }
         else {
             console.log('Nenhum psicólogo encontrado, portanto sem agenda cadastradas.');
-            callback(null, null);
+            var message = 'Nenhum psicólogo encontrado, portanto sem agenda cadastradas.';
+            callback(null, {results: message});
         }
     })
 }

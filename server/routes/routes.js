@@ -3,11 +3,11 @@ import  {addUser,loginUser,getPsico,getEmail,updateSenha,getHorario,updateHorari
 const router = express.Router();
 import {gerarToken,verificarToken,tokenDestroyer} from '../config/token/token.js'
 import {enviarMensagem} from '../config/twilio/twilio.js';
-import session from 'express-session';
+import {session} from '../index.mjs'
 import crypto from 'crypto';
 import nodemailer from 'nodemailer';
 
-
+var idUser; // apenas declarando uma variável global...
 //Rota para renderizar a pagina principal
 router.get('/', (req, res) => {
     res.render('home');
@@ -27,7 +27,8 @@ router.post('/esqueciSenha', (req,res)=>{
 
          // Gerar um token exclusivo para essa solicitação de redefinição de senha
          const token = crypto.randomBytes(20).toString('hex');
-
+        console.log('idUser', results[0].idUser);
+        idUser = results[0].idUser;
             // Enviar o email com o link de redefinição de senha
         const transporter = nodemailer.createTransport({
             // Configurações do serviço de email (exemplo usando SMTP)
@@ -64,23 +65,25 @@ router.post('/esqueciSenha', (req,res)=>{
 
 
 router.get('/redefinir-senha/:token', (req,res)=>{
-    var {token} = req.params;
     res.render('redefinirSenha');
 })
 router.post('/redefinirSenha', (req,res)=>{
     console.log('Dados recebidos da rota redefinir Senha: ', req.body);
-    var {senha, idUser} = req.body;
+    var {senha} = req.body;
+    console.log('idUser session: ',idUser);
     var update = {
         senha: senha,
         idUser: idUser
     }
-    updateSenha(update, (error, results)=>{
-
+    updateSenha(update, (error, message ,results)=>{
+        if(error){
+            console.log('Erro na consulta!', error);
+        }
+        res.status(200).json({message: message, results: results});
     })
 })
 
 
 export {
-    router,
-    session
+    router
 }

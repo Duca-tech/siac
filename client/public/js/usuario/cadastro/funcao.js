@@ -10,13 +10,15 @@ function inserirEndereco(data){
     
 }
 
-function verifcarCadastro(data){
-    if(data == 'Usuário ja cadastrado no Sistema'){
-        alert(data)
+function verifcarCadastro(message, user){
+
+    if(message == 'Usuário ja cadastrado no Sistema'){
+        
+        alert('E-mail ja Utilizado por outro usuário!' + '\n' + user.nome + ' - ' + user.email + ' - ' + user.perfil );
     }
     
-    if (data == 'Usuário inserido com sucesso!'){
-        alert(data);
+    if (message == 'Usuário inserido com sucesso!'){
+        alert(message);
         window.location.href = '/user/login';
     }
 }

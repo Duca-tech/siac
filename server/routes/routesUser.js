@@ -41,12 +41,12 @@ routerUser.post('/cadastro', async (req, res) => {
         cep: cep
     }
 
-    addUser(user, end, (error, results, usuario) => {
+    addUser(user, end, (error, message, results) => {
         if (error) {
             console.log('Erro ao adicionar cliente ', error.message);
             res.status(500).send('Erro ao Adicionar Cliente');
         }
-        res.status(201).json({data: results, user: usuario});
+        res.status(201).json({message: message, results: results});
     });
 
 });
@@ -124,8 +124,20 @@ routerUser.get('/agendamento/dadosPsico', (req, res) => {
     getPsico((error, results) => {
         if (error) return res.status(400).json({ message: 'Falha ao buscar Consultas' });
         else {
-            console.log('Resultado da Consulta: ', results);
-            res.status(200).json({message: 'Resultado da busca de Agenda, Psicos e Horarios: ', psicologos: results.psicologos, agenda: results.agenda, horarios: results.horarios });
+            console.log('results: ', results)
+            console.log('psicos: ', results.psicologos);
+            console.log('agenda: ', results.agenda);
+            console.log('horarios: ', results.horarios);
+            if(!results.psicologos){
+                res.status(200).json({message: 'Sem psicólogos cadastrados'});
+            }
+            else if(!results.agenda){
+                res.status(200).json({message: 'Sem agenda de psicólogos'});
+            }
+            else{
+                console.log('Resultado da Consulta: ', results);
+                res.status(200).json({message: 'Resultado da busca de Agenda, Psicos e Horarios: ', psicologos: results.psicologos, agenda: results.agenda, horarios: results.horarios });
+            }
         }
     })
 })

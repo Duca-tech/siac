@@ -9,6 +9,11 @@ $(document).ready(function(){
     })
     .done(function(data){
         console.log('Psicologos, agenda e horários:  ', data);
+        if(data.message = 'Sem psicólogos cadastrados'){
+            alert(data.message);
+            window.location = '/';
+        }
+        
         verificacao(data.psicologos, data.agenda, data.horarios);
         selecionarPsico(data.psicologos);
         // firstGenerateCalendar(data.agenda, data.horarios);

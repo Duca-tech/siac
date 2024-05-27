@@ -5,7 +5,7 @@
     if(!agenda){
         $('#psicoDados').append(`<h3>Sem agenda para consultas!</h3>`);
     }
-}
+  }
 
 
 
@@ -114,7 +114,7 @@ function generateCalendar(optionValue, agenda, horarios){
 
   for(let i = 0; i< firstDayOfWeek; i++){
     let blankDay = document.createElement('div');
-    blankDay.classList.add('borda');
+    // blankDay.classList.add('borda');
     
     calendar.appendChild(blankDay);
   }
@@ -376,15 +376,36 @@ function cabecalhoCalendar(){
   for (let i = 0; i<7; i++){
     var box = document.createElement('div')
     box.classList.add('box');
-    if(i = 0){box.textContent = 'Segunda-Feira'}
-    else if(i=1){box.textContent = 'Terça-Feira'}
-    else if(i=2){box.textContent = 'Quarta-Feira'}
-    else if(i=3){box.textContent = 'Quinta-Feira'}
-    else if(i=4){box.textContent = 'Sexta-Feira'}
-    else if(i=5){box.textContent = 'Sábado'}
-    else if(i=6){box.textContent = 'Domingo'}
+    if(i = 0){
+      box.textContent = 'Segunda-Feira'
+      document.querySelector('.calendar-grid').appendChild(box);
+      
+    }
+    if(i=1){box.textContent = 'Terça-Feira'
+      document.querySelector('.calendar-grid').appendChild(box);
 
-    document.querySelector('.calendar-grid').appendChild(box);
+    }
+    if(i=2){box.textContent = 'Quarta-Feira'
+      document.querySelector('.calendar-grid').appendChild(box);
+      
+    }
+    if(i=3){box.textContent = 'Quinta-Feira'
+      document.querySelector('.calendar-grid').appendChild(box);
+
+    }
+    if(i=4){box.textContent = 'Sexta-Feira'
+      document.querySelector('.calendar-grid').appendChild(box);
+
+    }
+    if(i=5){box.textContent = 'Sábado'
+      document.querySelector('.calendar-grid').appendChild(box);
+
+    }
+    if(i=6){box.textContent = 'Domingo'
+      document.querySelector('.calendar-grid').appendChild(box);
+
+    }
+
   }
 
 }

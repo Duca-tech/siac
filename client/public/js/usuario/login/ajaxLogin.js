@@ -3,52 +3,54 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('formLogin').addEventListener('submit', function (event) {
         event.preventDefault();
 
-        const data = {
-            emailUsuario: document.getElementById('emailUsuario').value,
-            password: document.getElementById('password').value
-        };
+        if(document.getElementById('emailUsuario').value.includes('@') && document.getElementById('emailUsuario').value.includes('.com')){
 
-        console.log(data);
+            const data = {
+                emailUsuario: document.getElementById('emailUsuario').value,
+                password: document.getElementById('password').value
+            };
 
-        fetch('http://localhost:3600/user/login', {
-            method: 'POST',
-            headers: {  
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })
-        .then(function (response) {
-            if (!response.ok) {
-                throw new Error('Erro na solicitação. Status: ' + response.status);
-            }
-            return response.json();
-        })
-        .then(function (response) {
-            console.log('Resposta do servidor: ', response);
-            console.log('Token: ', response.token);
-            console.log('idUser: ', response.response[0].idUser);
+            console.log(data);
 
-            // Salvar o token no localStorage:
-            localStorage.setItem('token', response.token);
+            fetch('http://localhost:3600/user/login', {
+                method: 'POST',
+                headers: {  
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(function (response) {
+                if (!response.ok) {
+                    throw new Error('Erro na solicitação. Status: ' + response.status);
+                }
+                return response.json();
+            })
+            .then(function (response) {
+                console.log('Resposta do servidor: ', response);
+                console.log('Token: ', response.token);
+                console.log('idUser: ', response.response[0].idUser);
 
-            // Salvar o idUser no localStorage:
-            localStorage.setItem('idUser', response.response[0].idUser);
+                // Salvar o token no localStorage:
+                localStorage.setItem('token', response.token);
 
-            //salvar perfil do usuário 
-            localStorage.setItem('perfil', response.response[0].perfil);
+                // Salvar o idUser no localStorage:
+                localStorage.setItem('idUser', response.response[0].idUser);
 
-            window.location.href = '/user/principal'
-        })
-        .catch(function (error) {
-            console.error('Erro:', error.message);
-        })
-        .finally(function () {
-            console.log('Requisição finalizada!');
-        });
+                //salvar perfil do usuário 
+                localStorage.setItem('perfil', response.response[0].perfil);
+
+                window.location.href = '/user/principal'
+            })
+            .catch(function (error) {
+                console.error('Erro:', error.message);
+            })
+            .finally(function () {
+                console.log('Requisição finalizada!');
+            });
+        }
+        else{
+            alert('A string não contém @ e .com');
+        }
     });
     
-    // Botão para se cadastrar:
-    document.getElementById('buttonCadastrar').addEventListener('click', function () {
-        window.location.href = '/user/cadastro';
-    });
 });
