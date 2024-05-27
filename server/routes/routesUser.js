@@ -103,7 +103,6 @@ routerUser.get('/principal/verificarToken', verificarToken, (req, res) => {
 routerUser.post('/principal/verificarToken', verificarToken, (req, res) => {
     console.log('dados recebidos: ', req.body);
     var { idUser } = req.body
-    
     idUser = parseInt(idUser);
     console.log('int: ', idUser);
     
@@ -123,22 +122,22 @@ routerUser.get('/agendamento/dadosPsico', (req, res) => {
 
     getPsico((error, results) => {
         if (error) return res.status(400).json({ message: 'Falha ao buscar Consultas' });
-        else {
-            console.log('results: ', results)
-            console.log('psicos: ', results.psicologos);
-            console.log('agenda: ', results.agenda);
-            console.log('horarios: ', results.horarios);
-            if(!results.psicologos){
-                res.status(200).json({message: 'Sem psicólogos cadastrados'});
-            }
-            else if(!results.agenda){
-                res.status(200).json({message: 'Sem agenda de psicólogos'});
-            }
-            else{
-                console.log('Resultado da Consulta: ', results);
-                res.status(200).json({message: 'Resultado da busca de Agenda, Psicos e Horarios: ', psicologos: results.psicologos, agenda: results.agenda, horarios: results.horarios });
-            }
+        
+        console.log('results: ', results)
+        console.log('psicos: ', results.psicologos);
+        console.log('agenda: ', results.agenda);
+        console.log('horarios: ', results.horarios);
+        if(results.psicologos.length === 0){
+            res.status(200).json({message: 'Sem psicólogos cadastrados'});
         }
+        if(results.agenda.length === 0){
+            res.status(200).json({message: 'Sem agenda de psicólogos'});
+        }
+        
+        // console.log('Resultado da Consulta: ', results);
+        res.status(200).json({message: 'Resultado da busca de Agenda, Psicos e Horarios: ', psicologos: results.psicologos, agenda: results.agenda, horarios: results.horarios });
+        
+        
     })
 })
 

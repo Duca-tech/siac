@@ -111,20 +111,20 @@ const loginUser = (user, callback) => {
 const getPsico = (callback) => {
     conexao.query(`SELECT * FROM usuario where perfil = 'psicologo'`, (error, results1) => {
         if (error) {
-            return console.log('Falha na consulta.');
+            return console.log('Falha na consulta.', error);
         }
         else if (results1.length > 0) {
-            console.log('Psicólogos encontrados!', results1);
+            
             conexao.query(`SELECT * FROM agenda`, (error, results2) => {
                 if (error) return console.log('Falha na consulta de horário');
                 else if (results2.length > 0) {
-                    console.log('Agendas encontradas!', results2);
+                    // console.log('Agendas encontradas!', results2);
                     conexao.query(`SELECT * FROM horario where disponibilidade = 0`, (error, results3) => {
                         if (error) {
-                            return console.log('Erro na consulta.');
+                            return console.log('Erro na consulta.', error);
                         }
                         else if (results3.length > 0) {
-                            console.log('Horários da agenda encontrados!', results3);
+                            // console.log('Horários da agenda encontrados!', results3);
                             callback(null, { psicologos: results1, agenda: results2, horarios: results3 });
                         }
                         else {

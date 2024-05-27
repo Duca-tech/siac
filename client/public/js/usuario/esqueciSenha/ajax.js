@@ -6,7 +6,8 @@ document.addEventListener('DOMContentLoaded', function() {
         var loader = document.querySelector('.loader');
         if (loader) loader.style.display = 'block';
 
-        var containerEmail = document.querySelector('.formEsqueciSenha');
+        var containerEmail =  document.querySelector('.containerEmail')
+        
         if (containerEmail) containerEmail.style.display = 'none';
 
         e.preventDefault();

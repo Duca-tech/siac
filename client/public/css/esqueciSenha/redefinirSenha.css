@@ -2,6 +2,9 @@ html, body{
     margin: 0;
     padding: 0;
 }
+.borda{
+    border: 1px solid red;
+}
 
 .containerForm{
     position: absolute;
