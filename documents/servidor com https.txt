@@ -1,0 +1,9 @@
+const options = {
+    key: fs.readFileSync(path.join(__dirname, '..', 'key.pem')),
+    cert: fs.readFileSync(path.join(__dirname, '..', 'cert.pem'))
+}
+
+
+https.createServer(options, app).listen(porta, () => {
+    console.log(`Servidor HTTPS rodando na porta ${porta} - https:localhost:3600`);
+  });

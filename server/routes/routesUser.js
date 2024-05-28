@@ -63,12 +63,12 @@ routerUser.post('/login', async (req, res) => {
         password: password
     }
 
-    loginUser(user, async (error, results) => {
+    loginUser(user, async (error, results, message) => {
         if (error) {
             console.log('Erro de solicitação select.', error.message);
             res.status(500).send('Erro de solicitação no banco de dados.');
         }
-        else if (results.length > 0) {
+        if (results.length > 0) {
             console.log('Usuário encontrado!', results);
             let tokenGerado = await gerarToken(results[0].idUser);
             console.log('Token gerado:', tokenGerado);
@@ -81,11 +81,11 @@ routerUser.post('/login', async (req, res) => {
             console.log('Id da sessão: ', req.session.id);
         
 
-            res.status(200).json({ message: 'Autenticação realizada e token enviado para o user', auth: true, token: tokenGerado, response: results });
+            return res.status(200).json({ message: 'Autenticação realizada e token enviado para o user', auth: true, token: tokenGerado, results: results });
         }
         else {
-            console.log('Usuário não encontrado!');
-            res.status(400).send('Usuário não encontrado');
+            console.log(message);
+            return res.status(200).json({message:message, results:results});
         }
     });
 })
@@ -140,6 +140,7 @@ routerUser.get('/agendamento/dadosPsico', (req, res) => {
         
     })
 })
+
 
 routerUser.post('/principal/agendamento/buscar', (req, res)=>{
     console.log('Dados Recebidos: ', req.body);

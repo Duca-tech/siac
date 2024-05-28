@@ -93,16 +93,19 @@ const updateSenha = (update, callback)=>{
 
 // Pegar usuário:
 const loginUser = (user, callback) => {
-    conexao.query(`SELECT * FROM usuario WHERE (email = ?) AND password = ?`, [user.emailUsuario, user.password], (error, results) => {
+    conexao.query(`SELECT * FROM usuario WHERE email = ? AND password = ?`, [user.emailUsuario, user.password], (error, results) => {
         if (error) {
             return console.log('Erro ao selecionar usuário.');
         }
         else if (results.length > 0) {
             console.log('Usuário perfeitamente encontrado!', results[0]);
-            callback(null, results);
+            var message = 'Usuário perfeitamente encontrado!'
+            callback(null, results, message);
         }
         else {
-            return console.log('Usuário não encontrado!');
+            console.log('Usuário não encontrado!');
+            var message = 'Usuário não encontrado!';
+            callback(null, results, message);
         }
     })
 }

@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 password: document.getElementById('password').value
             };
 
-            console.log(data);
+            
 
             fetch('http://localhost:3600/user/login', {
                 method: 'POST',
@@ -27,22 +27,14 @@ document.addEventListener('DOMContentLoaded', function () {
             })
             .then(function (response) {
                 console.log('Resposta do servidor: ', response);
-                console.log('Token: ', response.token);
-                console.log('idUser: ', response.response[0].idUser);
+                
+                verificarUser(response.results,response.message,response.token);
+               
 
-                // Salvar o token no localStorage:
-                localStorage.setItem('token', response.token);
-
-                // Salvar o idUser no localStorage:
-                localStorage.setItem('idUser', response.response[0].idUser);
-
-                //salvar perfil do usuário 
-                localStorage.setItem('perfil', response.response[0].perfil);
-
-                window.location.href = '/user/principal'
+                
             })
             .catch(function (error) {
-                console.error('Erro:', error.message);
+                console.error('Erro:', error);
             })
             .finally(function () {
                 console.log('Requisição finalizada!');

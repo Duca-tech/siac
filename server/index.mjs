@@ -1,5 +1,7 @@
 // const express = require('express'); // Puxando a lib "express".
 import express from 'express';
+import https from 'https';
+import fs from 'fs';
 import {fileURLToPath} from 'url';
 import {router} from './routes/routes.js';
 import {routerUser} from './routes/routesUser.js';

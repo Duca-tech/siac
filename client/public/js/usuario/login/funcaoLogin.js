@@ -1,7 +1,21 @@
-// // function verificarLogin(data){
+function verificarUser(results, message, token){
+    if(results.length>0){
+        console.log('Token: ', token);
+        console.log('idUser: ', results[0].idUser);
+         // Salvar o token no localStorage:
+         localStorage.setItem('token', token);
 
-//     if(data.perfil == 'psicologo') return window.location.href = 'psico/principal'
-//     if(data.perfil == 'recepcionista') return window.location.href = ''
-//     if(data.perfil == 'paciente') return window.location.href = '/user/principal'
+         // Salvar o idUser no localStorage:
+         localStorage.setItem('idUser', results[0].idUser);
 
-// // }
+         //salvar perfil do usuário 
+         localStorage.setItem('perfil', results[0].perfil);
+        
+         window.location.href = '/user/principal'
+
+    }
+    else{
+        alert(message + '\n\nverifique E-mail ou senha');
+
+    }
+}
