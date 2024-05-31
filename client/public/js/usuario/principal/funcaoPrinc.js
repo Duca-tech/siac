@@ -25,6 +25,11 @@ function verificarPerfil(perfil){
     if(perfil == 'paciente') document.getElementById('agendar-consulta').style.display = 'block'
     if(perfil == 'psicologo') document.getElementById('criar-agenda').style.display = 'block'
     if(perfil == 'recepcionista') document.getElementById('recepcionista').style.display = 'block'
+    if(perfil == 'administrador'){
+        document.getElementById('agendar-consulta').style.display = 'block'
+        document.getElementById('criar-agenda').style.display = 'block'
+        // document.getElementById('recepcionista').style.display = 'block'
+    }
 
 
 }
@@ -37,6 +42,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
    
 })
+
+function detalheUser(user){
+    var nome = document.querySelector('.right-section .profile .info .account h5');
+    nome.append(user.nome);
+    var email = document.querySelector('.right-section .profile .info .account p')
+    email.append(user.email);
+}
 
 /*--------------------------------------------------------------------------------- */
 /*--------------------------------------------------------------------------------- */

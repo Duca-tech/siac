@@ -112,6 +112,12 @@ routerUser.post('/principal/verificarToken', verificarToken, (req, res) => {
     })
 })
 
+//dash
+routerUser.get('/dash', (req,res)=>{
+    res.render('usuario/admin/dashboard');
+})
+
+
 // Abrir página de Agendamento
 routerUser.get('/agendamento', verificarToken, (req, res) => {
     res.render('usuario/paciente/agendamento');

@@ -6,7 +6,8 @@ import {fileURLToPath} from 'url';
 import {router} from './routes/routes.js';
 import {routerUser} from './routes/routesUser.js';
 import {routerPsico} from './routes/routesPsico.js';
-import {routerRecep} from './routes/routesRecep.js'
+import {routerRecep} from './routes/routesRecep.js';
+import {routerAdm} from './routes/routesAdm.js';
 
 import session from 'express-session'
 const app = express(); // Instancia a lib "express" que nada mais serve para tratar requisições cliente-servidor.
@@ -89,6 +90,8 @@ app.use('/psico', routerPsico);
 // -------------------- INÍCIO DO SERVIDOR PARA RECEPCIONISTA:
 app.use('/recepcionista', routerRecep);
 
+app.use('/adm', routerAdm);
+
 
 // Teste Edu - Rota criada para abordagem Fetch API:
 // app.use('/recepcionista/:id')
@@ -97,15 +100,15 @@ app.use('/recepcionista', routerRecep);
 app.listen(porta, ()=>{
     console.log(`Servidor iniciado: http://localhost:${porta}`);
 
-    const command = `start opera gx http://localhost:${porta}`; 
+    // const command = `start opera gx http://localhost:${porta}`; 
     // Módulo child_process (exec) do Node.js para executar um comando no sistema operacional que inicia o navegador.
-    exec(command, (error, stdout, stderr) => {
-        if (error) {
-            console.error(`Erro ao abrir o Opera GX: ${error}`);
-            return;
-        }
-        console.log(`Opera GX iniciado!`);
-    });
+    // exec(command, (error, stdout, stderr) => {
+    //     if (error) {
+    //         console.error(`Erro ao abrir o Opera GX: ${error}`);
+    //         return;
+    //     }
+    //     console.log(`Opera GX iniciado!`);
+    // });
 })
 
 export {

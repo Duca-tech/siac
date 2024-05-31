@@ -53,7 +53,7 @@ body{
     color: #364670;
 }
 
-.left-section .sign-out button:hover{
+.left-section .sign-out:hover{
     font-size: 20px;
     border: 1px solid black;
     border-radius: 10px;

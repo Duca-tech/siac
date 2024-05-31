@@ -4,7 +4,31 @@ var token = localStorage.getItem('token');
 var perfil = localStorage.getItem('perfil');
 document.addEventListener('DOMContentLoaded', function () {
     // Tela principal quando clica em agendar consulta:
-    
+    var id ={
+        idUser: idUser
+    }
+    fetch('/user/principal/conta/detalhes',{
+        method: 'POST',
+        headers:{
+            'Content-Type':'application/json'
+        },
+        body: JSON.stringify(id)
+    })
+    .then(response=>response.json())
+    .then(data=>{
+        console.log('Resposta do Servidor: ', data);
+        detalheUser(data.data[0]);
+    })
+    .catch(error=>{
+        console.error('erro: ', error);
+    })
+    .finally(()=>{
+        console.log('Requisição finalizada!');
+    })
+
+    document.querySelector('.left-section .sidebar .dashboard').addEventListener('click', function(){
+        window.location.href = '/user/dash';
+    })
 
     
     document.querySelector('.main .quick-access .item').addEventListener('click', function () {
@@ -72,13 +96,9 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    document.querySelector('#logout').addEventListener('click', function (e) {
-        if (e.target.classList.contains('logout')) {
-            e.preventDefault();
-            var logout = e.target.dataset.id;
-            console.log('Logout: ', logout);
+    document.querySelector('.left-section .sign-out').addEventListener('click', function () {
             window.location.href = '/';
-        }
+        
     });
 
     document.getElementById('criar-agenda').addEventListener('click', function(){

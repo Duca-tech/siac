@@ -1,5 +1,7 @@
 import { callActionApi } from 'adminjs';
+import { rejects } from 'assert';
 import sql from 'mysql2';
+import { resolve } from 'path';
 export default sql
 
 const conexao = sql.createPool({
@@ -214,7 +216,7 @@ const getUser = (idUser, callback) => {
         }
         else {
             console.log('select pra horario, agenda e usuario não foi!');
-            conexao.query(`SELECT * FROM usuario where idUser = ?`, [idUser], (error, results) => {
+            conexao.query(`SELECT nome, email ,celular, nomeUser FROM usuario where idUser = ?`, [idUser], (error, results) => {
                 if (error) console.log('Erro de consulta.');
                 console.log('Usuário encontrado, porém não existe agenda: ', results);
                 callback(null, results);
@@ -414,6 +416,48 @@ const putStatusConsult = (horario, callback) => {
         })
     })
 }
+
+//------------- Consultas para perfil ADM ------------------------------
+const getDataAdm = async (callback) => {
+    try {
+        const query = `
+            SELECT horario.*, agenda.*, usuario.*
+            FROM horario
+            INNER JOIN agenda ON horario.idAgenda = agenda.idAgenda
+            INNER JOIN usuario ON agenda.idUser = usuario.idUser`;
+        
+        const query2 = 'SELECT * FROM usuario';
+
+        const query3 = 'SELECT agenda.*, usuario.* from agenda inner join usuario on agenda.idUser = usuario.idUser';
+
+        const results = await new Promise((resolve, reject) => {
+            conexao.query(query, (error, results) => {
+                if (error) return reject(error);
+                resolve(results);
+            });
+        });
+
+        const results2 = await new Promise((resolve, reject) => {
+            conexao.query(query2, (error, results) => {
+                if (error) return reject(error);
+                resolve(results);
+            });
+        });
+
+        const results3 = await new Promise((resolve, reject)=>{
+            conexao.query(query3, (error, results)=>{
+                if(error) return reject(error);
+                resolve(results);
+            })
+        })
+
+        callback(null, results, results2, results3);
+    } catch (error) {
+        console.log('Erro na consulta ao banco: ', error);
+        callback(error, null, null);
+    }
+};
+
 // -------------------- FIM DE CONSULTAS NO BANCO PARA CONSULTAS MÉDICAS!
 
 export  {
@@ -435,6 +479,6 @@ export  {
     getEmail,
     updateSenha,
     verificarConsulta,
-    
+    getDataAdm,
     putStatusConsult
 }

@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+
+.borda{
+    border: 1px solid red;
+}
+.consultaMarcdaouNao{
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.5);;
+    background-color: #fff
+    
+}
+#selectConsulta{
+    
+}
+
+.dashUsers{
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.5);;
+    background-color: #fff;
+    ;
+    margin-bottom: 25px;
+}
+.dashMain{
+    width: auto;
+    height: auto;
+    padding-top: 25px;
+    padding-bottom: 50px;
+    
+}
+.grafico{
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+}
+
+.grafico2{
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+}
