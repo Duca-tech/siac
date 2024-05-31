@@ -7,7 +7,10 @@ function exibirConsultas(ctx, data){
             responsive: true,
             scales: {
                 y: {
-                    beginAtZero: true
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1
+                    }
                 }
             }
         }
@@ -40,4 +43,22 @@ function selecionarConsulta(data){
         chartConsulta.update();
 
     })
+}
+
+function exibirAgendas(ag, data){
+    charUser = new Chart(ag, {
+        type: 'bar',
+        data: data.dataAg,
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1
+                    }
+                }
+            }
+        }
+    });
 }

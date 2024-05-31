@@ -15,11 +15,11 @@
     <div class="left-section">
         <div class="sidebar">
             <img src="/img/CORTADO_logo_fundo_grande-removebg-preview 1.png" class="img-fluid" alt="">
-            <div class="item active">
+            <div class="item">
                 <i class="ri-home-line"></i>
                 <h3>Inicio</h3>
             </div>
-            <div class="item dashboard">
+            <div class="item dashboard active">
                 <i class="ri-apps-line"></i>
                 <h3>Dashboard</h3>
             </div>
@@ -53,9 +53,9 @@
     </div>
 
     <div class="dashMain">
-        <div class="grafico borda">
-           <div class=" consultaMarcdaouNao" style="width: 400px; height: 280px;">
-            <h5 style="color: #364670;">Consultas</h5>
+        <div class="grafico">
+           <div class=" dash" >
+            <h5>Consultas</h5>
               <canvas id="consultas"></canvas>
               <select name="" id="selectConsulta">
                 <option value="0">Consulta Livre</option>
@@ -63,14 +63,17 @@
 
               </select>
            </div>
-           <div class="dashUsers" style="width: 400px; height: 250px;">
-            <h5 style="color: #364670;">Usuários Cadastrados</h5>
+           <div class="dash" >
+            <h5 >Usuários Cadastrados</h5>
             <canvas id="usuarios"></canvas>
            </div>
        </div>
 
        <div class="grafico2">
-         <canvas id="dashAgenda"></canvas>
+            <div class="dash">
+                <h5>Agendas Criadas</h5>
+                <canvas id="dashAgenda"></canvas>
+            </div>
        </div>
     </div>
 

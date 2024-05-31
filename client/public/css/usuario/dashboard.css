@@ -3,25 +3,25 @@
 .borda{
     border: 1px solid red;
 }
-.consultaMarcdaouNao{
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.5);;
-    background-color: #fff
-    
-}
-#selectConsulta{
-    
-}
-
-.dashUsers{
-    padding: 15px;
+.dash{
+    padding-bottom: 50px;
+    padding-top: 20px;
+    padding-left: 15px;
+    padding-right: 10px;
     border-radius: 10px;
     box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.5);;
     background-color: #fff;
-    ;
+    width: 400px; 
+    height: 250px;
     margin-bottom: 25px;
+    
 }
+.dash h5{
+    color: #364670;
+}
+
+
+
 .dashMain{
     width: auto;
     height: auto;

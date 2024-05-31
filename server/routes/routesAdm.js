@@ -6,6 +6,7 @@ var countJan = 0, countFev =0, countMarc=0, countMaio =0, countAbril =0, countJu
 
 var countJanDisp = 0, countFevDisp =0, countMarcDisp=0, countMaioDisp =0, countAbrilDisp =0, countJunhoDisp =0, countJulhoDisp =0, countAgoDisp =0, countSetDisp =0, countOutDisp=0, countNovDisp =0, countDezDisp =0
 
+var countJanAg = 0, countFevAg =0, countMarcAg =0, countAbrilAg = 0, countMaioAg =0, countJunhoAg = 0, countJulhoAg =0, countAgoAg =0, countSetAg=0, countOutAg =0, countNovAg =0, countDezAg=0
 const meses = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
 
 let perfilAdm =0, perfilPsico =0, perfilPac =0, perfilRecep =0;
@@ -14,6 +15,7 @@ routerAdm.get('/dash', (req,res)=>{
     countJan = 0, countFev =0, countMarc=0, countMaio =0, countAbril =0, countJunho =0, countJulho =0, countAgo =0, countSet =0, countOut=0, countNov =0, countDez =0
     countJanDisp = 0, countFevDisp =0, countMarcDisp=0, countMaioDisp =0, countAbrilDisp =0, countJunhoDisp =0, countJulhoDisp =0, countAgoDisp =0, countSetDisp =0, countOutDisp=0, countNovDisp =0, countDezDisp =0
     perfilAdm =0, perfilPsico =0, perfilPac =0, perfilRecep =0
+    countJanAg = 0, countFevAg =0, countMarcAg =0, countAbrilAg = 0, countMaioAg =0, countJunhoAg = 0, countJulhoAg =0, countAgoAg =0, countSetAg=0, countOutAg =0, countNovAg =0, countDezAg=0
     
     console.log('idUser: ', req.session.userId);
     getDataAdm((error,results, results2, results3)=>{
@@ -22,11 +24,13 @@ routerAdm.get('/dash', (req,res)=>{
             contarPerfis(element.perfil);
         })
         results.map(element=>{
-            formatarData(element);
+           var mes =  formatarData(element);
+           countConsult(element.disponibilidade, mes);
             // console.log(element.hora);
         });
         results3.map(element=>{
-
+            var mes = formatarData(element);
+            countAgenda(mes);
         })
         // arrayDia = removeDuplicatesFromNestedArray(arrayDia);
         // arrayMes = removeDuplicatesFromNestedArray(arrayMes);
@@ -56,7 +60,8 @@ routerAdm.get('/dash', (req,res)=>{
                 data: [countJanDisp, countFevDisp, countMarcDisp, countAbrilDisp, countMaioDisp, countJunhoDisp, countJulhoDisp, countAgoDisp, countSetDisp, countOutDisp, countNovDisp, countDezDisp],
                 backgroundColor: 'rgba(75, 192, 192, 1)',
                 borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1
+                borderWidth: 1,
+                fill: false
             }]
         };
 
@@ -78,10 +83,21 @@ routerAdm.get('/dash', (req,res)=>{
                 borderWidth: 1
             }]
         }
+        const dataAg = {
+            labels: meses,
+            datasets: [{
+                label: 'Agendas',
+                data: [countJanDisp, countFevDisp, countMarcDisp, countAbrilDisp, countMaioDisp, countJunhoDisp, countJulhoDisp, countAgoDisp, countSetDisp, countOutDisp, countNovDisp, countDezDisp],
+                backgroundColor: 'rgba(75, 192, 192, 1)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1,
+                fill: false
+            }]
+        };
 
-        const countAgPsico =
         
-        res.json({dataDispZero:dataDispZero, dataDispUm:dataDispUm, perfilUser: perfilUser});
+        
+        res.json({dataDispZero:dataDispZero, dataDispUm:dataDispUm, perfilUser: perfilUser, dataAg:dataAg});
     })
     
 })
@@ -91,12 +107,12 @@ function formatarData(element){
     var mes = data.getUTCMonth() + 1;
     var dia = data.getUTCDate();
     
-    
+    return mes;
     
     
 }
 
-function count(disponibilidade, mes){
+function countConsult(disponibilidade, mes){
 
     if(disponibilidade == 0){
         if (mes == 1){
@@ -139,6 +155,86 @@ function count(disponibilidade, mes){
        }
        else{
         if (mes == 1){
+            countJanAg++;
+           }
+           if (mes == 2){
+            countFevAg++;
+           }
+           if (mes == 3){
+            countMarcAg++;
+           }
+           if (mes == 4){
+            countAbrilAg++;
+           }
+           if (mes == 5){
+            countMaioAg++;
+           }
+           if (mes == 6){
+            countJunhoAg++;
+           }
+           if (mes == 7){
+            countJulhoAg++;
+           }
+           if (mes == 8){
+            countAgoAg++;
+           }
+           if (mes == 9){
+            countSetAg++;
+           }
+           if (mes == 10){
+            countOutAg++;
+           }
+           if (mes == 11){
+            countNovAg++;
+           }
+           if (mes == 12){
+            countDezAg++;
+           }
+           
+       }
+}
+
+function countAgenda(mes){
+        if (mes == 1){
+            countJan++;
+           }
+           if (mes == 2){
+            countFev++;
+           }
+           if (mes == 3){
+            countMarc++;
+           }
+           if (mes == 4){
+            countAbril++;
+           }
+           if (mes == 5){
+            countMaio++;
+           }
+           if (mes == 6){
+            countJunho++;
+           }
+           if (mes == 7){
+            countJulho++;
+           }
+           if (mes == 8){
+            countAgo++;
+           }
+           if (mes == 9){
+            countSet++;
+           }
+           if (mes == 10){
+            countOut++;
+           }
+           if (mes == 11){
+            countNov++;
+           }
+           if (mes == 12){
+            countDez++;
+           }
+           
+    
+    
+        if (mes == 1){
             countJanDisp++;
            }
            if (mes == 2){
@@ -175,7 +271,7 @@ function count(disponibilidade, mes){
             countDezDisp++;
            }
            
-       }
+    
 }
 
 
