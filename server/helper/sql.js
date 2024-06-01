@@ -179,9 +179,9 @@ const getHorario = (horario, callback) => {
 
 
 const addHora = (horario, callback) =>{
-    const query = `update horario set disponibilidade = 1, status = 'agendado' where idHorario = ?`
+    const query = `update horario set disponibilidade = 1, status = 'agendado', idUser = ? where idHorario = ?`
 
-    conexao.query(query, [horario.idHorario], (error, results)=>{
+    conexao.query(query, [horario.idUser, horario.idHorario], (error, results)=>{
         if(error) return console.log('Erro na consulta: ', error)
 
         console.log('Resultado da Consulta: ', results);
@@ -316,7 +316,7 @@ const addAgenda = (agenda, callback) => {
                     return callback(null, { agenda: agenda, horas: horas });
                 }
 
-                conexao.query(`INSERT INTO horario (hora, idAgenda) VALUES (?, ?)`, [horaAtual, idAgenda], (error, results2) => {
+                conexao.query(`INSERT INTO horario (hora, idAgenda, idPsico) VALUES (?, ?, ?)`, [horaAtual, idAgenda, agenda.idPsico], (error, results2) => {
                     if (error) {
                         console.log('Erro ao adicionar horário: ', error);
                     } else if (results2.affectedRows > 0) {
@@ -357,17 +357,30 @@ const deleteAgenda = (idAgenda, callback) => {
             callback(null, results)
         }
         else {
+            conexao.query(`DELETE agenda from agenda where idAgenda = ?`, [idAgenda], (error, results)=>{
+                if(error) return console.log('Erro na consulta: ', error)
+                callback(null, results);
+            })
             console.log('Nenhuma Agenda Encontrado com esse Id');
         }
     })
 }
 
-const getPsicoAgenda = (idPsico, callback) => {
-    conexao.query(`SELECT * FROM agenda WHERE idUser = ?`, [idPsico], (error, results) => {
-        if (error) return console.log('Erro na Consulta');
-        console.log('Agendas: ', results);
-        callback(null, results);
-    })
+const getPsicoAgenda = (idPsico, perfil, callback) => {
+    if(perfil == 'administrador'){
+        conexao.query(`SELECT agenda.*, usuario.* from agenda inner join usuario on agenda.idUser = usuario.idUser`, (error, results) => {
+            if (error) return console.log('Erro na Consulta');
+            console.log('Agendas: ', results);
+            callback(null, results);
+        })
+    }
+    else{
+        conexao.query(`SELECT * FROM agenda WHERE idUser = ?`, [idPsico], (error, results) => {
+            if (error) return console.log('Erro na Consulta');
+            console.log('Agendas: ', results);
+            callback(null, results);
+        })
+    }
 }
 
 

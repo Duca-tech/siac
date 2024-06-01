@@ -29,6 +29,7 @@ export function exibirAgendas(agenda) {
     var cabecalho = $(`
             <thead  id="cabecalhoAgenda">
                 <tr>
+                    <th>Psicólogo</th>
                     <th>Data</th>
                     <th>Dia da semana</th>
                     <th>Hora Inicial</th>
@@ -45,12 +46,14 @@ export function exibirAgendas(agenda) {
         agenda[i].horaFin = formatarHorario(agenda[i].horaFin);
         agenda[i].horaIni = formatarHorario(agenda[i].horaIni);
         var linha = $(`<tr></tr>`)
+        var nomePsico = $(`<td>${agenda[i].nome}</td>`)
         var data = $(`<td >${agenda[i].data}</td>`)
         var diaSemana = $(`<td >${agenda[i].diaSemana}</td>`)
         var horaIni = $(`<td >${agenda[i].horaIni}</td>`)
         var horaFin = $(`<td >${agenda[i].horaFin}</td>`)
         var delecao = $(`<td><button class='btn btn-danger buttonDelete' data-id='${agenda[i].idAgenda}'>Deletar Agenda</button></td>`);
 
+        linha.append(nomePsico);
         linha.append(data)
         linha.append(diaSemana)
         linha.append(horaIni)

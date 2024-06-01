@@ -25,9 +25,12 @@ function verificarPerfil(perfil){
     if(perfil == 'paciente') {
         document.getElementById('agendar-consulta').style.display = 'block'
         document.querySelector('.left-section .sidebar .dashboard').style.display = 'none';
+        document.getElementById('prontuario').style.display = 'none'
+
     }
     if(perfil == 'psicologo'){
         document.getElementById('criar-agenda').style.display = 'block'
+        document.getElementById('prontuario').style.display = 'block'
         document.querySelector('.left-section .sidebar .dashboard').style.display = 'none';
     } 
     if(perfil == 'recepcionista'){

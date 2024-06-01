@@ -10,10 +10,10 @@ import session from 'express-session';
 routerPsico.post('/agenda/exibirAgenda', (req, res) => {
     console.log('Dados Recebidos: ', req.body);
     var { idPsico } = req.body;
-    console.log('Id psico: ', idPsico);
-    getPsicoAgenda(idPsico, (error, results) => {
+    var perfil = req.session.perfil;
+    getPsicoAgenda(idPsico, perfil,(error, results) => {
         if (results.length == 0) return res.status(200).json({ message: 'Resultado da consulta vazio ', results:results})
-        res.status(200).json({ message: 'Usuario encontrado!', agenda: results });
+        res.status(200).json({agenda: results });
     })
 })
 
@@ -73,6 +73,10 @@ routerPsico.get('/principal/verificarToken/:idUser', verificarToken, (req, res) 
 
 routerPsico.get('/principal/agenda', verificarToken, (req, res) => {
     res.render('usuario/psicologo/agenda');
+})
+
+routerPsico.get('/prontuario', verificarToken, (req,res)=>{
+    res.render('usuario/psicologo/prontuario')
 })
 // -------------------- FIM DA CONFIGURAÇÃO DE ROTAS PARA PSICÓLOGO!
 

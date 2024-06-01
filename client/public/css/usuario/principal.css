@@ -492,6 +492,7 @@ body{
 
     .main .quick-access .item{
         width: 23%;
+        display: none;
     }
 
     .main .quick-access .item i{
@@ -559,7 +560,8 @@ body{
     }
 
     .left-section .sidebar .item i,
-    .left-section .sign-out i{
+    .left-section .sign-out i,
+    .right-section .profile .info i{
         font-size: 22px;
     }
 

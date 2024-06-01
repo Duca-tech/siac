@@ -126,6 +126,9 @@ document.addEventListener('DOMContentLoaded', function () {
             console.log('Requisição Finalizada !');
         })
     })
+    document.getElementById('prontuario').addEventListener('click', function(){
+        window.location.href = '/psico/prontuario'
+    })
 
     $('#logout').on('click', function(e){
         e.preventDefault();

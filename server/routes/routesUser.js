@@ -74,7 +74,8 @@ routerUser.post('/login', async (req, res) => {
             console.log('Token gerado:', tokenGerado);
 
             // Pegando o id do banco e armazenando na requisição id do session.
-            req.session.userId = results[0].idUser 
+            req.session.userId = results[0].idUser ;
+            req.session.perfil = results[0].perfil;
             
             // Armazenando o token na requisiçao token do session.
             req.session.token = tokenGerado;
@@ -162,7 +163,8 @@ routerUser.post('/agendamento/agendarConsulta', (req, res)=>{
     console.log('Dados recebidos: ', req.body);
     var horario = {
         hora: req.body.hora,
-        idHorario: req.body.idHorario
+        idHorario: req.body.idHorario,
+        idUser: req.body.idUser
     }
     addHora(horario, (error, results)=>{
         res.status(200).json({message: 'Consulta agendada com Sucesso', results});

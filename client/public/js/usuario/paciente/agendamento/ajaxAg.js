@@ -1,7 +1,8 @@
 // import {verificacao} from '/js/usuario/agendamento/funcaoAg.js'
+var idUser = localStorage.getItem('idUser');
+
 $(document).ready(function(){
     
-    idUser = localStorage.getItem('idUser');
     
     $.ajax({
         url:'/user/agendamento/dadosPsico',
@@ -34,7 +35,6 @@ $(document).ready(function(){
 
     // Variável global:
     var hora;
-    var idUser;
     var button;
     var msgWpp;
 
@@ -251,7 +251,8 @@ $(document).ready(function(){
         
         var objHorario = {
             hora: Selecthorario,
-            idHorario: idHorario
+            idHorario: idHorario,
+            idUser: idUser
         };
 
         fetch('http://localhost:3600/user/agendamento/agendarConsulta', {
