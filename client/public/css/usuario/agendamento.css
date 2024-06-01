@@ -9,9 +9,57 @@
     border: 1px solid red;
 }
 
-body{
-    height: 100%;
-    background-color: #f0f0f0;
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f8ff;
+}
+.navbar {
+    padding: 15px;
+}
+.navbar-toggler {
+    border: none;
+}
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=UTF8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%28255, 255, 255, 1%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/ %3E%3C/svg%3E");
+}
+.container-fluid {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+.data, .hora, .diaSemana, .selectDiaSemana, #selecionePsico {
+    border-radius: 5px;
+    border: 1px solid #1E90FF;
+    padding: 5px;
+    margin: 5px;
+}
+.buttonDiaSemana {
+    background-color: #1E90FF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin-left: 5px;
+}
+.buttonDiaSemana:hover {
+    background-color: #187bcd;
+}
+.btn-outline-success.search {
+    color: #1E90FF;
+    border-color: #1E90FF;
+}
+.btn-outline-success.search:hover {
+    background-color: #1E90FF;
+    color: white;
+    border-color: #1E90FF;
+}
+.selectDiaSemana {
+    display: none;
+}
+.containerDiaSemana {
+    display: flex;
+    align-items: center;
 }
 .planner{
     text-align: center;

@@ -149,8 +149,9 @@ body{
 
 .main .quick-access{
     display: flex;
-    justify-content: space-around;
+    /* justify-content: space-around; */
     cursor: pointer;
+    gap: 35px;
 }
 
 #agendar-consulta, #criar-agenda, #verificarAgenda{

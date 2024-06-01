@@ -80,8 +80,8 @@ $(document).ready(function () {
                 console.log('Requisição finalizada!');
             })
     })
-    document.getElementById('conta').addEventListener('click', function () {
-        window.location.href = '/user/principal/conta';
 
-    });
+    document.querySelector('.right-section .profile').addEventListener('click', function (){
+        window.location.href = '/user/principal/conta'
+    })
 })

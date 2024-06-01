@@ -29,10 +29,10 @@ export function exibirAgendas(agenda) {
     var cabecalho = $(`
             <thead  id="cabecalhoAgenda">
                 <tr>
-                    <th >Data</th>
-                    <th >Dia da semana</th>
-                    <th >Hora Inicial</th>
-                    <th >Hora Final</th>
+                    <th>Data</th>
+                    <th>Dia da semana</th>
+                    <th>Hora Inicial</th>
+                    <th>Hora Final</th>
                 </tr>
             </thead>
         `)

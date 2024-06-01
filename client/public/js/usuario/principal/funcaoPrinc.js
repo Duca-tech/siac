@@ -4,14 +4,14 @@ function verificaoConsulta(data, perfil){
         alert('Você ja tem uma consulta marcada, veja nos detalhes da sua conta.')
         window.location.href='/user/principal/conta'
     }
-    if(perfil.trim().toLowerCase() === 'paciente') { 
+    if(perfil.trim().toLowerCase() === 'paciente' || perfil.trim().toLowerCase() == 'administrador') { 
         
         window.location.href = '/user/agendamento';
     }
-    else if(perfil == 'psicologo'){
+    else if(perfil.trim().toLowerCase() == 'psicologo' || perfil.trim().toLowerCase() == 'administrador'){
         window.location.href = '/psico/principal/agenda'
     }
-    else if(perfil == 'recepcionista'){
+    else if(perfil.trim().toLowerCase() == 'recepcionista' || perfil.trim().toLowerCase() =='administrador'){
         window.location.href = '/recepcionista/principal/verificarConsulta'
     }    
     else {
@@ -22,9 +22,19 @@ function verificaoConsulta(data, perfil){
 
 function verificarPerfil(perfil){
 
-    if(perfil == 'paciente') document.getElementById('agendar-consulta').style.display = 'block'
-    if(perfil == 'psicologo') document.getElementById('criar-agenda').style.display = 'block'
-    if(perfil == 'recepcionista') document.getElementById('recepcionista').style.display = 'block'
+    if(perfil == 'paciente') {
+        document.getElementById('agendar-consulta').style.display = 'block'
+        document.querySelector('.left-section .sidebar .dashboard').style.display = 'none';
+    }
+    if(perfil == 'psicologo'){
+        document.getElementById('criar-agenda').style.display = 'block'
+        document.querySelector('.left-section .sidebar .dashboard').style.display = 'none';
+    } 
+    if(perfil == 'recepcionista'){
+        document.getElementById('recepcionista').style.display = 'block'
+        document.querySelector('.left-section .sidebar .dashboard').style.display = 'none';
+
+    } 
     if(perfil == 'administrador'){
         document.getElementById('agendar-consulta').style.display = 'block'
         document.getElementById('criar-agenda').style.display = 'block'
