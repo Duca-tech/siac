@@ -1,5 +1,5 @@
 import express  from 'express';
-import  {addUser,loginUser,getPsico,getHorario,updateHorario,getUser,verificarPerfil,updateUser,deleteHorario,getAgenda,addAgenda,deleteAgenda,getPsicoAgenda,verificarConsulta,putStatusConsult} from '../helper/sql.js'
+import  {addUser,loginUser,getPsico,getHorario,updateHorario, getHoursPac, relatorioPac,getUser,verificarPerfil,updateUser,deleteHorario,getAgenda,addAgenda,deleteAgenda,getPsicoAgenda,verificarConsulta,putStatusConsult} from '../helper/sql.js'
 const routerPsico = express.Router();
 import {gerarToken,verificarToken,tokenDestroyer} from '../config/token/token.js'
 import {enviarMensagem} from '../config/twilio/twilio.js';
@@ -77,6 +77,30 @@ routerPsico.get('/principal/agenda', verificarToken, (req, res) => {
 
 routerPsico.get('/prontuario', verificarToken, (req,res)=>{
     res.render('usuario/psicologo/prontuario')
+})
+
+routerPsico.post('/relatorio/listarUser', (req,res)=>{
+    console.log('Resposta do Servior: ', req.body);
+    var idPsico = req.body.idPsico;
+    relatorioPac(idPsico, (error, results)=>{
+        console.log('banco: ', results);
+        res.status(200).json({message:'requisição chegou', results: results});
+
+    })
+    
+
+})
+var idPaciente;
+routerPsico.get('/relatorio/detalhePaciente', (req,res)=>{
+    console.log('idPaciente: ', req.query.idPac);
+    idPaciente = req.query.idPac;
+    res.render('usuario/psicologo/detalheProntuarioUser');
+})
+
+routerPsico.get('/relatorio/detalhePaciente/consultas', (req,res)=>{
+    getHoursPac(idPaciente, (error, results)=>{
+        res.status(200).json({message: 'oi', results: results});
+    })
 })
 // -------------------- FIM DA CONFIGURAÇÃO DE ROTAS PARA PSICÓLOGO!
 

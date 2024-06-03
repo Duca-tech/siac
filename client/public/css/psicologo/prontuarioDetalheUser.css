@@ -92,6 +92,10 @@ body{
     border-spacing: 0 8px;
     box-shadow: 0 2px 6px rgba(136, 148, 171, 0.2), 0 24px 20px -24px rgba(71, 82, 107, 0.1);
 }
+.main table thead {
+    text-align: center;
+}
+
 
 .main table tbody tr{
     cursor: pointer;
@@ -103,7 +107,7 @@ body{
     border-radius: 14px;
     background: #e8eaf6;
 }
-
+ 
 .main table tbody tr td{
     padding: 16px;
 }
@@ -147,6 +151,53 @@ body{
     border-radius: 0 14px 14px 0;
 }
 
+
+.main .container {
+    width: 80%;
+    max-width: 800px;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: none;
+}
+
+.main h1 {
+    text-align: center;
+    color: #333;
+}
+
+.main h2 {
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 5px;
+    color: #333;
+}
+
+.main p {
+    line-height: 1.6;
+    color: #666;
+}
+
+.main ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.main ul li {
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.main ul li p {
+    margin: 5px 0;
+}
+
+.main strong {
+    color: #333;
+}
 .right-section{
     flex: 2;
     padding: 25px 25px 15px 10px;

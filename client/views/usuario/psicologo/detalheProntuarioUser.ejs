@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.min.css">
-    <link rel="stylesheet" href="/css/psicologo/prontuario.css">
+    <link rel="stylesheet" href="/css/psicologo/prontuarioDetalheUser.css">
     <title></title>
 </head>
 <body >
@@ -47,20 +47,84 @@
     </div>
 
     <div class="main">
-
         <table id="relatorioTable">
             <thead>
-                <tr>
-                    
-                </tr>
+                <th>Status</th>
+                <th>Data</th>
+                <th>Horários</th>
             </thead>
             <tbody>
 
             </tbody>
         </table>
 
-        <div class="containerProntuario">
 
+        <div class="container">
+            <h1>Prontuário do Paciente</h1>
+    
+            <section class="info-basica">
+                <h2>Informações Básicas</h2>
+                <p><strong>Nome:</strong> João da Silva</p>
+                <p><strong>Data de Nascimento:</strong> 15/03/1985</p>
+                <p><strong>Sexo:</strong> Masculino</p>
+                <p><strong>Endereço:</strong> Rua das Flores, 123, São Paulo, SP</p>
+                <p><strong>Telefone:</strong> (11) 98765-4321</p>
+                <p><strong>E-mail:</strong> joao.silva@example.com</p>
+            </section>
+    
+            <section class="historico-medico">
+                <h2>Histórico Médico</h2>
+                <p><strong>Doenças Pré-existentes:</strong> Hipertensão</p>
+                <p><strong>Cirurgias Anteriores:</strong> Apendicectomia (2010)</p>
+                <p><strong>Medicamentos em Uso:</strong> Losartana</p>
+                <p><strong>Alergias:</strong> Nenhuma</p>
+                <p><strong>Histórico Familiar:</strong> Pai com diabetes tipo 2</p>
+            </section>
+    
+            <section class="consultas-anteriores">
+                <h2>Consultas Anteriores</h2>
+                <ul>
+                    <li>
+                        <p><strong>Data:</strong> 10/01/2023</p>
+                        <p><strong>Médico:</strong> Dr. Pedro Almeida</p>
+                        <p><strong>Motivo:</strong> Check-up anual</p>
+                        <p><strong>Diagnóstico:</strong> Saudável</p>
+                        <p><strong>Tratamento:</strong> Nenhum</p>
+                        <p><strong>Notas:</strong> Paciente em bom estado de saúde</p>
+                    </li>
+                </ul>
+            </section>
+    
+            <section class="proximas-consultas">
+                <h2>Próximas Consultas</h2>
+                <ul>
+                    <li>
+                        <p><strong>Data:</strong> 15/07/2024</p>
+                        <p><strong>Especialidade:</strong> Cardiologia</p>
+                        <p><strong>Motivo:</strong> Acompanhamento de hipertensão</p>
+                        <p><strong>Notas:</strong> Levar resultados dos exames de sangue</p>
+                    </li>
+                </ul>
+            </section>
+    
+            <section class="exames-resultados">
+                <h2>Exames e Resultados</h2>
+                <ul>
+                    <li>
+                        <p><strong>Tipo:</strong> Hemograma</p>
+                        <p><strong>Data:</strong> 01/06/2024</p>
+                        <p><strong>Resultados:</strong> Dentro da normalidade</p>
+                        <p><strong>Comentários:</strong> Sem alterações</p>
+                    </li>
+                </ul>
+            </section>
+    
+            <section class="anotacoes-medico">
+                <h2>Anotações do Médico</h2>
+                <p><strong>Observações:</strong> Paciente deve manter dieta equilibrada e realizar exercícios físicos regularmente.</p>
+                <p><strong>Recomendações:</strong> Continuar uso da medicação prescrita.</p>
+                <p><strong>Planos de Tratamento:</strong> Agendar nova consulta em 6 meses para acompanhamento.</p>
+            </section>
         </div>
         
     </div>
@@ -106,8 +170,8 @@
     
 <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-<script src="/js/psicologo/relatorio/relatorioAjax.js"></script>
-<script src="/js/psicologo/relatorio/relatorioFuncao.js"></script>
+<script type="module" src="/js/psicologo/relatorio/prontuarioDetalheUserAjax.js"></script>
+<script type="module" src="/js/psicologo/relatorio/prontuarioDetalheUserFuncao.js"></script>
 
 </body>
 </html>

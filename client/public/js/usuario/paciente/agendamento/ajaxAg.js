@@ -277,6 +277,13 @@ $(document).ready(function(){
         });
     });
 
+    $('.planner').on('click', '.containerConf .cancelarConsulta', function(){
+        $('.containerConf').css({
+            'display':'none'
+        });
+        $('.select-hours').prop('selectedIndex', 0);
+    })
+
 
 })
 

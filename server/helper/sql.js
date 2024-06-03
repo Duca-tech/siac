@@ -1,5 +1,6 @@
 import { callActionApi } from 'adminjs';
 import { rejects } from 'assert';
+import { error } from 'console';
 import sql from 'mysql2';
 import { resolve } from 'path';
 export default sql
@@ -383,6 +384,25 @@ const getPsicoAgenda = (idPsico, perfil, callback) => {
     }
 }
 
+const relatorioPac = (idPsico, callback)=>{
+    const query = `select DISTINCT usuario.nome, usuario.idUser from usuario left join
+    horario on usuario.idUser = horario.idUser
+   where horario.idPsico = ? and horario.status = 'agendado'`
+    conexao.query(query, [idPsico], (error, results)=>{
+        if(error) return console.log('Erro na consulta: ', error);
+        callback(null, results);
+    })
+}
+
+const getHoursPac = (idPaciente, callback)=>{
+    const query = `select horario.*, agenda.* from horario inner join 
+    agenda on horario.idAgenda = agenda.idAgenda
+    where horario.idUser = ?`
+    conexao.query(query, [idPaciente], (error, results)=>{
+        if(error) return console.log('erro na consulta: ', error );
+        callback(null, results);
+    })
+}
 
 
 // -------------------- FIM DE CONSULTAS NO BANCO PARA PSICÓLOGOS!
@@ -493,5 +513,7 @@ export  {
     updateSenha,
     verificarConsulta,
     getDataAdm,
-    putStatusConsult
+    putStatusConsult,
+    relatorioPac,
+    getHoursPac
 }
