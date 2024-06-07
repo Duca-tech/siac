@@ -102,6 +102,10 @@ routerPsico.get('/relatorio/detalhePaciente/consultas', (req,res)=>{
         res.status(200).json({message: 'oi', results: results});
     })
 })
+
+routerPsico.post('/prontuario/detalhePaciente/inserirProntuario', (req,res)=>{
+    console.log('Dados que chegam no servidor: ', req.body);
+})
 // -------------------- FIM DA CONFIGURAÇÃO DE ROTAS PARA PSICÓLOGO!
 
 

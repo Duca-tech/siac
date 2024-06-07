@@ -13,7 +13,7 @@
     <div class="left-section">
         <div class="sidebar">
             <img src="/img/CORTADO_logo_fundo_grande-removebg-preview 1.png" class="img-fluid" alt="">
-            <div class="item">
+            <div class="item inicio">
                 <i class="ri-home-line"></i>
                 <h3>Inicio</h3>
             </div>
@@ -59,75 +59,126 @@
         </table>
 
 
-        <div class="container">
+        <div class="container " id="prontuarioAntigo">
             <h1>Prontuário do Paciente</h1>
     
             <section class="info-basica">
                 <h2>Informações Básicas</h2>
-                <p><strong>Nome:</strong> João da Silva</p>
-                <p><strong>Data de Nascimento:</strong> 15/03/1985</p>
-                <p><strong>Sexo:</strong> Masculino</p>
-                <p><strong>Endereço:</strong> Rua das Flores, 123, São Paulo, SP</p>
-                <p><strong>Telefone:</strong> (11) 98765-4321</p>
-                <p><strong>E-mail:</strong> joao.silva@example.com</p>
+                <p><strong>Nome:</strong></p>
+                <p><strong>Data de Nascimento:</strong></p>
+                <p><strong>Sexo:</strong> </p>
+                <p><strong>Endereço:</strong></p>
+                <p><strong>Telefone:</strong></p>
+                <p><strong>E-mail:</strong></p>
             </section>
     
             <section class="historico-medico">
                 <h2>Histórico Médico</h2>
-                <p><strong>Doenças Pré-existentes:</strong> Hipertensão</p>
-                <p><strong>Cirurgias Anteriores:</strong> Apendicectomia (2010)</p>
-                <p><strong>Medicamentos em Uso:</strong> Losartana</p>
-                <p><strong>Alergias:</strong> Nenhuma</p>
-                <p><strong>Histórico Familiar:</strong> Pai com diabetes tipo 2</p>
-            </section>
-    
-            <section class="consultas-anteriores">
-                <h2>Consultas Anteriores</h2>
-                <ul>
-                    <li>
-                        <p><strong>Data:</strong> 10/01/2023</p>
-                        <p><strong>Médico:</strong> Dr. Pedro Almeida</p>
-                        <p><strong>Motivo:</strong> Check-up anual</p>
-                        <p><strong>Diagnóstico:</strong> Saudável</p>
-                        <p><strong>Tratamento:</strong> Nenhum</p>
-                        <p><strong>Notas:</strong> Paciente em bom estado de saúde</p>
-                    </li>
-                </ul>
-            </section>
-    
-            <section class="proximas-consultas">
-                <h2>Próximas Consultas</h2>
-                <ul>
-                    <li>
-                        <p><strong>Data:</strong> 15/07/2024</p>
-                        <p><strong>Especialidade:</strong> Cardiologia</p>
-                        <p><strong>Motivo:</strong> Acompanhamento de hipertensão</p>
-                        <p><strong>Notas:</strong> Levar resultados dos exames de sangue</p>
-                    </li>
-                </ul>
+                <p><strong>Doenças Pré-existentes:</strong></p>
+                <p><strong>Cirurgias Anteriores:</strong></p>
+                <p><strong>Medicamentos em Uso:</strong></p>
+                <p><strong>Alergias:</strong></p>
+                <p><strong>Histórico Familiar:</strong></p>
             </section>
     
             <section class="exames-resultados">
                 <h2>Exames e Resultados</h2>
                 <ul>
                     <li>
-                        <p><strong>Tipo:</strong> Hemograma</p>
-                        <p><strong>Data:</strong> 01/06/2024</p>
-                        <p><strong>Resultados:</strong> Dentro da normalidade</p>
-                        <p><strong>Comentários:</strong> Sem alterações</p>
+                        <p><strong>Tipo:</strong> </p>
+                        <p><strong>Data:</strong></p>
+                        <p><strong>Resultados:</strong></p>
+                        <p><strong>Comentários:</strong></p>
                     </li>
                 </ul>
             </section>
     
             <section class="anotacoes-medico">
                 <h2>Anotações do Médico</h2>
-                <p><strong>Observações:</strong> Paciente deve manter dieta equilibrada e realizar exercícios físicos regularmente.</p>
-                <p><strong>Recomendações:</strong> Continuar uso da medicação prescrita.</p>
-                <p><strong>Planos de Tratamento:</strong> Agendar nova consulta em 6 meses para acompanhamento.</p>
+                <p><strong>Observações:</strong></p>
+                <p><strong>Recomendações:</strong></p>
+                <p><strong>Planos de Tratamento:</strong></p>
+            </section>
+
+            <section class="sectionButton">
+                <button class="fechar">Fechar</button>
+            </section>
+        </div>
+
+        <div class="container2" id="prontuarioAtual">
+            <h1>Prontuário do Paciente</h1>
+            
+            <!-- Informações Básicas -->
+            <section class="info-basica">
+                <h2>Informações Básicas</h2>
+                <label for="nome"><strong>Nome:</strong></label>
+                <input type="text" id="nome" name="nome" value=""><br>
+                <label for="data-nascimento"><strong>Data de Nascimento:</strong></label>
+                <input type="date" id="data-nascimento" name="data-nascimento" value=""><br>
+                <label for="sexo"><strong>Sexo:</strong></label>
+                <input type="text" id="sexo" name="sexo" value=""><br>
+                <label for="endereco"><strong>Endereço:</strong></label>
+                <input type="text" id="endereco" name="endereco" value=""><br>
+                <label for="telefone"><strong>Telefone:</strong></label>
+                <input type="tel" id="telefone" name="telefone" value=""><br>
+                <label for="email"><strong>E-mail:</strong></label>
+                <input type="email" id="email" name="email" value=""><br>
+            </section>
+            
+            <!-- Histórico Médico -->
+            <section class="historico-medico">
+                <h2>Histórico Médico</h2>
+                <label for="doencas"><strong>Doenças Pré-existentes:</strong></label>
+                <input type="text" id="doencas" name="doencas" value=""><br>
+                <label for="cirurgias"><strong>Cirurgias Anteriores:</strong></label>
+                <input type="text" id="cirurgias" name="cirurgias" value=""><br>
+                <label for="medicamentos"><strong>Medicamentos em Uso:</strong></label>
+                <input type="text" id="medicamentos" name="medicamentos" value=""><br>
+                <label for="alergias"><strong>Alergias:</strong></label>
+                <input type="text" id="alergias" name="alergias" value=""><br>
+                <label for="historico-familiar"><strong>Histórico Familiar:</strong></label>
+                <input type="text" id="historico-familiar" name="historico-familiar" value=""><br>
+            </section>
+            
+            <!-- Exames e Resultados -->
+            <section class="exames-resultados">
+                <h2>Exames e Resultados</h2>
+                <ul>
+                    <li>
+                        <label for="tipo-exame"><strong>Tipo:</strong></label>
+                        <input type="text" id="tipo-exame" name="tipo-exame" value=""><br>
+                        <label for="data-exame"><strong>Data:</strong></label>
+                        <input type="date" id="data-exame" name="data-exame" value=""><br>
+                        <label for="resultados-exame"><strong>Resultados:</strong></label>
+                        <input type="text" id="resultados-exame" name="resultados-exame" value=""><br>
+                        <label for="comentarios-exame"><strong>Comentários:</strong></label>
+                        <input type="text" id="comentarios-exame" name="comentarios-exame" value=""><br>
+                    </li>
+                </ul>
+            </section>
+            
+            <!-- Anotações do Médico -->
+            <section class="anotacoes-medico">
+                <h2>Anotações do Médico</h2>
+                <label for="observacoes"><strong>Observações:</strong></label>
+                <input type="text" id="observacoes" name="observacoes" value=""><br>
+                <label for="recomendacoes"><strong>Recomendações:</strong></label>
+                <input type="text" id="recomendacoes" name="recomendacoes" value=""><br>
+                <label for="planos-tratamento"><strong>Planos de Tratamento:</strong></label>
+                <input type="text" id="planos-tratamento" name="planos-tratamento" value=""><br>
+            </section>
+            
+            <!-- Botões -->
+            <section class="sectionButton">
+                <button class="fechar">Fechar</button>
+                <button type="button" id="submit-button">Gravar</button>
             </section>
         </div>
         
     </div>
+
+
+
 
     <div class="right-section">
         <div class="profile" id="conta">
@@ -172,6 +223,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 <script type="module" src="/js/psicologo/relatorio/prontuarioDetalheUserAjax.js"></script>
 <script type="module" src="/js/psicologo/relatorio/prontuarioDetalheUserFuncao.js"></script>
-
+<script src="/js/usuario/principal/SectionLeft.js"></script>
+<script src="/js/usuario/principal/SectionRigtth.js"></script>
 </body>
 </html>

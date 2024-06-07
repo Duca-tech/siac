@@ -49,7 +49,7 @@ const addUser = (user, end, callback) => {
         }
         else{
              // Inserir usuário
-            conexao.query(`INSERT INTO usuario(nome, email, nomeUser, perfil, password) VALUES (?,?,?,?,?)`, [user.nome, user.email, user.nomeUser, user.perfil, user.password], (error, results, fields) => {
+            conexao.query(`INSERT INTO usuario(nome, email, nomeUser, perfil, password, data_nascimento) VALUES (?,?,?,?,?,?)`, [user.nome, user.email, user.nomeUser, user.perfil, user.password], (error, results, fields) => {
                 if (error) {
                     return console.log('Erro ao inserir usuário: ', error);
                 }
@@ -395,11 +395,13 @@ const relatorioPac = (idPsico, callback)=>{
 }
 
 const getHoursPac = (idPaciente, callback)=>{
-    const query = `select horario.*, agenda.* from horario inner join 
-    agenda on horario.idAgenda = agenda.idAgenda
+    const query = `select horario.*, agenda.*, usuario.* from horario inner join 
+    agenda on horario.idAgenda = agenda.idAgenda inner join
+    usuario on horario.idUser = usuario.idUser
     where horario.idUser = ?`
     conexao.query(query, [idPaciente], (error, results)=>{
         if(error) return console.log('erro na consulta: ', error );
+        console.log('results: ', results);
         callback(null, results);
     })
 }

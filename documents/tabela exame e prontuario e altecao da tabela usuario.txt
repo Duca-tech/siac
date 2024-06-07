@@ -1,0 +1,22 @@
+table usuario(
+dataNascimento varchar
+sexo varchar
+)
+
+
+create table prontuario (
+doencaPreExistente varchar(500),
+cirurgiaAnterior varchar(500),
+medicamentoEmUso varchar(500),
+alergia varchar(500),
+historicoFamiliar(500),
+
+)
+
+create table exame(
+idProntuario int,
+tipo varchar(100),
+data varchar(50),
+resultado(250),
+comentarios(500)
+)

@@ -1,9 +1,11 @@
 import {formatarData, formatarHorario} from '/js/formatacao/funcao.js'
 $('#date').change(function () {
     var dataAtual = new Date(); //Data atual.
-    var data = $(this).val() + 'T12:00:00';
+    var data = $(this).val() + 'T23:59:59';
     console.log('Data: ', data)
     var diaSemana = new Date(data);
+    console.log('data atual: ', dataAtual);
+    console.log('diaSemana: ', diaSemana);
     var diaSemanaFormatado = diaSemana.toLocaleDateString('pt-BR', { weekday: 'long' })
     console.log('Dia da semana: ', diaSemanaFormatado);
     

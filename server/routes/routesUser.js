@@ -22,13 +22,14 @@ routerUser.get('/buscarEndereco', async (req, res)=>{
 
 routerUser.post('/cadastro', async (req, res) => {
     console.log('Dados Recebidos: ', req.body);
-    const { nome, email, nomeUser, perfil, cep, logradouro, bairro,localidade, uf,numero, senha} = req.body;
+    const { nome, email, nomeUser, perfil, cep, logradouro, bairro,localidade, uf,numero, senha, dataNascimento} = req.body;
     const user = {
         nome: nome,
         email: email,
         nomeUser: nomeUser,
         perfil: perfil,
-        password: senha
+        password: senha,
+        dataNascimento:dataNascimento
     }
 
     const end ={
