@@ -1,4 +1,4 @@
-// import {verificacao} from '/js/usuario/agendamento/funcaoAg.js'
+import {verificacao, searchCalendar, selecionarPsico, SelectMonthGenerateCalendar, verificacaoHorario,containerConf} from '/js/usuario/paciente/agendamento/funcaoAg.js'
 var idUser = localStorage.getItem('idUser');
 
 $(document).ready(function(){
@@ -227,7 +227,7 @@ $(document).ready(function(){
         var Selecthorario = $(this).val();
         var idHorario = $(this).find(':selected').attr('id');
         
-        containerConf(Selecthorario, idHorario);
+        containerConf();
 
         // Definindo os atributos de dados nos elementos relevantes
         $('.confirmarConsulta').data('Selecthorario', Selecthorario);

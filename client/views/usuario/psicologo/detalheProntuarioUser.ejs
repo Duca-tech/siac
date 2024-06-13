@@ -10,6 +10,12 @@
     <title></title>
 </head>
 <body >
+    <div class="loading">
+        <div class="spinner"></div>
+        <p>Enviando dados...</p>
+    </div>
+    
+
     <div class="left-section">
         <div class="sidebar">
             <img src="/img/CORTADO_logo_fundo_grande-removebg-preview 1.png" class="img-fluid" alt="">
@@ -59,45 +65,46 @@
         </table>
 
 
-        <div class="container " id="prontuarioAntigo">
+        <div class="container containerProntuario" id="prontuarioAntigo">
             <h1>Prontuário do Paciente</h1>
-    
             <section class="info-basica">
                 <h2>Informações Básicas</h2>
-                <p><strong>Nome:</strong></p>
-                <p><strong>Data de Nascimento:</strong></p>
-                <p><strong>Sexo:</strong> </p>
-                <p><strong>Endereço:</strong></p>
-                <p><strong>Telefone:</strong></p>
-                <p><strong>E-mail:</strong></p>
+                <p class="infoData"></p>
+                
+                <p  class="nome"><strong>Nome:</strong></p>
+                <p class="data-nascimento"><strong>Data de Nascimento:</strong></p>
+                <p  class="sexo"><strong>Sexo:</strong> </p>
+                <p  class="endereco"><strong>Endereço:</strong></p>
+                <p  class="telefone"><strong>Telefone:</strong></p>
+                <p class="email"><strong>E-mail:</strong></p>
             </section>
     
             <section class="historico-medico">
                 <h2>Histórico Médico</h2>
-                <p><strong>Doenças Pré-existentes:</strong></p>
-                <p><strong>Cirurgias Anteriores:</strong></p>
-                <p><strong>Medicamentos em Uso:</strong></p>
-                <p><strong>Alergias:</strong></p>
-                <p><strong>Histórico Familiar:</strong></p>
+                <p class="doencaPreExistente"><strong>Doenças Pré-existentes:</strong></p>
+                <p class="cirurgiaAnterior"><strong>Cirurgias Anteriores:</strong></p>
+                <p class="medicamentoEmUso"><strong>Medicamentos em Uso:</strong></p>
+                <p class="alergia"><strong>Alergias:</strong></p>
+                <p class="historicoFamiliar"><strong>Histórico Familiar:</strong></p>
             </section>
     
             <section class="exames-resultados">
                 <h2>Exames e Resultados</h2>
                 <ul>
                     <li>
-                        <p><strong>Tipo:</strong> </p>
-                        <p><strong>Data:</strong></p>
-                        <p><strong>Resultados:</strong></p>
-                        <p><strong>Comentários:</strong></p>
+                        <p class="tipo"><strong>Tipo:</strong> </p>
+                        <p class="data"><strong>Data:</strong></p>
+                        <p class="resultado"><strong>Resultados:</strong></p>
+                        <p class="comentario"><strong>Comentários:</strong></p>
                     </li>
                 </ul>
             </section>
     
             <section class="anotacoes-medico">
                 <h2>Anotações do Médico</h2>
-                <p><strong>Observações:</strong></p>
-                <p><strong>Recomendações:</strong></p>
-                <p><strong>Planos de Tratamento:</strong></p>
+                <p class="observacao"><strong>Observações:</strong></p>
+                <p class="recomendacao"><strong>Recomendações:</strong></p>
+                <p class="planoTratamento"><strong>Planos de Tratamento:</strong></p>
             </section>
 
             <section class="sectionButton">
@@ -105,24 +112,25 @@
             </section>
         </div>
 
-        <div class="container2" id="prontuarioAtual">
+        <div class="container2 containerProntuario" id="prontuarioAtual">
             <h1>Prontuário do Paciente</h1>
             
             <!-- Informações Básicas -->
             <section class="info-basica">
                 <h2>Informações Básicas</h2>
+                <p class="infoData"></p>
                 <label for="nome"><strong>Nome:</strong></label>
-                <input type="text" id="nome" name="nome" value=""><br>
+                <input disabled type="text" id="nome" class="nome" name="nome" value=""><br>
                 <label for="data-nascimento"><strong>Data de Nascimento:</strong></label>
-                <input type="date" id="data-nascimento" name="data-nascimento" value=""><br>
+                <input disabled type="date" id="data-nascimento" name="data-nascimento" value=""><br>
                 <label for="sexo"><strong>Sexo:</strong></label>
-                <input type="text" id="sexo" name="sexo" value=""><br>
+                <input disabled type="text" id="sexo" name="sexo" value=""><br>
                 <label for="endereco"><strong>Endereço:</strong></label>
-                <input type="text" id="endereco" name="endereco" value=""><br>
+                <input disabled type="text" id="endereco" name="endereco" value=""><br>
                 <label for="telefone"><strong>Telefone:</strong></label>
-                <input type="tel" id="telefone" name="telefone" value=""><br>
+                <input disabled type="tel" id="telefone" name="telefone" value=""><br>
                 <label for="email"><strong>E-mail:</strong></label>
-                <input type="email" id="email" name="email" value=""><br>
+                <input disabled type="email" id="email" name="email" value=""><br>
             </section>
             
             <!-- Histórico Médico -->

@@ -1,5 +1,5 @@
 import express  from 'express';
-import  {addUser,loginUser,getPsico,getHorario,updateHorario, getHoursPac, relatorioPac,getUser,verificarPerfil,updateUser,deleteHorario,getAgenda,addAgenda,deleteAgenda,getPsicoAgenda,verificarConsulta,putStatusConsult} from '../helper/sql.js'
+import  {addUser,loginUser,getPsico,getHorario,updateHorario, getHoursPac,inserirPront, relatorioPac,getUser,verificarPerfil,updateUser,deleteHorario,getAgenda,addAgenda,deleteAgenda,getPsicoAgenda,verificarConsulta,putStatusConsult} from '../helper/sql.js'
 const routerPsico = express.Router();
 import {gerarToken,verificarToken,tokenDestroyer} from '../config/token/token.js'
 import {enviarMensagem} from '../config/twilio/twilio.js';
@@ -105,6 +105,10 @@ routerPsico.get('/relatorio/detalhePaciente/consultas', (req,res)=>{
 
 routerPsico.post('/prontuario/detalhePaciente/inserirProntuario', (req,res)=>{
     console.log('Dados que chegam no servidor: ', req.body);
+    inserirPront(req.body, (error, results)=>{
+        console.log('Results: ', results);
+        res.status(200).json({results});
+    });
 })
 // -------------------- FIM DA CONFIGURAÇÃO DE ROTAS PARA PSICÓLOGO!
 

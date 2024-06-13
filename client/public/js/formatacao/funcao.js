@@ -20,3 +20,8 @@ export function formatarHorario(horario){
         
     return horasForm;
 }
+
+export function convertDateFormat(dateString) {
+    const [day, month, year] = dateString.split('/');
+    return `${year}-${month}-${day}`;
+}

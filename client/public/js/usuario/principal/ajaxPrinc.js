@@ -17,7 +17,6 @@ document.addEventListener('DOMContentLoaded', function () {
     .then(response=>response.json())
     .then(data=>{
         console.log('Resposta do Servidor: ', data);
-        detalheUser(data.data[0]);
     })
     .catch(error=>{
         console.error('erro: ', error);

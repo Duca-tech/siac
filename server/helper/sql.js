@@ -387,23 +387,76 @@ const getPsicoAgenda = (idPsico, perfil, callback) => {
 const relatorioPac = (idPsico, callback)=>{
     const query = `select DISTINCT usuario.nome, usuario.idUser from usuario left join
     horario on usuario.idUser = horario.idUser
-   where horario.idPsico = ? and horario.status = 'agendado'`
+   where horario.idPsico = ?`
     conexao.query(query, [idPsico], (error, results)=>{
         if(error) return console.log('Erro na consulta: ', error);
+        console.log('results: ', results)
         callback(null, results);
     })
 }
 
 const getHoursPac = (idPaciente, callback)=>{
-    const query = `select horario.*, agenda.*, usuario.* from horario inner join 
-    agenda on horario.idAgenda = agenda.idAgenda inner join
-    usuario on horario.idUser = usuario.idUser
-    where horario.idUser = ?`
+    const query = `
+SELECT DISTINCT 
+    horario.idHorario, 
+    horario.hora,
+    horario.status,
+    agenda.idAgenda,
+    agenda.data, 
+    usuario.*,
+    prontuario.doencaPreExistente,
+    prontuario.cirurgiaAnterior,
+    prontuario.medicamentoEmUso,
+    prontuario.alergia,
+    prontuario.observacaoProfissional,
+    prontuario.recomendacaoProfissional,
+    prontuario.planoTratamento,
+    prontuario.data_consulta
+FROM 
+    horario
+INNER JOIN 
+    usuario ON horario.idUser = usuario.idUser
+INNER JOIN 
+    agenda ON horario.idAgenda = agenda.idAgenda
+LEFT JOIN 
+    prontuario ON horario.idHorario = prontuario.idHorario
+WHERE 
+    horario.idUser = ?`
     conexao.query(query, [idPaciente], (error, results)=>{
         if(error) return console.log('erro na consulta: ', error );
         console.log('results: ', results);
         callback(null, results);
     })
+}
+const inserirPront = async(data, callback) =>{
+    const query = `
+        INSERT INTO prontuario
+        (idUser, idPsico, idHorario, data_consulta, doencaPreExistente, cirurgiaAnterior, medicamentoEmUso, alergia, historicoFamiliar, observacaoProfissional, recomendacaoProfissional, planoTratamento)
+        VALUES (?,?,?,?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `;
+    var params = [data.idPac, data.idPsico, data.idHorario, data.dataConsulta, data.doencas,data.cirurgias, data.medicamentos, data.alergias, data.historicoFamiliar, data.observacoes, data.recomendacoes, data.planosTratamento]
+
+    const query2 = `update horario set status = 'presente' where idHorario = ?`
+    var params2 = [data.idHorario]
+
+    const results = await new Promise((resolve, reject) => {
+        conexao.query(query, params, (error, results) => {
+            if (error) return reject(error);
+            console.log('Prontuario inserido com Sucesso');
+            var message = 'Prontuario inserido com Sucesso';
+            resolve(results);
+        });
+    });
+    const results2 = await new Promise((resolve, reject) => {
+        conexao.query(query2, params2, (error, results) => {
+            if (error) return reject(error);
+            console.log('Horario Atualizado com Sucesso!');
+            var message2 = 'Horario Atualizado com Sucesso!'
+            resolve(results);
+        });
+    });
+
+    callback(null, results, results2);
 }
 
 
@@ -517,5 +570,6 @@ export  {
     getDataAdm,
     putStatusConsult,
     relatorioPac,
+    inserirPront,
     getHoursPac
 }

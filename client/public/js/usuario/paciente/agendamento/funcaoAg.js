@@ -1,7 +1,8 @@
 
 
+import {convertDateFormat, formatarData} from '/js/formatacao/funcao.js'
 
- function verificacao(agenda){
+ export function verificacao(agenda){
     if(!agenda){
         $('#psicoDados').append(`<h3>Sem agenda para consultas!</h3>`);
     }
@@ -9,94 +10,23 @@
 
 
 
-// function firstGenerateCalendar(agenda, horarios){
-//   console.log('agenda: ', agenda)
-//   const calendar = document.getElementById('calendar');
-//   const currentDate = new Date();
-//   const month = currentDate.getMonth();
-//   console.log('month: ' ,month)
-//   var selectMonth = document.querySelector('.selectMonth');
-//   selectMonth.value = month;
-//   const year = currentDate.getFullYear();
 
-//   const firstDayOfMonth = new Date(year, month, 1);
-//   console.log('firstDayOfMonth: ', firstDayOfMonth);
-
-//   const lastDayfMonth = new Date(year, month+1, 0);
-//   console.log('lastDayfMonth: ', lastDayfMonth);
-  
-//   //Primeiro dia Da Semana
-//   const firstDayOfWeek = firstDayOfMonth.getDay();
-//   console.log('firstDayOfWeek: ', firstDayOfWeek);
-//   const totalDays = lastDayfMonth.getDate();
-//   console.log('totalDays: ', totalDays);
-
-//   for(let i = 0; i< firstDayOfWeek; i++){
-//     let blankDay = document.createElement('div');
-//     // blankDay.classList.add('borda');
-    
-//     calendar.appendChild(blankDay);
-//   }
-//   for(let day =1; day<= totalDays; day++){
-//     let daySquares = document.createElement('div')
-//     daySquares.className = 'calendar-day';
-//     // daySquares.classList.add('borda');
-//     daySquares.textContent = day;
-//     daySquares.id = `day-${day}`
-//     for(let j = 0; j<agenda.length; j++ ){
-//       var agendaDate = new Date(agenda[j].data);
-//       var agendaDay = agendaDate.getDate();
-//       var agendaMonth = agendaDate.getMonth();
-//       // console.log('AgendaDate: ', agendaDate);
-//       // console.log('AgendaDay: ', agendaDay);
-
-//       if(agendaDay == day && agendaMonth == month){
-        
-//       //lista de seleção de horários
-//         var selectHours = document.createElement('select')
-//         selectHours.className = 'select-hours'
-//         var option = document.createElement('option');
-//         option.textContent = 'Horários Disponíveis'
-//         // Defina os atributos disabled e selected para desabilitar e selecionar a opção inicial
-//         option.disabled = true;
-//         option.selected = true;
-//         selectHours.appendChild(option);
-             
-//         for(let x = 0; x<horarios.length; x++){
-//           if(horarios[x].idAgenda == agenda[j].idAgenda){
-//             var buttonOption = document.createElement('option');
-//             buttonOption.className = 'option-hours'
-//             buttonOption.textContent = horarios[x].hora;
-//             buttonOption.id = horarios[x].idHorario;
-//             selectHours.append(buttonOption);
-//             daySquares.append(selectHours); 
-          
-//           }
-//         }
-//       }
-//     }
-  
-//     calendar.appendChild(daySquares);
-//   }
-
-// }
-//Geração de Calendário com base na escolha do Mês 
 function generateCalendar(optionValue, agenda, horarios){
 
-
+  var datahoje = new Date();
+  console.log('data de hoje: ', datahoje);
+  console.log('dia: ', datahoje.getDate());
   
   document.getElementById('calendar').innerHTML = '';
   console.log('agenda: ', agenda)
   const calendar = document.getElementById('calendar');
   const currentDate = new Date(0,optionValue);
   const month = currentDate.getMonth();
-  console.log('month: ' ,month)
+  console.log('month: ',month)
   console.log('optionValue: ' ,optionValue)
   var selectMonth = document.querySelector('.selectMonth');
   selectMonth.value = month;
   const year = currentDate.getFullYear();
-
-  
 
   const firstDayOfMonth = new Date(year, month, 1);
   console.log('firstDayOfMonth: ', firstDayOfMonth);
@@ -129,12 +59,10 @@ function generateCalendar(optionValue, agenda, horarios){
       var agendaDate = new Date(agenda[j].data);
       var agendaDay = agendaDate.getDate();
       var agendaMonth = agendaDate.getMonth();
-      console.log('AgendaDate: ', agendaDate);
-      console.log('AgendaDay: ', agendaDay);
-      console.log('AgendaMonth: ', agendaMonth);
+      
 
-      if(agendaDay == day && agendaMonth == month){
-        
+      if(agendaDay == day && agendaMonth == month && agendaDay >= datahoje.getDate()){
+        console.log('agendaMonth: ', agendaMonth);
       //lista de seleção de horários
         var selectHours = document.createElement('select')
         selectHours.className = 'select-hours'
@@ -148,7 +76,8 @@ function generateCalendar(optionValue, agenda, horarios){
         selectHours.appendChild(option);
              
         for(let x = 0; x<horarios.length; x++){
-          if(horarios[x].idAgenda == agenda[j].idAgenda){
+          if(horarios[x].idAgenda == agenda[j ].idAgenda){
+            console.log('entro ai');
             var buttonOption = document.createElement('option');
             buttonOption.className = 'option-hours'
             buttonOption.textContent = horarios[x].hora;
@@ -166,7 +95,7 @@ function generateCalendar(optionValue, agenda, horarios){
 
 }
 
-function searchCalendar(agenda, horarios) {
+export function searchCalendar(agenda, horarios) {
 
   var mes = []
   agenda.forEach(element=>{
@@ -181,7 +110,7 @@ function searchCalendar(agenda, horarios) {
 }
 
 
-function selecionarPsico(psicologos){
+export function selecionarPsico(psicologos){
     psicologos.map(Element=>{
       var option = document.createElement('option');
       option.value = Element.idUser
@@ -190,7 +119,7 @@ function selecionarPsico(psicologos){
     })
 }
 
- function SelectMonthGenerateCalendar(agenda, horarios){
+ export function SelectMonthGenerateCalendar(agenda, horarios){
 
   document.querySelector('.selectMonth').addEventListener('change', function(){
     document.getElementById('calendar').innerHTML = '';
@@ -330,7 +259,7 @@ function desabilitarMesesSearch(mes) {
   }
 }
 
-function verificacaoHorario(data){
+export function verificacaoHorario(data){
   if (data.length == 0){
     alert('nenhuma Consulta Encontrada');
     location.reload();
@@ -342,34 +271,18 @@ function verificacaoHorario(data){
 }
 
 
-function containerConf(horario, id){
+export function containerConf(){
 
-  var container = document.createElement('div')
-  container.setAttribute('class', 'containerConf')
-  // Define o estilo 'display' para 'block'
-  container.style.display = 'block';
-  var text = `Tem certeza que deseja Marcar essa consulta: ` + horario+ `?`
-  var BotaoConfirmar = document.createElement('button');
-  BotaoConfirmar.textContent = 'Confirmar'
-  BotaoConfirmar.setAttribute('class','confirmarConsulta');
-  var botaoCancelar = document.createElement('button');
-  botaoCancelar.textContent = 'Cancelar'
-  botaoCancelar.setAttribute('class', 'cancelarConsulta')
+  document.querySelector('.modal').style.display = 'block';
 
-  container.append(text);
-  container.append(BotaoConfirmar);
-  container.append(botaoCancelar);
+  document.getElementById('cancelButton').addEventListener('click', function(){
+    
+    document.querySelector('.modal').style.display = 'none';
+  })
+  document.querySelector('.modal .modal-content .close').addEventListener('click', function(){
+    document.querySelector('.modal').style.display = 'none';
 
-
-  document.querySelector('.planner').append(container)
-
-  // document.querySelector('.confirmarConsulta').addEventListener('click', function(){
-  //   console.log('Evento de confirmar consulta Clicado!');
-
-  //   fetch('http://localhost:3600/user/agendamento/agendarConsulta')
-  // })
-
-
+  })
 
 }
 function cabecalhoCalendar(){

@@ -1,4 +1,7 @@
 import {exibirHorarios, exibirProntuario} from '/js/psicologo/relatorio/prontuarioDetalheUserFuncao.js'
+import {convertDateFormat} from '/js/formatacao/funcao.js'
+
+var idPsico = localStorage.getItem('idUser');
 document.addEventListener('DOMContentLoaded', function(){
     fetch(`/psico/relatorio/detalhePaciente/consultas`)
     .then(response=>response.json())
@@ -6,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function(){
         console.log('Resposta do servidor: ', data);
         exibirHorarios(data.results);
         exibirProntuario(data.results);
+        
 
     })
     .catch(error=>{
@@ -17,13 +21,19 @@ document.addEventListener('DOMContentLoaded', function(){
 
 
     document.getElementById('submit-button').addEventListener('click', function() {
+        console.log('idHorario: ', window.idHorarioGlobal)
+        console.log('idPac: ', window.idPacGlobal);
+        var textFull = document.querySelector('.container2 .info-basica .infoData').textContent
+        var dateText = textFull.split('Data: ')[1].trim();
+        dateText = convertDateFormat(dateText);
+
+        var loadingDiv = document.querySelector('.loading');
+        loadingDiv.style.display = 'block';
         const prontuario = {
-            nome: document.getElementById('nome').value,
-            dataNascimento: document.getElementById('data-nascimento').value,
-            sexo: document.getElementById('sexo').value,
-            endereco: document.getElementById('endereco').value,
-            telefone: document.getElementById('telefone').value,
-            email: document.getElementById('email').value,
+            idHorario: window.idHorarioGlobal,
+            idPac: window.idPacGlobal,
+            idPsico:idPsico,
+            dataConsulta: dateText,    
             doencas: document.getElementById('doencas').value,
             cirurgias: document.getElementById('cirurgias').value,
             medicamentos: document.getElementById('medicamentos').value,
@@ -37,6 +47,8 @@ document.addEventListener('DOMContentLoaded', function(){
             recomendacoes: document.getElementById('recomendacoes').value,
             planosTratamento: document.getElementById('planos-tratamento').value
         };
+
+
     
         fetch('/psico/prontuario/detalhePaciente/inserirProntuario', {
             method: 'POST',
@@ -47,7 +59,14 @@ document.addEventListener('DOMContentLoaded', function(){
         })
         .then(response => response.json())
         .then(data => {
-            console.log('Success:', data);
+            setTimeout(function() {
+                loadingDiv.style.display = 'none';
+                alert('Consulta Finalizada!');
+                console.log('Success:', data);
+
+                location.reload();
+
+            }, 3000);
         })
         .catch((error) => {
             console.error('Error:', error);
