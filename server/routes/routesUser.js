@@ -167,8 +167,8 @@ routerUser.post('/agendamento/agendarConsulta', (req, res)=>{
         idHorario: req.body.idHorario,
         idUser: req.body.idUser
     }
-    addHora(horario, (error, results)=>{
-        res.status(200).json({message: 'Consulta agendada com Sucesso', results});
+    addHora(horario, (error, message,results)=>{
+        res.status(200).json({message: message, results: results});
     })
 })
 

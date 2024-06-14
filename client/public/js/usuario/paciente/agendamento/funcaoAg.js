@@ -14,8 +14,9 @@ import {convertDateFormat, formatarData} from '/js/formatacao/funcao.js'
 function generateCalendar(optionValue, agenda, horarios){
 
   var datahoje = new Date();
+  datahoje = convertDateFormat(datahoje);
   console.log('data de hoje: ', datahoje);
-  console.log('dia: ', datahoje.getDate());
+  
   
   document.getElementById('calendar').innerHTML = '';
   console.log('agenda: ', agenda)
@@ -59,9 +60,12 @@ function generateCalendar(optionValue, agenda, horarios){
       var agendaDate = new Date(agenda[j].data);
       var agendaDay = agendaDate.getDate();
       var agendaMonth = agendaDate.getMonth();
+      agendaDate = convertDateFormat(agendaDate);
+      console.log('agendaDate: ', agendaDate);
+
       
 
-      if(agendaDay == day && agendaMonth == month && agendaDay >= datahoje.getDate()){
+      if(agendaDay == day && agendaMonth == month && agendaDate >= datahoje){
         console.log('agendaMonth: ', agendaMonth);
       //lista de seleção de horários
         var selectHours = document.createElement('select')
@@ -76,8 +80,9 @@ function generateCalendar(optionValue, agenda, horarios){
         selectHours.appendChild(option);
              
         for(let x = 0; x<horarios.length; x++){
-          if(horarios[x].idAgenda == agenda[j ].idAgenda){
-            console.log('entro ai');
+          if(horarios[x].idAgenda == agenda[j].idAgenda){
+            console.log('agenda[j].idAgenda: ', agenda[j].idAgenda)
+            console.log('horarios[x].idAgenda ', horarios[x].idAgenda)
             var buttonOption = document.createElement('option');
             buttonOption.className = 'option-hours'
             buttonOption.textContent = horarios[x].hora;

@@ -22,6 +22,14 @@ export function formatarHorario(horario){
 }
 
 export function convertDateFormat(dateString) {
-    const [day, month, year] = dateString.split('/');
+    console.log('data: ', dateString);
+    
+    var data = new Date(dateString);
+    var year = data.getFullYear();
+    var month = data.getMonth() +1;
+    var day = data.getDate();
+   
+    day = (day<10) ? '0' + day : day
+    month = (month<10) ? '0' + month : month
     return `${year}-${month}-${day}`;
 }

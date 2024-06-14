@@ -235,7 +235,7 @@ $(document).ready(function(){
 
     });
 
-    $('.planner').on('click', '.containerConf .confirmarConsulta', function() {
+    $('.modal').on('click', '.modal-content .confirmarConsulta', function() {
         // Acessando os atributos de dados definidos anteriormente
         var Selecthorario = $('.confirmarConsulta').data('Selecthorario');
         var idHorario = $('.confirmarConsulta').data('idHorario');
@@ -246,7 +246,7 @@ $(document).ready(function(){
         var loader = document.querySelector('.loader');
         loader.style.display = 'block';
 
-        var containerCof = document.querySelector('.containerConf');
+        var containerCof = document.querySelector('.modal');
         containerCof.style.display = 'none';
         
         var objHorario = {
@@ -268,7 +268,7 @@ $(document).ready(function(){
 
             setTimeout(() => {
                 loader.style.display = 'none'
-                alert('Agendamento marcado com Sucesso!');
+                alert(data.message);
                 location.reload();
             }, 3000);   
         })

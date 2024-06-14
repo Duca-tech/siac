@@ -181,7 +181,24 @@ const getHorario = (horario, callback) => {
 
 const addHora = (horario, callback) =>{
     const query = `update horario set disponibilidade = 1, status = 'agendado', idUser = ? where idHorario = ?`
-
+    const query2 = `select * from horario where idHorario = ?`
+    const params2 = [horario.idUser];
+    conexao.query(query2, params2, (error, results)=>{
+        if(error) return console.log('erro: ',error);
+        if(results.length>0){
+            var message = `ja existe uma consulta marcadada`
+            callback(null, message, results);
+        }
+        else{
+            conexao.query(query, [horario.idUser, horario.idHorario], (error, results)=>{
+                if(error) return console.log('Erro na consulta: ', error)
+                
+                console.log('Resultado da Consulta: ', results);
+                var message = `Agendamento realizado com Sucesso`;
+                callback(null, message, results);
+            })
+        }
+    })
     conexao.query(query, [horario.idUser, horario.idHorario], (error, results)=>{
         if(error) return console.log('Erro na consulta: ', error)
 
