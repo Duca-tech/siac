@@ -95,14 +95,14 @@ const addUser = (user, userAdress, callback) => {
 };
 
 // Adiciona endereço do usuário:
-const addUserAdress = (userId, adress, callback) => {
+const addUserAdress = (userId, userAdress, callback) => {
 
     // Variáveis para executar a query:
     let adressInsertQuery = `INSERT INTO endereco(idUser, logradouro, bairro, cidade, estado, numero) VALUES(?,?,?,?,?,?)`;
-    let adressInsertValues = [userId, adress.logradouro, adress.bairro, adress.cidade, adress.estado, adress.numero];
+    let adressInsertValues = [userId, userAdress.logradouro, userAdress.bairro, userAdress.cidade, userAdress.estado, userAdress.numero];
 
     // Executa query e trás os resultados:
-    connection.execute(insertUserAdressQuery, insertUserAdressValues, (error, results, fields) => {
+    connection.execute(adressInsertQuery, adressInsertValues, (error, results, fields) => {
         if (error) {
             return console.log('Erro ao inserir endereço: ', error.message);
         }
