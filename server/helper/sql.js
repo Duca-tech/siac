@@ -109,6 +109,7 @@ const addUserAdress = (userId, userAdress, callback) => {
         else {
             console.log('Usuário inserido com sucesso!');
             message = 'Usuário inserido com sucesso!';
+            
             callback(null, message, user);
         }
     });
