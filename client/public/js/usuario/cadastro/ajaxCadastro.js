@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function () {
         var numero = document.getElementById('numero').value;
         var pass = document.getElementById('pass').value;
         var cep = document.getElementById('cep').value;
-        var dataNascimento = getElementById('dataNascimento').value;
+        var dataNascimento = document.getElementById('dataNascimento').value;
 
         if(nome && email && nomeUser && perfil != 'Escolha o Perfil' && cep && pass && numero){
 
