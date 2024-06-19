@@ -35,13 +35,12 @@ process.on('exit', () => {
 })
 
 
+
+
+
 // ------------------------------------- INÍCIO DE CONSULTAS NO BANCO PARA USUÁRIOS:
+
 // Adiciona usuário:
-/* Observação:
-    As funções de cadastro de usuário foram atualizadas para serem feitas de forma
-    assíncrona, evitando aninhamento de callbacks "callback hell"
-    Atualização em andamento...
-*/
 const addUser = (user, userAdress, callback) => {
 
     // Verifica se usuário já está cadastrado:
@@ -74,7 +73,6 @@ const addUser = (user, userAdress, callback) => {
                         O método 'connection.query()' foi substituido pelo método connection.execute pois 
                         este oferece mais desempenho para as consultas no banco de dados.
                         Fonte: https://stackoverflow.com/questions/53197922/difference-between-query-and-execute-in-mysql
-                        Atualização feita em 19/06/2024 - Eduardo
                     */
 
                     if (error) {
