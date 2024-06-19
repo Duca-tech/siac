@@ -37,8 +37,8 @@ document.addEventListener('DOMContentLoaded', function () {
         var cep = document.getElementById('cep').value;
         var dataNascimento = document.getElementById('dataNascimento').value;
 
-        if(nome && email && nomeUser && perfil != 'Escolha o Perfil' && cep && pass && numero){
-
+        if (nome && email && nomeUser && perfil != 'Escolha o Perfil' && cep && pass && numero) {
+            
             const formData = {
                 nome: nome,
                 email: email,
@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 senha: pass,
                 dataNascimento: dataNascimento
             }
-            console.log(formData)
+            //console.log(formData)
 
             fetch('http://localhost:3600/user/cadastro', {
                 method: 'POST',
@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 })
             return false; // Impede o envio padrão do formulário.
         }
-        else{
+        else {
             alert('Há campos em branco');
         }
     })

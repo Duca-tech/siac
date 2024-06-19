@@ -5,7 +5,7 @@ import sql from 'mysql2';
 import { resolve } from 'path';
 export default sql
 
-const conexao = sql.createPool({
+const connection = sql.createPool({
     host: '152.67.55.50',
     user: 'siac',
     port: '3306',
@@ -13,17 +13,17 @@ const conexao = sql.createPool({
     database: 'siac',
     waitForConnections: true,
     connectionLimit: 10,
-    
+
 })
 
-conexao.getConnection((error) => {
+connection.getConnection((error) => {
     if (error) return console.log('Erro ao se conectar ao banco de dados.', error);
     console.log('Banco de dados conectado!');
 })
 
 // Encerrando a conexão do pool quando a aplicação for desligada:
 process.on('exit', () => {
-    conexao.end(error => {
+    connection.end(error => {
         if (error) {
             console.error('Erro ao encerrar a conexão do pool: ', error);
         }
@@ -35,58 +35,102 @@ process.on('exit', () => {
 })
 
 
-// -------------------- INÍCIO DE CONSULTAS NO BANCO PARA USUÁRIOS:
-// Função para adicionar usuario:
-const addUser = (user, end, callback) => {
+// ------------------------------------- INÍCIO DE CONSULTAS NO BANCO PARA USUÁRIOS:
+// Adiciona usuário:
+/* Observação:
+    As funções de cadastro de usuário foram atualizadas para serem feitas de forma
+    assíncrona, evitando aninhamento de callbacks "callback hell"
+    Atualização em andamento...
+*/
+const addUser = (user, userAdress, callback) => {
 
-    //verificar se usuário ja existe
-    conexao.query(`SELECT nome, email, perfil FROM usuario WHERE email = ?`, [user.email], (error, results)=>{
-        if (error) return console.log('Erro na consulta: ', error);
-        if(results.length>0){
-            console.log('Usuario encontrado: ', results);
-            var message = 'Usuário ja cadastrado no Sistema';
-            callback(null, message, results);
+    // Verifica se usuário já está cadastrado:
+    let userVerificationQuery = `SELECT nome, email, perfil FROM usuario WHERE email = ?`;
+    let userVerificationValues = [user.email];
+
+    connection.execute(userVerificationQuery, userVerificationValues, (error, results) => {
+        if (error) {
+            return console.log('Erro na consulta: ', error);
         }
-        else{
-             // Inserir usuário
-            conexao.query(`INSERT INTO usuario(nome, email, nomeUser, perfil, password, data_nascimento) VALUES (?,?,?,?,?,?)`, [user.nome, user.email, user.nomeUser, user.perfil, user.password], (error, results, fields) => {
-                if (error) {
-                    return console.log('Erro ao inserir usuário: ', error);
-                }
+        else {
+            /* Sugestão de melhoria: 
+                separar as funções de verificar usuário e adicionar usuário em duas funções diferentes:
+                isso evita esse ninho de ifs e facilita a leitura do código segundo os princípios de código limpo
+            */
 
-                // Obter o ID do usuário inserido
-                const usuarioId = results.insertId;
+            if (results.length > 0) {
+                console.log('Usuario encontrado: ', results);
+                var message = 'Usuário ja cadastrado no Sistema';
+                callback(null, message, results);
+            }
+            else {
+                // Variáveis para executar a query:
+                let userInsertQuery = `INSERT INTO usuario(nome, email, nomeUser, perfil, password, data_nascimento) VALUES (?,?,?,?,?,?)`;
+                let userInsertValues = [user.nome, user.email, user.nomeUser, user.perfil, user.password, user.data_nascimento];
 
-                // Inserir endereço associado ao usuário
-                conexao.query(`INSERT INTO endereco(idUser, logradouro, bairro, cidade, estado, numero) VALUES(?,?,?,?,?,?)`, [usuarioId, end.logradouro, end.bairro, end.localidade, end.uf, end.numero], (error, results, fields) => {
+                // Executa query e trás os resultados:
+                connection.execute(userInsertQuery, userInsertValues, (error, results, fields) => {
+                    /* Observação:
+                        O método 'connection.query()' foi substituido pelo método connection.execute pois 
+                        este oferece mais desempenho para as consultas no banco de dados.
+                        Fonte: https://stackoverflow.com/questions/53197922/difference-between-query-and-execute-in-mysql
+                        Atualização feita em 19/06/2024 - Eduardo
+                    */
+
                     if (error) {
-                        return console.log('Erro ao inserir endereço: ', error.message);
+                        return console.error('Erro ao inserir usuário: ', error);
                     }
+                    else {
+                        console.log('Usuário inserido com sucesso: ', results);
 
-                    console.log('Usuário inserido com sucesso!');
-                    message = 'Usuário inserido com sucesso!';
-                    callback(null, message, user);
+                        // Obtém o ID do usuário inserido:
+                        const userId = results.insertId;
+
+                        // Chama a função para adicionar o endereço do usuário:
+                        addUserAdress(userId, userAdress);
+                    }
                 });
-            });
+            }
         }
-    })
-   
+    });
+    connection.end();
 };
 
-//Esqueci Senha
-const getEmail = (email, callback)=>{
+// Adiciona endereço do usuário:
+const addUserAdress = (userId, adress, callback) => {
+
+    // Variáveis para executar a query:
+    let adressInsertQuery = `INSERT INTO endereco(idUser, logradouro, bairro, cidade, estado, numero) VALUES(?,?,?,?,?,?)`;
+    let adressInsertValues = [userId, adress.logradouro, adress.bairro, adress.cidade, adress.estado, adress.numero];
+
+    // Executa query e trás os resultados:
+    connection.execute(insertUserAdressQuery, insertUserAdressValues, (error, results, fields) => {
+        if (error) {
+            return console.log('Erro ao inserir endereço: ', error.message);
+        }
+        else {
+            console.log('Usuário inserido com sucesso!');
+            message = 'Usuário inserido com sucesso!';
+            callback(null, message, user);
+        }
+    });
+    connection.end();
+}
+
+// Esqueci Senha
+const getEmail = (email, callback) => {
     var query = `SELECT * FROM usuario WHERE email = ?`
-    conexao.query(query, [email], (error, results)=>{
-        if(error) return console.log('Erro: ', error);
+    connection.query(query, [email], (error, results) => {
+        if (error) return console.log('Erro: ', error);
         console.log('Dados do usuário: ', results);
         callback(null, results);
-        
+
     })
 }
-const updateSenha = (update, callback)=>{
+const updateSenha = (update, callback) => {
     var query = `UPDATE usuario set password = ? where idUser = ?`;
-    conexao.query(query, [update.senha, update.idUser], (error, results)=>{
-        if(error) return console.log('erro na consulta: ', error);
+    connection.query(query, [update.senha, update.idUser], (error, results) => {
+        if (error) return console.log('erro na consulta: ', error);
         console.log('resultado da consulta: ', results);
         var message = 'senha atualizada com sucesso!';
         callback(null, message, results);
@@ -96,7 +140,7 @@ const updateSenha = (update, callback)=>{
 
 // Pegar usuário:
 const loginUser = (user, callback) => {
-    conexao.query(`SELECT * FROM usuario WHERE email = ? AND password = ?`, [user.emailUsuario, user.password], (error, results) => {
+    connection.query(`SELECT * FROM usuario WHERE email = ? AND password = ?`, [user.emailUsuario, user.password], (error, results) => {
         if (error) {
             return console.log('Erro ao selecionar usuário.');
         }
@@ -115,17 +159,17 @@ const loginUser = (user, callback) => {
 
 // Pegar dados do psicólogo:
 const getPsico = (callback) => {
-    conexao.query(`SELECT * FROM usuario where perfil = 'psicologo'`, (error, results1) => {
+    connection.query(`SELECT * FROM usuario where perfil = 'psicologo'`, (error, results1) => {
         if (error) {
             return console.log('Falha na consulta.', error);
         }
         else if (results1.length > 0) {
-            
-            conexao.query(`SELECT * FROM agenda`, (error, results2) => {
+
+            connection.query(`SELECT * FROM agenda`, (error, results2) => {
                 if (error) return console.log('Falha na consulta de horário');
                 else if (results2.length > 0) {
                     // console.log('Agendas encontradas!', results2);
-                    conexao.query(`SELECT * FROM horario where disponibilidade = 0`, (error, results3) => {
+                    connection.query(`SELECT * FROM horario where disponibilidade = 0`, (error, results3) => {
                         if (error) {
                             return console.log('Erro na consulta.', error);
                         }
@@ -148,13 +192,13 @@ const getPsico = (callback) => {
         else {
             console.log('Nenhum psicólogo encontrado, portanto sem agenda cadastradas.');
             var message = 'Nenhum psicólogo encontrado, portanto sem agenda cadastradas.';
-            callback(null, {results: message});
+            callback(null, { results: message });
         }
     })
 }
 
 const getHorario = (horario, callback) => {
-    conexao.query(`select * from horario where hora = ? and idUser =?`, [horario.hora, horario.idUser], (error, results) => {
+    connection.query(`select * from horario where hora = ? and idUser =?`, [horario.hora, horario.idUser], (error, results) => {
         if (error) {
             return console.log('Erro na consulta.');
         }
@@ -162,7 +206,7 @@ const getHorario = (horario, callback) => {
             return console.log('Usuário encontrado! Não foi possível adicionar usuário pois já existe agendamento!');
         }
         else {
-            conexao.query(`insert into horario(hora, idUser, disponibilidade) values(?, ?, 1)`, [horario.hora, horario.idUser], (error, results) => {
+            connection.query(`insert into horario(hora, idUser, disponibilidade) values(?, ?, 1)`, [horario.hora, horario.idUser], (error, results) => {
                 if (error) return console.log('Falha na consulta!');
 
                 else if (results.affectedRows > 0) {
@@ -179,28 +223,28 @@ const getHorario = (horario, callback) => {
 }
 
 
-const addHora = (horario, callback) =>{
+const addHora = (horario, callback) => {
     const query = `update horario set disponibilidade = 1, status = 'agendado', idUser = ? where idHorario = ?`
     const query2 = `select * from horario where idHorario = ?`
     const params2 = [horario.idUser];
-    conexao.query(query2, params2, (error, results)=>{
-        if(error) return console.log('erro: ',error);
-        if(results.length>0){
+    connection.query(query2, params2, (error, results) => {
+        if (error) return console.log('erro: ', error);
+        if (results.length > 0) {
             var message = `ja existe uma consulta marcadada`
             callback(null, message, results);
         }
-        else{
-            conexao.query(query, [horario.idUser, horario.idHorario], (error, results)=>{
-                if(error) return console.log('Erro na consulta: ', error)
-                
+        else {
+            connection.query(query, [horario.idUser, horario.idHorario], (error, results) => {
+                if (error) return console.log('Erro na consulta: ', error)
+
                 console.log('Resultado da Consulta: ', results);
                 var message = `Agendamento realizado com Sucesso`;
                 callback(null, message, results);
             })
         }
     })
-    conexao.query(query, [horario.idUser, horario.idHorario], (error, results)=>{
-        if(error) return console.log('Erro na consulta: ', error)
+    connection.query(query, [horario.idUser, horario.idHorario], (error, results) => {
+        if (error) return console.log('Erro na consulta: ', error)
 
         console.log('Resultado da Consulta: ', results);
         callback(null, results);
@@ -208,7 +252,7 @@ const addHora = (horario, callback) =>{
 }
 
 const updateHorario = (horario, callback) => {
-    conexao.query(`UPDATE horario set disponibilidade = 1, idUser = ? where hora = ?`, [horario.idUser, horario.hora], (error, results) => {
+    connection.query(`UPDATE horario set disponibilidade = 1, idUser = ? where hora = ?`, [horario.idUser, horario.hora], (error, results) => {
         if (error) return console.log('Erro na consulta ao banco de dados.');
         else if (results.affectedRows > 0) {
             console.log('Atualização realizada!');
@@ -221,7 +265,7 @@ const updateHorario = (horario, callback) => {
 }
 
 const getUser = (idUser, callback) => {
-    conexao.query(`SELECT horario.*, agenda.*, usuario.*
+    connection.query(`SELECT horario.*, agenda.*, usuario.*
         FROM horario
         INNER JOIN agenda ON horario.idAgenda = agenda.idAgenda
         INNER JOIN usuario ON agenda.idUser = usuario.idUser
@@ -234,7 +278,7 @@ const getUser = (idUser, callback) => {
         }
         else {
             console.log('select pra horario, agenda e usuario não foi!');
-            conexao.query(`SELECT nome, email ,celular, nomeUser FROM usuario where idUser = ?`, [idUser], (error, results) => {
+            connection.query(`SELECT nome, email ,celular, nomeUser FROM usuario where idUser = ?`, [idUser], (error, results) => {
                 if (error) console.log('Erro de consulta.');
                 console.log('Usuário encontrado, porém não existe agenda: ', results);
                 callback(null, results);
@@ -246,7 +290,7 @@ const getUser = (idUser, callback) => {
 
 const updateUser = (usuario, callback) => {
     console.log('id User:', usuario.idUser)
-    conexao.query(`UPDATE usuario SET nome = ?, email = ?, celular = ?, nomeUser = ? where idUser = ?`, [usuario.nome, usuario.email, usuario.celular, usuario.nomeUser, usuario.idUser], (error, results) => {
+    connection.query(`UPDATE usuario SET nome = ?, email = ?, celular = ?, nomeUser = ? where idUser = ?`, [usuario.nome, usuario.email, usuario.celular, usuario.nomeUser, usuario.idUser], (error, results) => {
         if (error) return console.log('Erro na consulta. Status:', error);
         else if (results.affectedRows > 0) {
             console.log('Atualização feita sql.js!', usuario);
@@ -260,7 +304,7 @@ const updateUser = (usuario, callback) => {
 }
 
 const deleteHorario = (idHorario, callback) => {
-    conexao.query(`UPDATE horario SET disponibilidade = 0, idUser = null WHERE idHorario = ?`, [idHorario], (error, results) => {
+    connection.query(`UPDATE horario SET disponibilidade = 0, idUser = null WHERE idHorario = ?`, [idHorario], (error, results) => {
         if (error) return console.log('Erro na consulta.');
         else if (results.affectedRows > 0) callback(null, idHorario);
         else console.log('Nenhuma linha deletada!', results);
@@ -268,39 +312,39 @@ const deleteHorario = (idHorario, callback) => {
 }
 
 const getAgenda = (idUser, callback) => {
-    conexao.query(`SELECT * FROM horario WHERE idUser = ?`, [idUser], (error, results) => {
+    connection.query(`SELECT * FROM horario WHERE idUser = ?`, [idUser], (error, results) => {
         if (error) return console.log('Erro de consulta.');
         callback(null, results);
     })
 }
 
-const getHours = (dados, callback) =>{
+const getHours = (dados, callback) => {
     var query = `SELECT horario.*, agenda.*, usuario.*
     FROM horario 
     INNER JOIN agenda ON horario.idAgenda = agenda.idAgenda 
     INNER JOIN usuario ON agenda.idUser = usuario.idUser 
     WHERE 1=1 `
     var parametros = []
-    if(dados.diaSemana){ 
+    if (dados.diaSemana) {
         query += `AND agenda.diaSemana = ?`
         parametros.push(dados.diaSemana)
     }
-    if(dados.data){
+    if (dados.data) {
         query += `AND agenda.data = ?`
         parametros.push(dados.data)
     }
 
-    if(dados.idUser){
+    if (dados.idUser) {
         query += `AND usuario.idUser = ?`
         parametros.push(dados.idUser)
     }
-    
-    if(dados.hora) {
+
+    if (dados.hora) {
         query += `AND horario.hora = ?`
         parametros.push(dados.hora);
     }
-    conexao.query(query, parametros, (error, results)=>{
-        if(error) return console.log('Erro na Consulta do Banco!')
+    connection.query(query, parametros, (error, results) => {
+        if (error) return console.log('Erro na Consulta do Banco!')
         console.log('Resultado da Conulta: ', results);
         callback(null, results)
     })
@@ -312,7 +356,7 @@ const getHours = (dados, callback) =>{
 // Adicionar agenda:
 const addAgenda = (agenda, callback) => {
     console.log('Agenda no sql: ', agenda)
-    conexao.query(`INSERT INTO agenda (horaIni, horaFin, data, diaSemana, idUser) VALUES (?, ?, ?, ?, ?)`, [agenda.horaIni, agenda.horaFin, agenda.data, agenda.diaSemana, agenda.idPsico], (error, results) => {
+    connection.query(`INSERT INTO agenda (horaIni, horaFin, data, diaSemana, idUser) VALUES (?, ?, ?, ?, ?)`, [agenda.horaIni, agenda.horaFin, agenda.data, agenda.diaSemana, agenda.idPsico], (error, results) => {
         if (error) return console.log('Erro na consulta.');
         else if (results.affectedRows > 0) {
             console.log('Agenda adicionada com sucesso: ', results.insertId);
@@ -334,7 +378,7 @@ const addAgenda = (agenda, callback) => {
                     return callback(null, { agenda: agenda, horas: horas });
                 }
 
-                conexao.query(`INSERT INTO horario (hora, idAgenda, idPsico) VALUES (?, ?, ?)`, [horaAtual, idAgenda, agenda.idPsico], (error, results2) => {
+                connection.query(`INSERT INTO horario (hora, idAgenda, idPsico) VALUES (?, ?, ?)`, [horaAtual, idAgenda, agenda.idPsico], (error, results2) => {
                     if (error) {
                         console.log('Erro ao adicionar horário: ', error);
                     } else if (results2.affectedRows > 0) {
@@ -368,15 +412,15 @@ const addAgenda = (agenda, callback) => {
 }
 
 const deleteAgenda = (idAgenda, callback) => {
-    conexao.query(`DELETE  horario, agenda FROM horario INNER JOIN agenda ON horario.idAgenda = agenda.idAgenda WHERE horario.idAgenda = ? `, [idAgenda], (error, results) => {
+    connection.query(`DELETE  horario, agenda FROM horario INNER JOIN agenda ON horario.idAgenda = agenda.idAgenda WHERE horario.idAgenda = ? `, [idAgenda], (error, results) => {
         if (error) return console.log('Erro na consulta: ', error);
         else if (results.affectedRows > 0) {
             console.log('Agenda deletada com Sucesso: ', results);
             callback(null, results)
         }
         else {
-            conexao.query(`DELETE agenda from agenda where idAgenda = ?`, [idAgenda], (error, results)=>{
-                if(error) return console.log('Erro na consulta: ', error)
+            connection.query(`DELETE agenda from agenda where idAgenda = ?`, [idAgenda], (error, results) => {
+                if (error) return console.log('Erro na consulta: ', error)
                 callback(null, results);
             })
             console.log('Nenhuma Agenda Encontrado com esse Id');
@@ -385,15 +429,15 @@ const deleteAgenda = (idAgenda, callback) => {
 }
 
 const getPsicoAgenda = (idPsico, perfil, callback) => {
-    if(perfil == 'administrador'){
-        conexao.query(`SELECT agenda.*, usuario.* from agenda inner join usuario on agenda.idUser = usuario.idUser`, (error, results) => {
+    if (perfil == 'administrador') {
+        connection.query(`SELECT agenda.*, usuario.* from agenda inner join usuario on agenda.idUser = usuario.idUser`, (error, results) => {
             if (error) return console.log('Erro na Consulta');
             console.log('Agendas: ', results);
             callback(null, results);
         })
     }
-    else{
-        conexao.query(`SELECT * FROM agenda WHERE idUser = ?`, [idPsico], (error, results) => {
+    else {
+        connection.query(`SELECT * FROM agenda WHERE idUser = ?`, [idPsico], (error, results) => {
             if (error) return console.log('Erro na Consulta');
             console.log('Agendas: ', results);
             callback(null, results);
@@ -401,18 +445,18 @@ const getPsicoAgenda = (idPsico, perfil, callback) => {
     }
 }
 
-const relatorioPac = (idPsico, callback)=>{
+const relatorioPac = (idPsico, callback) => {
     const query = `select DISTINCT usuario.nome, usuario.idUser from usuario left join
     horario on usuario.idUser = horario.idUser
    where horario.idPsico = ?`
-    conexao.query(query, [idPsico], (error, results)=>{
-        if(error) return console.log('Erro na consulta: ', error);
+    connection.query(query, [idPsico], (error, results) => {
+        if (error) return console.log('Erro na consulta: ', error);
         console.log('results: ', results)
         callback(null, results);
     })
 }
 
-const getHoursPac = (idPaciente, callback)=>{
+const getHoursPac = (idPaciente, callback) => {
     const query = `
 SELECT DISTINCT 
     horario.idHorario, 
@@ -439,25 +483,25 @@ LEFT JOIN
     prontuario ON horario.idHorario = prontuario.idHorario
 WHERE 
     horario.idUser = ?`
-    conexao.query(query, [idPaciente], (error, results)=>{
-        if(error) return console.log('erro na consulta: ', error );
+    connection.query(query, [idPaciente], (error, results) => {
+        if (error) return console.log('erro na consulta: ', error);
         console.log('results: ', results);
         callback(null, results);
     })
 }
-const inserirPront = async(data, callback) =>{
+const inserirPront = async (data, callback) => {
     const query = `
         INSERT INTO prontuario
         (idUser, idPsico, idHorario, data_consulta, doencaPreExistente, cirurgiaAnterior, medicamentoEmUso, alergia, historicoFamiliar, observacaoProfissional, recomendacaoProfissional, planoTratamento)
         VALUES (?,?,?,?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
-    var params = [data.idPac, data.idPsico, data.idHorario, data.dataConsulta, data.doencas,data.cirurgias, data.medicamentos, data.alergias, data.historicoFamiliar, data.observacoes, data.recomendacoes, data.planosTratamento]
+    var params = [data.idPac, data.idPsico, data.idHorario, data.dataConsulta, data.doencas, data.cirurgias, data.medicamentos, data.alergias, data.historicoFamiliar, data.observacoes, data.recomendacoes, data.planosTratamento]
 
     const query2 = `update horario set status = 'presente' where idHorario = ?`
     var params2 = [data.idHorario]
 
     const results = await new Promise((resolve, reject) => {
-        conexao.query(query, params, (error, results) => {
+        connection.query(query, params, (error, results) => {
             if (error) return reject(error);
             console.log('Prontuario inserido com Sucesso');
             var message = 'Prontuario inserido com Sucesso';
@@ -465,7 +509,7 @@ const inserirPront = async(data, callback) =>{
         });
     });
     const results2 = await new Promise((resolve, reject) => {
-        conexao.query(query2, params2, (error, results) => {
+        connection.query(query2, params2, (error, results) => {
             if (error) return reject(error);
             console.log('Horario Atualizado com Sucesso!');
             var message2 = 'Horario Atualizado com Sucesso!'
@@ -480,11 +524,11 @@ const inserirPront = async(data, callback) =>{
 // -------------------- FIM DE CONSULTAS NO BANCO PARA PSICÓLOGOS!
 
 //---------------------CONSULTA DE VERIFICAÇÃO DE PERFIL!
-const verificarPerfil = (idUser, callback) =>{
+const verificarPerfil = (idUser, callback) => {
     var query = `SELECT PERFIL FROM USUARIO WHERE idUser = ?`
 
-    conexao.query(query, [idUser], (error, results)=>{
-        if(error) return console.log('Erro: ', error)
+    connection.query(query, [idUser], (error, results) => {
+        if (error) return console.log('Erro: ', error)
         console.log('Resultado da consulta', results[0]);
         callback(null, results[0]);
     })
@@ -498,7 +542,7 @@ const verificarPerfil = (idUser, callback) =>{
 
 // -------------------- INÍCIO DE CONSULTAS NO BANCO PARA CONSULTAS MÉDICAS:
 const verificarConsulta = (credencial, callback) => {
-    conexao.query(`SELECT usuario.nome AS NomePaciente, usuario.idUser AS idUser, horario.hora, agenda.data, agenda.diaSemana, profissionalpsicologo.nome AS NomePsico, horario.status, horario.idHorario FROM horario INNER JOIN usuario ON horario.idUser = usuario.idUser INNER JOIN agenda ON horario.idAgenda = agenda.idAgenda INNER JOIN profissionalpsicologo ON agenda.idPsico = profissionalpsicologo.idPsico WHERE usuario.nomeUser = ?`, [credencial], (error, results) => {
+    connection.query(`SELECT usuario.nome AS NomePaciente, usuario.idUser AS idUser, horario.hora, agenda.data, agenda.diaSemana, profissionalpsicologo.nome AS NomePsico, horario.status, horario.idHorario FROM horario INNER JOIN usuario ON horario.idUser = usuario.idUser INNER JOIN agenda ON horario.idAgenda = agenda.idAgenda INNER JOIN profissionalpsicologo ON agenda.idPsico = profissionalpsicologo.idPsico WHERE usuario.nomeUser = ?`, [credencial], (error, results) => {
         if (error) return console.log('Erro na consulta: ', error);
         else if (results.length > 0) {
             console.log('Usuário encontrado!', results);
@@ -512,10 +556,10 @@ const verificarConsulta = (credencial, callback) => {
 }
 
 const putStatusConsult = (horario, callback) => {
-    conexao.query(`UPDATE horario SET status = 'presente' WHERE idHorario = ?`, [horario.idHorario], (error, results1) => {
+    connection.query(`UPDATE horario SET status = 'presente' WHERE idHorario = ?`, [horario.idHorario], (error, results1) => {
         if (error) return console.log('Erro na consulta: ', error);
 
-        conexao.query(`SELECT usuario.nome AS NomePaciente, horario.hora, horario.status AS status,agenda.data, agenda.diaSemana, profissionalpsicologo.nome AS NomePsico, horario.status, horario.idHorario FROM horario INNER JOIN usuario ON horario.idUser = usuario.idUser INNER JOIN agenda ON horario.idAgenda = agenda.idAgenda INNER JOIN profissionalpsicologo ON agenda.idPsico = profissionalpsicologo.idPsico WHERE usuario.idUser = ?`, [horario.idUser], (error, results2) => {
+        connection.query(`SELECT usuario.nome AS NomePaciente, horario.hora, horario.status AS status,agenda.data, agenda.diaSemana, profissionalpsicologo.nome AS NomePsico, horario.status, horario.idHorario FROM horario INNER JOIN usuario ON horario.idUser = usuario.idUser INNER JOIN agenda ON horario.idAgenda = agenda.idAgenda INNER JOIN profissionalpsicologo ON agenda.idPsico = profissionalpsicologo.idPsico WHERE usuario.idUser = ?`, [horario.idUser], (error, results2) => {
             if (error) return console.log('Erro na consulta: ', error);
             callback(null, results1, results2);
         })
@@ -530,28 +574,28 @@ const getDataAdm = async (callback) => {
             FROM horario
             INNER JOIN agenda ON horario.idAgenda = agenda.idAgenda
             INNER JOIN usuario ON agenda.idUser = usuario.idUser`;
-        
+
         const query2 = 'SELECT * FROM usuario';
 
         const query3 = 'SELECT agenda.*, usuario.* from agenda inner join usuario on agenda.idUser = usuario.idUser';
 
         const results = await new Promise((resolve, reject) => {
-            conexao.query(query, (error, results) => {
+            connection.query(query, (error, results) => {
                 if (error) return reject(error);
                 resolve(results);
             });
         });
 
         const results2 = await new Promise((resolve, reject) => {
-            conexao.query(query2, (error, results) => {
+            connection.query(query2, (error, results) => {
                 if (error) return reject(error);
                 resolve(results);
             });
         });
 
-        const results3 = await new Promise((resolve, reject)=>{
-            conexao.query(query3, (error, results)=>{
-                if(error) return reject(error);
+        const results3 = await new Promise((resolve, reject) => {
+            connection.query(query3, (error, results) => {
+                if (error) return reject(error);
                 resolve(results);
             })
         })
@@ -565,7 +609,7 @@ const getDataAdm = async (callback) => {
 
 // -------------------- FIM DE CONSULTAS NO BANCO PARA CONSULTAS MÉDICAS!
 
-export  {
+export {
     addUser,
     loginUser,
     getPsico,
