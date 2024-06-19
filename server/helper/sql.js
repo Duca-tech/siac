@@ -13,12 +13,15 @@ const connection = sql.createPool({
     database: 'siac',
     waitForConnections: true,
     connectionLimit: 10,
-
 })
 
 connection.getConnection((error) => {
-    if (error) return console.log('Erro ao se conectar ao banco de dados.', error);
-    console.log('Banco de dados conectado!');
+    if (error) {
+        return console.error('Erro ao se conectar ao banco de dados: ', error);
+    }
+    else {
+        console.log('Banco de dados conectado!');
+    }
 })
 
 // Encerrando a conexão do pool quando a aplicação for desligada:
@@ -27,7 +30,6 @@ process.on('exit', () => {
         if (error) {
             console.error('Erro ao encerrar a conexão do pool: ', error);
         }
-
         else {
             console.log('Conexão do pool encerrada com sucesso!');
         }
@@ -39,7 +41,6 @@ process.on('exit', () => {
 
 
 // ------------------------------------- INÍCIO DE CONSULTAS NO BANCO PARA USUÁRIOS:
-
 // Adiciona usuário:
 const addUser = (user, userAdress, callback) => {
 
@@ -109,7 +110,7 @@ const addUserAdress = (userId, userAdress, callback) => {
         else {
             console.log('Usuário inserido com sucesso!');
             message = 'Usuário inserido com sucesso!';
-            
+
             callback(null, message, user);
         }
     });
