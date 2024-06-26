@@ -1,9 +1,6 @@
-import { callActionApi } from 'adminjs';
-import { rejects } from 'assert';
-import { error } from 'console';
 import sql from 'mysql2';
-import { resolve } from 'path';
 export default sql
+
 
 const connection = sql.createPool({
     host: '152.67.55.50',
@@ -15,6 +12,7 @@ const connection = sql.createPool({
     connectionLimit: 10,
 })
 
+
 connection.getConnection((error) => {
     if (error) {
         return console.error('Erro ao se conectar ao banco de dados: ', error);
@@ -23,6 +21,7 @@ connection.getConnection((error) => {
         console.log('Banco de dados conectado!');
     }
 })
+
 
 // Encerrando a conexão do pool quando a aplicação for desligada:
 process.on('exit', () => {
@@ -40,63 +39,24 @@ process.on('exit', () => {
 
 
 
+
 // ------------------------------------- INÍCIO DE CONSULTAS NO BANCO PARA USUÁRIOS:
-// Adiciona usuário:
-const addUser = (user, userAdress, callback) => {
 
-    // Verifica se usuário já está cadastrado:
-    let userVerificationQuery = `SELECT nome, email, perfil FROM usuario WHERE email = ?`;
-    let userVerificationValues = [user.email];
-
-    connection.execute(userVerificationQuery, userVerificationValues, (error, results) => {
+// Verifica se o usuário já está cadastrado:
+const checkUserExists = (email, callback) => {
+    const userVerificationQuery = `SELECT nome, email, perfil FROM usuario WHERE email = ?`;
+    connection.execute(userVerificationQuery, [email], (error, results) => {
         if (error) {
-            return console.log('Erro na consulta: ', error);
-        }
-        else {
-            /* Sugestão de melhoria: 
-                separar as funções de verificar usuário e adicionar usuário em duas funções diferentes:
-                isso evita esse ninho de ifs e facilita a leitura do código segundo os princípios de código limpo
-            */
-
-            if (results.length > 0) {
-                console.log('Usuario encontrado: ', results);
-                var message = 'Usuário ja cadastrado no Sistema';
-                callback(null, message, results);
-            }
-            else {
-                // Variáveis para executar a query:
-                let userInsertQuery = `INSERT INTO usuario(nome, email, nomeUser, perfil, password, data_nascimento) VALUES (?,?,?,?,?,?)`;
-                let userInsertValues = [user.nome, user.email, user.nomeUser, user.perfil, user.password, user.data_nascimento];
-
-                // Executa query e trás os resultados:
-                connection.execute(userInsertQuery, userInsertValues, (error, results, fields) => {
-                    /* Observação:
-                        O método 'connection.query()' foi substituido pelo método connection.execute pois 
-                        este oferece mais desempenho para as consultas no banco de dados.
-                        Fonte: https://stackoverflow.com/questions/53197922/difference-between-query-and-execute-in-mysql
-                    */
-
-                    if (error) {
-                        return console.error('Erro ao inserir usuário: ', error);
-                    }
-                    else {
-                        console.log('Usuário inserido com sucesso: ', results);
-
-                        // Obtém o ID do usuário inserido:
-                        const userId = results.insertId;
-
-                        // Chama a função para adicionar o endereço do usuário:
-                        addUserAdress(userId, userAdress);
-                    }
-                });
-            }
+            callback(error, null);
+        } else {
+            callback(null, results);
         }
     });
-    connection.end();
 };
 
-// Adiciona endereço do usuário:
-const addUserAdress = (userId, userAdress, callback) => {
+
+// Insere o endereço do usuário na tabela:
+const insertUserAdress = (userId, userAdress, callback) => {
 
     // Variáveis para executar a query:
     let adressInsertQuery = `INSERT INTO endereco(idUser, logradouro, bairro, cidade, estado, numero) VALUES(?,?,?,?,?,?)`;
@@ -117,7 +77,53 @@ const addUserAdress = (userId, userAdress, callback) => {
     connection.end();
 }
 
-// Esqueci Senha
+
+// Insere o usuário na tabela:
+const insertUser = (user, callback) => {
+    const userInsertQuery = `INSERT INTO usuario(nome, email, nomeUser, perfil, password, data_nascimento) VALUES (?,?,?,?,?,?)`;
+    const userInsertValues = [user.nome, user.email, user.nomeUser, user.perfil, user.password, user.data_nascimento];
+    connection.execute(userInsertQuery, userInsertValues, (error, results) => {
+        if (error) {
+            callback(error, null);
+        } else {
+            callback(null, results.insertId);
+        }
+    });
+};
+
+
+// Processa e adiciona o usuário com todas as suas informações por completo (função principal):
+const addUser = (user, userAddress, callback) => {
+    checkUserExists(user.email, (error, results) => {
+        if (error) {
+            return callback(error, null);
+        }
+        if (results.length > 0) {
+            console.log('Usuário encontrado: ', results);
+            const message = 'Usuário já cadastrado no Sistema';
+            return callback(null, message, results);
+        } else {
+            insertUser(user, (error, userId) => {
+                if (error) {
+                    return callback(error, null);
+                } else {
+                    insertUserAddress(userId, userAddress, (error, results) => {
+                        if (error) {
+                            return callback(error, null);
+                        } else {
+                            console.log('Usuário e endereço inseridos com sucesso!');
+                            const message = 'Usuário inserido com sucesso!';
+                            return callback(null, message, results);
+                        }
+                    });
+                }
+            });
+        }
+    });
+};
+
+
+// Esqueci senha:
 const getEmail = (email, callback) => {
     var query = `SELECT * FROM usuario WHERE email = ?`
     connection.query(query, [email], (error, results) => {
@@ -127,6 +133,9 @@ const getEmail = (email, callback) => {
 
     })
 }
+
+
+// Atualizar senha:
 const updateSenha = (update, callback) => {
     var query = `UPDATE usuario set password = ? where idUser = ?`;
     connection.query(query, [update.senha, update.idUser], (error, results) => {
@@ -156,6 +165,7 @@ const loginUser = (user, callback) => {
         }
     })
 }
+
 
 // Pegar dados do psicólogo:
 const getPsico = (callback) => {
@@ -196,6 +206,7 @@ const getPsico = (callback) => {
         }
     })
 }
+
 
 const getHorario = (horario, callback) => {
     connection.query(`select * from horario where hora = ? and idUser =?`, [horario.hora, horario.idUser], (error, results) => {
@@ -251,6 +262,7 @@ const addHora = (horario, callback) => {
     })
 }
 
+
 const updateHorario = (horario, callback) => {
     connection.query(`UPDATE horario set disponibilidade = 1, idUser = ? where hora = ?`, [horario.idUser, horario.hora], (error, results) => {
         if (error) return console.log('Erro na consulta ao banco de dados.');
@@ -263,6 +275,7 @@ const updateHorario = (horario, callback) => {
         }
     })
 }
+
 
 const getUser = (idUser, callback) => {
     connection.query(`SELECT horario.*, agenda.*, usuario.*
@@ -288,6 +301,7 @@ const getUser = (idUser, callback) => {
     })
 }
 
+
 const updateUser = (usuario, callback) => {
     console.log('id User:', usuario.idUser)
     connection.query(`UPDATE usuario SET nome = ?, email = ?, celular = ?, nomeUser = ? where idUser = ?`, [usuario.nome, usuario.email, usuario.celular, usuario.nomeUser, usuario.idUser], (error, results) => {
@@ -303,6 +317,7 @@ const updateUser = (usuario, callback) => {
     })
 }
 
+
 const deleteHorario = (idHorario, callback) => {
     connection.query(`UPDATE horario SET disponibilidade = 0, idUser = null WHERE idHorario = ?`, [idHorario], (error, results) => {
         if (error) return console.log('Erro na consulta.');
@@ -311,12 +326,14 @@ const deleteHorario = (idHorario, callback) => {
     })
 }
 
+
 const getAgenda = (idUser, callback) => {
     connection.query(`SELECT * FROM horario WHERE idUser = ?`, [idUser], (error, results) => {
         if (error) return console.log('Erro de consulta.');
         callback(null, results);
     })
 }
+
 
 const getHours = (dados, callback) => {
     var query = `SELECT horario.*, agenda.*, usuario.*
@@ -349,10 +366,16 @@ const getHours = (dados, callback) => {
         callback(null, results)
     })
 }
+
 // -------------------- FIM DE CONSULTAS NO BANCO PARA USUÁRIOS!
 
 
+
+
+
+
 // -------------------- INÍCIO DE CONSULTAS NO BANCO PARA PSICÓLOGOS:
+
 // Adicionar agenda:
 const addAgenda = (agenda, callback) => {
     console.log('Agenda no sql: ', agenda)
@@ -411,6 +434,7 @@ const addAgenda = (agenda, callback) => {
 
 }
 
+
 const deleteAgenda = (idAgenda, callback) => {
     connection.query(`DELETE  horario, agenda FROM horario INNER JOIN agenda ON horario.idAgenda = agenda.idAgenda WHERE horario.idAgenda = ? `, [idAgenda], (error, results) => {
         if (error) return console.log('Erro na consulta: ', error);
@@ -427,6 +451,7 @@ const deleteAgenda = (idAgenda, callback) => {
         }
     })
 }
+
 
 const getPsicoAgenda = (idPsico, perfil, callback) => {
     if (perfil == 'administrador') {
@@ -445,6 +470,7 @@ const getPsicoAgenda = (idPsico, perfil, callback) => {
     }
 }
 
+
 const relatorioPac = (idPsico, callback) => {
     const query = `select DISTINCT usuario.nome, usuario.idUser from usuario left join
     horario on usuario.idUser = horario.idUser
@@ -455,6 +481,7 @@ const relatorioPac = (idPsico, callback) => {
         callback(null, results);
     })
 }
+
 
 const getHoursPac = (idPaciente, callback) => {
     const query = `
@@ -489,6 +516,8 @@ WHERE
         callback(null, results);
     })
 }
+
+
 const inserirPront = async (data, callback) => {
     const query = `
         INSERT INTO prontuario
@@ -520,10 +549,15 @@ const inserirPront = async (data, callback) => {
     callback(null, results, results2);
 }
 
-
 // -------------------- FIM DE CONSULTAS NO BANCO PARA PSICÓLOGOS!
 
+
+
+
+
+
 //---------------------CONSULTA DE VERIFICAÇÃO DE PERFIL!
+
 const verificarPerfil = (idUser, callback) => {
     var query = `SELECT PERFIL FROM USUARIO WHERE idUser = ?`
 
@@ -534,13 +568,15 @@ const verificarPerfil = (idUser, callback) => {
     })
 }
 
-//-------------------- INÍCIO DE CONSULTAS NO BANCO PARA RECEPCIONISTAS:
+// -------------------- FIM DE CONSULTAS DE VERIFICAÇÃO DE PERFIL!
 
 
-// -------------------- FIM DE CONSULTAS NO BANCO PARA RECEPCIONISTAS!
+
+
 
 
 // -------------------- INÍCIO DE CONSULTAS NO BANCO PARA CONSULTAS MÉDICAS:
+
 const verificarConsulta = (credencial, callback) => {
     connection.query(`SELECT usuario.nome AS NomePaciente, usuario.idUser AS idUser, horario.hora, agenda.data, agenda.diaSemana, profissionalpsicologo.nome AS NomePsico, horario.status, horario.idHorario FROM horario INNER JOIN usuario ON horario.idUser = usuario.idUser INNER JOIN agenda ON horario.idAgenda = agenda.idAgenda INNER JOIN profissionalpsicologo ON agenda.idPsico = profissionalpsicologo.idPsico WHERE usuario.nomeUser = ?`, [credencial], (error, results) => {
         if (error) return console.log('Erro na consulta: ', error);
@@ -555,6 +591,7 @@ const verificarConsulta = (credencial, callback) => {
     })
 }
 
+
 const putStatusConsult = (horario, callback) => {
     connection.query(`UPDATE horario SET status = 'presente' WHERE idHorario = ?`, [horario.idHorario], (error, results1) => {
         if (error) return console.log('Erro na consulta: ', error);
@@ -566,7 +603,15 @@ const putStatusConsult = (horario, callback) => {
     })
 }
 
+// -------------------- FIM DE CONSULTAS PARA CONSULTAS MÉDICAS!
+
+
+
+
+
+
 //------------- Consultas para perfil ADM ------------------------------
+
 const getDataAdm = async (callback) => {
     try {
         const query = `
@@ -609,6 +654,11 @@ const getDataAdm = async (callback) => {
 
 // -------------------- FIM DE CONSULTAS NO BANCO PARA CONSULTAS MÉDICAS!
 
+
+
+
+
+// Exporta todas as funções para uso em outras camadas do back-end da aplicação:
 export {
     addUser,
     loginUser,
