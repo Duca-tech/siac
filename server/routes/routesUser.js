@@ -66,8 +66,8 @@ routerUser.post('/cadastro', async (req, res) => {
 
     addUser(user, end, (error, message, results) => {
         if (error) {
-            console.log('Erro ao adicionar cliente ', error.message);
-            res.status(500).send('Erro ao Adicionar Cliente');
+            console.log('Erro ao adicionar usuário: ', error.message);
+            res.status(500).send('Erro ao adicionar usuário: ');
         }
         res.status(201).json({message: message, results: results});
     });

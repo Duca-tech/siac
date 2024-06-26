@@ -1,6 +1,7 @@
 console.log('Script ajaxCadastro.js carregado.');
 
 document.addEventListener('DOMContentLoaded', function () {
+    
     //Carregar informações de CEP
     document.getElementById('cep').addEventListener('input', function () {
         console.log('comprimento do Cep: ', this.value.length);

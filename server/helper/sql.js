@@ -92,8 +92,7 @@ const insertUser = (user, callback) => {
 
 // Processa e adiciona o usuário com todas as suas informações por completo (função principal):
 const addUser = (user, userAddress, callback) => {
-    debugger;
-
+    
     checkUserExists(user.email, (error, results) => {
         if (error) {
             return callback(error, null);
