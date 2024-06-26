@@ -1,11 +1,33 @@
 import express  from 'express';
-import  {addUser,loginUser,getPsico,getHorario,addHora, updateHorario,getUser,updateUser,deleteHorario,getAgenda, getHours,addAgenda,deleteAgenda,getPsicoAgenda,verificarConsulta,putStatusConsult} from '../helper/sql.js'
 const routerUser = express.Router();
-import {gerarToken,verificarToken,tokenDestroyer} from '../config/token/token.js'
-import {enviarMensagem} from '../config/twilio/twilio.js';
-import session from 'express-session';
+
+import {
+    gerarToken,
+    verificarToken,
+    tokenDestroyer
+} from '../config/token/token.js'
+
+import  {
+    addUser,
+    loginUser,
+    getPsico,
+    getHorario,
+    addHora, 
+    updateHorario,
+    getUser,
+    updateUser,
+    deleteHorario,
+    getAgenda, 
+    getHours,
+    addAgenda,
+    deleteAgenda,
+    getPsicoAgenda,
+    verificarConsulta,
+    putStatusConsult
+} from '../helper/sql.js'
 
 // -------------------- INÍCIO DA CONFIGURAÇÃO DE ROTAS DO USUÁRIO:
+
 routerUser.get('/cadastro', (req, res) => {
     res.render('usuario/cadastro');
 })
@@ -29,10 +51,10 @@ routerUser.post('/cadastro', async (req, res) => {
         nomeUser: nomeUser,
         perfil: perfil,
         password: senha,
-        dataNascimento:dataNascimento
+        dataNascimento: dataNascimento
     }
 
-    const end ={
+    const end = {
         logradouro: logradouro,
         bairro: bairro,
         localidade: localidade,
@@ -51,6 +73,7 @@ routerUser.post('/cadastro', async (req, res) => {
     });
 
 });
+
 routerUser.get('/login', (req, res) => {
     res.render('home')
 })
@@ -290,6 +313,7 @@ routerUser.delete('/principal/conta/deletarConsulta/:idHorario', (req, res) => {
         res.status(200).json({ message: 'Id da consulta deletada: ', results })
     })
 })
+
 // -------------------- FIM DA CONFIGURAÇÃO DE ROTAS DO USUÁRIO!
 
 export {

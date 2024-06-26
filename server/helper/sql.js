@@ -39,13 +39,14 @@ process.on('exit', () => {
 
 
 
-
 // ------------------------------------- INÍCIO DE CONSULTAS NO BANCO PARA USUÁRIOS:
 
 // Verifica se o usuário já está cadastrado:
 const checkUserExists = (email, callback) => {
+
     const userVerificationQuery = `SELECT nome, email, perfil FROM usuario WHERE email = ?`;
-    connection.execute(userVerificationQuery, [email], (error, results) => {
+    
+    connection.query(userVerificationQuery, [email], (error, results) => {
         if (error) {
             callback(error, null);
         } else {
@@ -56,37 +57,34 @@ const checkUserExists = (email, callback) => {
 
 
 // Insere o endereço do usuário na tabela:
-const insertUserAdress = (userId, userAdress, callback) => {
+const insertUserAddress = (userId, userAdress, callback) => {
 
-    // Variáveis para executar a query:
-    let adressInsertQuery = `INSERT INTO endereco(idUser, logradouro, bairro, cidade, estado, numero) VALUES(?,?,?,?,?,?)`;
-    let adressInsertValues = [userId, userAdress.logradouro, userAdress.bairro, userAdress.cidade, userAdress.estado, userAdress.numero];
+    const adressInsertQuery = `INSERT INTO endereco(idUser, logradouro, bairro, cidade, estado, numero) VALUES(?,?,?,?,?,?)`;
+    const adressInsertValues = [userId, userAdress.logradouro, userAdress.bairro, userAdress.cidade, userAdress.estado, userAdress.numero];
 
-    // Executa query e trás os resultados:
-    connection.execute(adressInsertQuery, adressInsertValues, (error, results, fields) => {
+    connection.query(adressInsertQuery, adressInsertValues, (error, results) => {
         if (error) {
-            return console.log('Erro ao inserir endereço: ', error.message);
+            callback(error, null);
         }
         else {
-            console.log('Usuário inserido com sucesso!');
-            message = 'Usuário inserido com sucesso!';
-
-            callback(null, message, user);
+            callback(null, results);
         }
     });
-    connection.end();
 }
 
 
 // Insere o usuário na tabela:
 const insertUser = (user, callback) => {
+
     const userInsertQuery = `INSERT INTO usuario(nome, email, nomeUser, perfil, password, data_nascimento) VALUES (?,?,?,?,?,?)`;
     const userInsertValues = [user.nome, user.email, user.nomeUser, user.perfil, user.password, user.data_nascimento];
-    connection.execute(userInsertQuery, userInsertValues, (error, results) => {
+    
+    connection.query(userInsertQuery, userInsertValues, (error, results) => {
         if (error) {
             callback(error, null);
-        } else {
-            callback(null, results.insertId);
+        } 
+        else {
+            callback(null, results);
         }
     });
 };
@@ -94,25 +92,32 @@ const insertUser = (user, callback) => {
 
 // Processa e adiciona o usuário com todas as suas informações por completo (função principal):
 const addUser = (user, userAddress, callback) => {
+    debugger;
+
     checkUserExists(user.email, (error, results) => {
         if (error) {
             return callback(error, null);
         }
         if (results.length > 0) {
             console.log('Usuário encontrado: ', results);
-            const message = 'Usuário já cadastrado no Sistema';
+            const message = 'Usuário já cadastrado no sistema.';
+            
             return callback(null, message, results);
-        } else {
+        } 
+        else {
             insertUser(user, (error, userId) => {
                 if (error) {
                     return callback(error, null);
-                } else {
+                } 
+                else {
                     insertUserAddress(userId, userAddress, (error, results) => {
                         if (error) {
                             return callback(error, null);
-                        } else {
+                        } 
+                        else {
                             console.log('Usuário e endereço inseridos com sucesso!');
                             const message = 'Usuário inserido com sucesso!';
+                            
                             return callback(null, message, results);
                         }
                     });
@@ -373,7 +378,6 @@ const getHours = (dados, callback) => {
 
 
 
-
 // -------------------- INÍCIO DE CONSULTAS NO BANCO PARA PSICÓLOGOS:
 
 // Adicionar agenda:
@@ -555,7 +559,6 @@ const inserirPront = async (data, callback) => {
 
 
 
-
 //---------------------CONSULTA DE VERIFICAÇÃO DE PERFIL!
 
 const verificarPerfil = (idUser, callback) => {
@@ -569,7 +572,6 @@ const verificarPerfil = (idUser, callback) => {
 }
 
 // -------------------- FIM DE CONSULTAS DE VERIFICAÇÃO DE PERFIL!
-
 
 
 
@@ -604,7 +606,6 @@ const putStatusConsult = (horario, callback) => {
 }
 
 // -------------------- FIM DE CONSULTAS PARA CONSULTAS MÉDICAS!
-
 
 
 
@@ -653,10 +654,6 @@ const getDataAdm = async (callback) => {
 };
 
 // -------------------- FIM DE CONSULTAS NO BANCO PARA CONSULTAS MÉDICAS!
-
-
-
-
 
 // Exporta todas as funções para uso em outras camadas do back-end da aplicação:
 export {
