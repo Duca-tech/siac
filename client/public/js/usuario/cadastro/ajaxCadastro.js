@@ -65,7 +65,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     if (!response.ok) {
                         throw new Error('Erro ao enviar formulário. Status: ' + response.status);
                     }
-                    alert("Usuário cadastrado com sucesso!");
                     return response.json(); // Retorna os dados como JSON
                 })
 
