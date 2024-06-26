@@ -59,8 +59,8 @@ const checkUserExists = (email, callback) => {
 // Insere o endereço do usuário na tabela:
 const insertUserAddress = (userId, userAdress, callback) => {
 
-    const adressInsertQuery = `INSERT INTO endereco(idUser, logradouro, bairro, cidade, estado, numero) VALUES(?,?,?,?,?,?)`;
-    const adressInsertValues = [userId, userAdress.logradouro, userAdress.bairro, userAdress.cidade, userAdress.estado, userAdress.numero];
+    const adressInsertQuery = `INSERT INTO endereco(idUser, logradouro, numero, bairro, cidade, estado) VALUES(?,?,?,?,?,?)`;
+    const adressInsertValues = [userId, userAdress.logradouro, userAdress.numero, userAdress.bairro, userAdress.localidade, userAdress.uf];
 
     connection.query(adressInsertQuery, adressInsertValues, (error, results) => {
         if (error) {
@@ -84,7 +84,7 @@ const insertUser = (user, callback) => {
             callback(error, null);
         } 
         else {
-            callback(null, results);
+            callback(null, results.insertId);
         }
     });
 };

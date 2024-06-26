@@ -1,7 +1,7 @@
 console.log('Script ajaxCadastro.js carregado.');
 
 document.addEventListener('DOMContentLoaded', function () {
-    
+
     //Carregar informações de CEP
     document.getElementById('cep').addEventListener('input', function () {
         console.log('comprimento do Cep: ', this.value.length);
@@ -38,6 +38,7 @@ document.addEventListener('DOMContentLoaded', function () {
         var dataNascimento = document.getElementById('dataNascimento').value;
 
         if (nome && email && nomeUser && perfil != 'Escolha o Perfil' && cep && pass && numero) {
+
             const formData = {
                 nome: nome,
                 email: email,
@@ -64,15 +65,19 @@ document.addEventListener('DOMContentLoaded', function () {
                     if (!response.ok) {
                         throw new Error('Erro ao enviar formulário. Status: ' + response.status);
                     }
+                    alert("Usuário cadastrado com sucesso!");
                     return response.json(); // Retorna os dados como JSON
                 })
+
                 .then(data => {
-                    console.log('Resposta do servidor:', data);
+                    console.log('Resposta do servidor: ', data);
                     verifcarCadastro(data.message, data.results ? data.results[0] : {});
                 })
+
                 .catch(error => {
-                    console.error('erro: ', error);
+                    console.error('Erro: ', error);
                 })
+
             return false; // Impede o envio padrão do formulário.
         }
         else {
