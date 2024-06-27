@@ -1,4 +1,5 @@
 Arquitetura Recomendada
+
 meu-projeto/
 │
 ├── node_modules/          (Pasta gerada pelo npm para armazenar as dependências do projeto)
