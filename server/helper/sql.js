@@ -49,7 +49,7 @@ const addUser = (user, end, callback) => {
         }
         else{
              // Inserir usuário
-            conexao.query(`INSERT INTO usuario(nome, email, nomeUser, perfil, password, data_nascimento) VALUES (?,?,?,?,?,?)`, [user.nome, user.email, user.nomeUser, user.perfil, user.password], (error, results, fields) => {
+            conexao.query(`INSERT INTO usuario(nome, email, nomeUser, perfil, password, data_nascimento) VALUES (?,?,?,?,?,?)`, [user.nome, user.email, user.nomeUser, user.perfil, user.password, user.dataNascimento], (error, results, fields) => {
                 if (error) {
                     return console.log('Erro ao inserir usuário: ', error);
                 }
