@@ -35,8 +35,7 @@ app.use(express.json())
 //fileURLToPath() para converter import.meta.url em um caminho de arquivo e dirname() para obter o diretório do arquivo atual
 //import.meta.url para obter o diretório atual.
 const __filename = fileURLToPath(import.meta.url);
-console.log('caminho arquivo atual: ',import.meta.url);
-console.log('caminho de Arquivo: ', __filename);
+console.log('Caminho do arquivo servidor: ', __filename);
 
 const __dirname = path.dirname(__filename)
 
