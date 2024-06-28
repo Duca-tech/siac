@@ -15,7 +15,7 @@ function verificarUser(results, message, token){
 
     }
     else{
-        alert(message + '\n\nVerifique o e-mail ou senha digitados e tente novamente.');
+        alert(message + '\n\nverifique E-mail ou senha');
 
     }
 }

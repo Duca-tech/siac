@@ -249,11 +249,21 @@ $(document).ready(function(){
         var containerCof = document.querySelector('.modal');
         containerCof.style.display = 'none';
         
-        var objHorario = {
-            hora: Selecthorario,
-            idHorario: idHorario,
-            idUser: idUser
-        };
+        if(typeof horarioExcluir !== undefined){
+            var objHorario = {
+                hora: Selecthorario,
+                idHorario: idHorario,
+                idUser: idUser,
+                horarioExcluir: horarioExcluir
+            };
+        }
+        else{
+            var objHorario = {
+                hora: Selecthorario,
+                idHorario: idHorario,
+                idUser: idUser
+            };
+        }
 
         fetch('http://localhost:3600/user/agendamento/agendarConsulta', {
             method: 'POST',
@@ -268,8 +278,16 @@ $(document).ready(function(){
 
             setTimeout(() => {
                 loader.style.display = 'none'
-                alert(data.message);
+                alert(data.message1);
+                alert(data.message2);
+                
+                // window.location.href = '/user/principal/conta'
                 location.reload();
+
+                
+                
+                    
+                
             }, 3000);   
         })
         .catch(function(error) {

@@ -1,4 +1,4 @@
-import { consultas, updateRelizado, detalheConta } from '/js/usuario/conta/funcaoConta.js'
+import {updateRelizado, detalheConta } from '/js/usuario/conta/funcaoConta.js'
 
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(response => {
             console.log('Resposta do servidor:', response);
             detalheConta(response.data[0]);
-            consultas(response.data[0]);
+            // consultas(response.data[0]);
         })
         .catch((error) => {
             console.error('Erro na requisição:', error);
@@ -35,17 +35,18 @@ document.addEventListener('DOMContentLoaded', function () {
     // Atualizar conta:
     $('#buttonAtualizar').on('click', () => {
         $('input').prop('disabled', false);
-        $('#containerConfCan').show();
+        $('#containerConfCan').removeClass('d-none');
         $('#buttonAtualizar').hide();
     })
 
     $('#buttonCancelar').on('click', () => {
-        $('#containerConfCan').hide();
+        $('#containerConfCan').addClass('d-none')
         $('#buttonAtualizar').show();
         $('input').prop('disabled', true);
     });
 
     $('#buttonConfirmar').on('click', () => {
+        
         const nome = $('#nome').val();
         const email = $('#email').val();
         const celular = $('#celular').val();
@@ -62,8 +63,7 @@ document.addEventListener('DOMContentLoaded', function () {
             .then((response) => response.json())
             .then((data) => {
                 console.log('Resposta do servidor: ', data.message);
-                updateRelizado(data.data);
-                location.reload();
+                updateRelizado();
             })
             .catch((error) => {
                 console.error('Erro na atualização:', error);

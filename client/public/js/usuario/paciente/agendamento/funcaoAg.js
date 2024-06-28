@@ -19,27 +19,27 @@ function generateCalendar(optionValue, agenda, horarios){
   
   
   document.getElementById('calendar').innerHTML = '';
-  console.log('agenda: ', agenda)
+  // console.log('agenda: ', agenda)
   const calendar = document.getElementById('calendar');
   const currentDate = new Date(0,optionValue);
   const month = currentDate.getMonth();
-  console.log('month: ',month)
-  console.log('optionValue: ' ,optionValue)
+  // console.log('month: ',month)
+  // console.log('optionValue: ' ,optionValue)
   var selectMonth = document.querySelector('.selectMonth');
   selectMonth.value = month;
   const year = currentDate.getFullYear();
 
   const firstDayOfMonth = new Date(year, month, 1);
-  console.log('firstDayOfMonth: ', firstDayOfMonth);
+  // console.log('firstDayOfMonth: ', firstDayOfMonth);
 
   const lastDayfMonth = new Date(year, month+1, 0);
-  console.log('lastDayfMonth: ', lastDayfMonth);
+  // console.log('lastDayfMonth: ', lastDayfMonth);
   
   //Primeiro dia Da Semana
   const firstDayOfWeek = firstDayOfMonth.getDay();
-  console.log('firstDayOfWeek: ', firstDayOfWeek);
+  // console.log('firstDayOfWeek: ', firstDayOfWeek);
   const totalDays = lastDayfMonth.getDate();
-  console.log('totalDays: ', totalDays);  
+  // console.log('totalDays: ', totalDays);  
 
   cabecalhoCalendar(); // gerará o cabeçalho dos dias da Semana
 
@@ -61,12 +61,12 @@ function generateCalendar(optionValue, agenda, horarios){
       var agendaDay = agendaDate.getDate();
       var agendaMonth = agendaDate.getMonth();
       agendaDate = convertDateFormat(agendaDate);
-      console.log('agendaDate: ', agendaDate);
+      
 
       
 
       if(agendaDay == day && agendaMonth == month && agendaDate >= datahoje){
-        console.log('agendaMonth: ', agendaMonth);
+        // console.log('agendaMonth: ', agendaMonth);
       //lista de seleção de horários
         var selectHours = document.createElement('select')
         selectHours.className = 'select-hours'
@@ -81,8 +81,8 @@ function generateCalendar(optionValue, agenda, horarios){
              
         for(let x = 0; x<horarios.length; x++){
           if(horarios[x].idAgenda == agenda[j].idAgenda){
-            console.log('agenda[j].idAgenda: ', agenda[j].idAgenda)
-            console.log('horarios[x].idAgenda ', horarios[x].idAgenda)
+            // console.log('agenda[j].idAgenda: ', agenda[j].idAgenda)
+            // console.log('horarios[x].idAgenda ', horarios[x].idAgenda)
             var buttonOption = document.createElement('option');
             buttonOption.className = 'option-hours'
             buttonOption.textContent = horarios[x].hora;

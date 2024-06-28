@@ -1,59 +1,59 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/usuario/conta.css">
-    <title>Conta do usuário</title>
+    <title>Conta do Usuário</title>
 </head>
 <body>
-    <div class="containerVoltar">
-        <button class="btn btn-warning voltar">Voltar</button>
-    </div>
-    <div class="row container" id="containerConta">
-        <div class="col-md-6">
-            <label>Nome</label>
-            <input id="nome" name="nome" disabled><br>
-
-            <label>E-mail: </label>
-            <input id="email" name="email" disabled>
-
-           
+    <div class="container my-4">
+        <div class="d-flex justify-content-start mb-3">
+            <button class="btn btn-warning voltar">Voltar</button>
         </div>
-        <div class="col-md-6">
-            <label>Nome de usuario</label>
-            <input id="nomeUser" name="nomeUser" disabled><br>
-
-            <label>celular</label>
-            <input id="celular" name="celular" disabled>
+        
+        <div class="card p-4 shadow-sm">
+            <h1 class="card-title text-center mb-4">Detalhes da Conta</h1>
+            <form class="account-details">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Nome:</label>
+                    <input type="text" class="form-control" id="nome" name="name">
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">E-mail:</label>
+                    <input type="email" class="form-control" id="email" name="email" >
+                </div>
+                <div class="mb-3">
+                    <label for="phone" class="form-label">Celular:</label>
+                    <input type="tel" class="form-control" id="celular" name="phone" >
+                </div>
+                <div class="mb-3">
+                    <label for="username" class="form-label">Nome de Usuário:</label>
+                    <input type="text" class="form-control" id="nomeUser" name="username">
+                </div>
+                <div class="d-flex justify-content-center mt-4 d-none" id="salvar">
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </div>
+            </form>
         </div>
-
     </div>
-    <div class="container" id="containerButton">
-        <button class="button btn btn-info" id="buttonAtualizar">Atualizar Conta</button>
-
-        <div id="containerConfCan">
-            <button id="buttonConfirmar" class="btn btn-success">Confirmar</button>
-            <button id="buttonCancelar" class="btn btn-danger">Cancelar</button>
-        </div>
-
-        <div class='msgServer'>Atualização de usuário realizado com sucesso</div>
-        
-    </div>
-
-    <div id="containerConsultas" class="container ">
-
-        
-
-    </div>
-        
-        
     
-<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-<script type="module" src="/js/usuario/conta/ajaxConta.js"></script>
-<script type="module" src="/js/usuario/conta/funcaoConta.js"></script>
+    <div class="container my-4 text-center">
+        <button class="btn btn-info mb-3" id="buttonAtualizar">Atualizar Conta</button>
+        
+        <div id="containerConfCan" class="d-none">
+            <button id="buttonConfirmar" class="btn btn-success mx-2">Confirmar</button>
+            <button id="buttonCancelar" class="btn btn-danger mx-2">Cancelar</button>
+        </div>
+        
+        <div class="success-message" id="successMessage">Atualização realizada com Sucesso</div>
 
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script type="module" src="/js/usuario/conta/ajaxConta.js"></script>
+    <script type="module" src="/js/usuario/conta/funcaoConta.js"></script>
 </body>
 </html>

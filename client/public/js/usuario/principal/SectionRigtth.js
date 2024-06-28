@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var id ={
         idUser: idUser
     }
+    console.log('idUser: ', idUser);
     fetch('/user/principal/conta/detalhes',{
         method: 'POST',
         headers:{

@@ -26,8 +26,8 @@
                 <h3>Your Files</h3>
             </div>
             <div class="item">
-                <i class="ri-hard-drive-3-line"></i>
-                <h3>Your Disks</h3>
+                <i class="ri-health-book-line"></i>
+                <h3>Histórico de Consultas</h3>
             </div>
             <div class="item">
                 <i class="ri-folder-lock-line"></i>
@@ -67,6 +67,16 @@
         <h3 class="separator">
             Agendamento
         </h3>
+        
+        <div id="confirmationModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Confirmação</h2>
+                <p>Você tem certeza que deseja continuar?</p>
+                <button id="confirmButton" class="confirmarConsulta">Confirmar</button>
+                <button id="cancelButton">Cancelar</button>
+            </div>
+          </div>
 
         <div class="quick-access">
             <div class="item " id ="agendar-consulta">
@@ -88,39 +98,18 @@
         </div>
 
         <h3 class="separator">
-            Recent
+            Consultas
         </h3>
 
-        <table>
+        <table class="tableHorario">
+            <thead>
+                <th>Data</th>
+                <th>Dia da Semana</th>
+                <th>Hora</th>
+                <th>status</th>
+            </thead>
             <tbody>
-                <tr class="selected">
-                    <!-- <td class="icon"><i class="ri-image-fill"></i></td>
-                    <td class="name">IMG_10234.png</td>
-                    <td class="extension">PNG File</td>
-                    <td class="size">2.7 MB</td>
-                    <td class="more"><i class="ri-more-fill"></i></td> -->
-                </tr>
-                <tr>
-                    <!-- <td class="icon"><i class="ri-file-3-fill"></i></td>
-                    <td class="name">My Report.docx</td>
-                    <td class="extension">DOCX File</td>
-                    <td class="size">5.4 MB</td>
-                    <td class="more"><i class="ri-more-fill"></i></td> -->
-                </tr>
-                <tr>
-                    <!-- <td class="icon"><i class="ri-video-on-fill"></i></td>
-                    <td class="name">Fun Video.mp4</td>
-                    <td class="extension">MP4 File</td>
-                    <td class="size">13.9 MB</td>
-                    <td class="more"><i class="ri-more-fill"></i></td> -->
-                </tr>
-                <tr>
-                    <!-- <td class="icon"><i class="ri-music-2-fill"></i></td>
-                    <td class="name">Billie Eilish.mp3</td>
-                    <td class="extension">MP3 File</td>
-                    <td class="size">4.4 MB</td>
-                    <td class="more"><i class="ri-more-fill"></i></td> -->
-                </tr>
+                
             </tbody>
         </table>
 
@@ -167,8 +156,8 @@
     
 <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-<script src="/js/usuario/principal/ajaxPrinc.js"></script>
-<script src="/js/usuario/principal/funcaoPrinc.js"></script>  
+<script type="module" src="/js/usuario/principal/ajaxPrinc.js"></script>
+<script type="module" src="/js/usuario/principal/funcaoPrinc.js"></script>  
 <script src="/js/usuario/principal/formatPrinc.js"></script> 
 <script src="/js/usuario/principal/SectionLeft.js"></script> 
 <script src="/js/usuario/principal/SectionRigtth.js"></script> 

@@ -78,6 +78,79 @@ body{
 .left-section .sign-out i{
     font-size: 22px;
 }
+.modal {
+    display: none; 
+    position: fixed; 
+    z-index: 1; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgba(0, 0, 0, 0.4); 
+}
+/* Modal Content */
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; 
+    max-width: 400px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+/* Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#confirmButton {
+    background-color: #4CAF50; 
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+}
+
+#cancelButton {
+    background-color: #f44336; 
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+}
+
+.confirmarConsulta{
+    margin: 10px;
+    border-radius: 10px;
+    background-color:#00FF00;
+    padding: 5px;
+}
+.confirmarConsulta:hover{
+    background-color: darkgreen;
+}
+
+.cancelarConsulta{
+    margin: 10px;
+    border-radius: 10px;
+    background-color:tomato;
+    padding: 5px;
+}
+.cancelarConsulta:hover{
+    background-color: red;
+}
+
 
 .main{
     flex: 6;
@@ -224,7 +297,7 @@ body{
 .main table{
     background: #fff;
     padding: 15px;
-    width: 100%;
+    width: 80%;
     border-radius: 14px;
     border-spacing: 0 8px;
     box-shadow: 0 2px 6px rgba(136, 148, 171, 0.2), 0 24px 20px -24px rgba(71, 82, 107, 0.1);
@@ -240,9 +313,13 @@ body{
     border-radius: 14px;
     background: #e8eaf6;
 }
+.main table thead th{
+    padding: 16px;
+}
 
 .main table tbody tr td{
     padding: 16px;
+    /* text-align: center; */
 }
 
 .main table tbody tr td.icon i{
@@ -282,6 +359,33 @@ body{
 
 .main table tbody tr td:last-child{
     border-radius: 0 14px 14px 0;
+}
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 10px;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease;
+}
+
+.btn-cancelar {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.btn-cancelar:hover {
+    background-color: #c82333;
+}
+
+.btn-remarcar {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.btn-remarcar:hover {
+    background-color: #0056b3;
 }
 
 .right-section{

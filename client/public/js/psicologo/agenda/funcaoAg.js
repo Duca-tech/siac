@@ -110,4 +110,29 @@ export function addAgenda(agenda) {
 //     return horasForm;
 // }
 
+export function verificacaoPerfil(perfil, psicologos){
+    if(perfil == 'administrador'){
+        var select =  document.createElement('select');
+        var optionSelected = document.createElement('option');
+        optionSelected.textContent = 'Todos';
+        optionSelected.selected = true;
+        select.append(optionSelected);
+        select.setAttribute('class', 'selectionFilter');
+        psicologos.map(element=>{
+            var option = document.createElement('option');
+            option.textContent = element.nome
+            option.value = element.idUser
+
+            select.append(option);
+        })
+        document.querySelector('.containerSelect').append(select);
+
+        var buttonFilter = document.createElement('button');
+        buttonFilter.setAttribute('class', 'buttonFilter');
+        buttonFilter.textContent = 'Filtrar';
+
+        document.querySelector('.containerSelect').append(buttonFilter);
+    }
+}
+
 

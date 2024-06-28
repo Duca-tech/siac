@@ -1,7 +1,7 @@
-import { exibirAgendas, addAgenda } from "/js/psicologo/agenda/funcaoAg.js";
+import { exibirAgendas, addAgenda , verificacaoPerfil} from "/js/psicologo/agenda/funcaoAg.js";
 $(document).ready(function () {
-    const idPsico = localStorage.getItem('idUser');
-    var psico = { idPsico: idPsico }
+    // const idPsico = localStorage.getItem('idUser');
+    var psico = { idPsico: 0 }
     // Pegar as agendas já criadas:
     $.ajax({
         url: '/psico/agenda/exibirAgenda',
@@ -10,6 +10,7 @@ $(document).ready(function () {
     })
         .done(function (response) {
             console.log('Resposta do servidor: ', response);
+            verificacaoPerfil(response.perfil, response.psicologos);
             exibirAgendas(response.agenda);
         })
         .fail(function (errorThrown, status) {

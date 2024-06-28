@@ -6,53 +6,82 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/usuario/cadastro.css">
     <title>Tela de Cadastro</title>
+    
 </head>
 <body class="d-flex align-items-center justify-content-center">
 
-    <div  id="containerCadastro">
-        <form id="formCadastroUser">
-            <label for="nome">Nome Completo: </label>
-            <input name="nome" type="text" id="nome"><br><br>
+    <div class="container">
+        <div id="containerCadastro">
+            <form id="formCadastroUser">
+                <table class="table">
+                    <tr>
+                        <td><label for="nome">Nome Completo:</label></td>
+                        <td><input name="nome" type="text" id="nome"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="email">E-mail:</label></td>
+                        <td><input id="email" type="email" name="email"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="nomeUser">Nome de Usuário:</label></td>
+                        <td><input id="nomeUser" type="text" name="nomeUser"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="perfil">Perfil:</label></td>
+                        <td>
+                            <select id="perfil" name="perfil">
+                                <option disabled selected>Escolha o Perfil</option>
+                                <option value="paciente">Paciente</option>
+                                <option value="psicologo">Psicólogo</option>
+                                <option value="recepcionista">Recepcionista</option>
+                                <option value="administrador">Administrador</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="dataNascimento">Data de Nascimento:</label></td>
+                        <td><input type="date" id="dataNascimento"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="cep">CEP:</label></td>
+                        <td><input id="cep" type="text" name="cep"></td>
+                    </tr>
+                    <tr class="containerCep">
+                        <td><input type="text" id="logradouroInput" disabled placeholder="Logradouro"></td>
+                        <td><input type="text" id="bairroInput" disabled placeholder="Bairro"></td>
+                    </tr>
+                    <tr class="containerCep">
+                        <td><input type="text" id="localidadeInput" disabled placeholder="Localidade"></td>
+                        <td><input type="text" id="uf" disabled placeholder="Estado"></td>
+                    </tr>
+                    <tr class="containerCep">
+                        <td><input type="text" aria-placeholder="Numero" id="numero" placeholder="Número"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="primeiraSenha">Senha:</label></td>
+                        <td><input id="primeiraSenha" name="password" type="password"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="segundaSenha">Confirmar Senha:</label></td>
+                        <td><input id="segundaSenha" name="password" type="password"></td>
+                        <td id="mensagemSenha" class="mensagem-senha none">As senhas não coincidem</td>
 
-            <label for="email">E-mail: </label>
-            <input id="email" type="email" name="email"><br><br>
-
-            <label for="nomeUser"> Nome de Usuario: </label>
-            <input id="nomeUser" type="text" name="nomeUser"><br><br>
-
-            <label for="perfil">Perfil</label>
-            <Select id="perfil">
-                <option disabled selected>Escolha o Perfil</option>
-                <option value="paciente">Paciente</option>
-                <option value="psicologo">Psicologo</option>
-                <option value="recepcionista">Recepcionista</opti   on>
-                <option value="administrador">Administrador</option>
-                    
-            </Select>
-            <label for="dataNascimento">Data de Nascimento</label>
-            <input type="date" id="dataNascimento">
-
-            <label for="cep">CEP:</label>
-            <input id="cep" type="text" name="cep"><br><br>
-            <div class="containerCep">
-                <input type="text" id="logradouroInput" disabled placeholder="Logradouro">
-                <input type="text" id="bairroInput" disabled placeholder="Bairro">
-                <input type="text" id="localidadeInput" disabled placeholder="Localidade">
-                <input type="text" id="uf" disabled placeholder="Estado">
-                <input type="text" id="numero"  placeholder="Numero">
-            </div>
-            <label for="pass">senha: </label>
-            <input id="pass" name="password" type="password"><br><br>
-
-            <button type="submit" class="btn btn-success">Enviar</button>
-        </form>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="text-align: center;">
+                            <button type="submit" id="buttonEnviarCadastro" class="btn btn-success">Enviar</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-    <script src='/js/usuario/cadastro/ajaxCadastro.js'></script> <!--Tem que ser colocado depois do jquery-->
+    <script src='/js/usuario/cadastro/ajaxCadastro.js'></script> <!-- Deve ser colocado depois do jQuery -->
     <script src="/js/usuario/cadastro/funcao.js"></script>
-    <!--Se você está usando express.static com o diretório public, o caminho relativo dentro do seu HTML (ou em qualquer lugar onde você esteja referenciando os recursos estáticos) deve ser especificado após o diretório public.-->
+    <!-- Se você está usando express.static com o diretório public, o caminho relativo dentro do seu HTML (ou em qualquer lugar onde você esteja referenciando os recursos estáticos) deve ser especificado após o diretório public. -->
 
 </body>
 </html>

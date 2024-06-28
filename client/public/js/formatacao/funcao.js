@@ -22,7 +22,7 @@ export function formatarHorario(horario){
 }
 
 export function convertDateFormat(dateString) {
-    console.log('data: ', dateString);
+    // console.log('data: ', dateString);
     
     var data = new Date(dateString);
     var year = data.getFullYear();

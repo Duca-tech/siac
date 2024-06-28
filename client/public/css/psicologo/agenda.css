@@ -114,6 +114,22 @@ body{
     border: 1px solid #0073e6;
     border-radius: 5px;
 }
+.selectionFilter{
+    padding: 10px;
+    border-radius: 5px;
+    margin: 15px;
+
+}
+.buttonFilter{
+    padding: 5px;
+    background-color: #FFA500;
+    border-radius: 5px;
+    margin: 15px;
+}
+.buttonFilter:hover{
+    padding: 10px;
+    background-color: #FF8C00;
+}
 #containerAgenda input:disabled {
     background-color: #f0f8ff;
 }

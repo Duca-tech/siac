@@ -11,9 +11,9 @@ routerPsico.post('/agenda/exibirAgenda', (req, res) => {
     console.log('Dados Recebidos: ', req.body);
     var { idPsico } = req.body;
     var perfil = req.session.perfil;
-    getPsicoAgenda(idPsico, perfil,(error, results) => {
-        if (results.length == 0) return res.status(200).json({ message: 'Resultado da consulta vazio ', results:results})
-        res.status(200).json({agenda: results });
+    getPsicoAgenda(idPsico, perfil, (error, results1, results2) => {
+        if (results1.length == 0) return res.status(200).json({ message: 'Resultado da consulta vazio ', results:results})
+        res.status(200).json({agenda: results1, perfil: perfil, psicologos: results2});
     })
 })
 
@@ -105,6 +105,9 @@ routerPsico.get('/relatorio/detalhePaciente/consultas', (req,res)=>{
 
 routerPsico.post('/prontuario/detalhePaciente/inserirProntuario', (req,res)=>{
     console.log('Dados que chegam no servidor: ', req.body);
+    if(req.body.dataConsulta == 'NaN-NaN-NaN'){
+        req.body.dataConsulta = null;
+    }
     inserirPront(req.body, (error, results)=>{
         console.log('Results: ', results);
         res.status(200).json({results});
