@@ -16,7 +16,6 @@ routerUser.get('/buscarEndereco', async (req, res)=>{
     const data = await response.json();
     console.log('Data: ', data);
     res.json(data);
-
 })
 
 routerUser.post('/cadastro', async (req, res) => {
@@ -50,7 +49,6 @@ routerUser.post('/cadastro', async (req, res) => {
         }
         res.status(201).json({message: message, results: results});
     });
-
 });
 
 routerUser.get('/login', (req, res) => {
@@ -128,7 +126,7 @@ routerUser.get('/dash', (req,res)=>{
 })
 
 // Abrir página de histórico de consultas:
-routeUser.get('/user/consultas/historico', (req, res) => {
+routerUser.get('/user/consultas/historico', (req, res) => {
     res.render('');
 });
 
