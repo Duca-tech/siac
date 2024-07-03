@@ -1,232 +1,227 @@
-import {verificacao, searchCalendar, selecionarPsico, SelectMonthGenerateCalendar, verificacaoHorario,containerConf} from '/js/usuario/paciente/agendamento/funcaoAg.js'
+import { verificacao, searchCalendar, selecionarPsico, SelectMonthGenerateCalendar, verificacaoHorario, containerConf } from '/js/usuario/paciente/agendamento/funcaoAg.js'
 var idUser = localStorage.getItem('idUser');
 
-$(document).ready(function(){
-    
-    
+$(document).ready(function () {
+
     $.ajax({
-        url:'/user/agendamento/dadosPsico',
+        url: '/user/agendamento/dadosPsico',
         type: 'GET'
     })
-    .done(function(data){
-        console.log('Psicologos, agenda e horários:  ', data);
-        alert(data.message);
-        // window.location = '/';
-        
-        
-        verificacao(data.psicologos, data.agenda, data.horarios);
-        selecionarPsico(data.psicologos);
-        // firstGenerateCalendar(data.agenda, data.horarios);
-        searchCalendar(data.agenda, data.horarios);
-        SelectMonthGenerateCalendar(data.agenda, data.horarios);
-        // search(data.agenda, data.horarios, data.psicologos);
-        
-        
-        
-    })
-    .fail(function(xhr, status, errorThrowne){
-        console.log('status: ', status);
-        console.log('error: ', errorThrowne);
-        console.log(xhr);
-    })
-    .always(function(){
-        console.log('Requisição Finalizada');
-    })
+        .done(function (data) {
+            //console.log('Psicologos, agenda e horários:  ', data);
+            alert(data.message);
+            // window.location = '/';
 
-    // Variável global:
+            verificacao(data.psicologos, data.agenda, data.horarios);
+            selecionarPsico(data.psicologos);
+            // firstGenerateCalendar(data.agenda, data.horarios);
+            searchCalendar(data.agenda, data.horarios);
+            SelectMonthGenerateCalendar(data.agenda, data.horarios);
+            // search(data.agenda, data.horarios, data.psicologos);
+        })
+        .fail(function (xhr, status, errorThrowne) {
+            console.log('Status: ', status);
+            console.log('Error: ', errorThrowne);
+            console.log(xhr);
+        })
+        .always(function () {
+            console.log('Requisição finalizada.');
+        })
+
+    // VariáveIS globaIS:
     var hora;
     var button;
     var msgWpp;
 
-    $('#containerAgenda').on('click', '.buttonHora', function(){
+    $('#containerAgenda').on('click', '.buttonHora', function () {
         button = $(this);
         hora = $(this).text();
         console.log('Id do Usuario: ', idUser);
         $('#containerConfirmacao').css({
-            'display':'block'
+            'display': 'block'
         })
         $('#containerAgenda').css({
-            'display':'none'
+            'display': 'none'
         })
-
     })
-    
-    $('#containerConfirmacao').on('click', 'button', function(){ // Inicio do AJAX para confirmar agendamento.
+
+// Inicio do AJAX para confirmar agendamento.
+    $('#containerConfirmacao').on('click', 'button', function () { 
         console.log('Id do usuário: ', idUser);
         console.log('button: ', hora);
         msgWpp = $('#msgWpp')
 
-        if(msgWpp.prop('checked')){ // Método .prop('checked') retorna true se o checkbox estiver marcado e false caso contrário.
+        if (msgWpp.prop('checked')) {
+            // Método .prop('checked') retorna true se o checkbox estiver marcado e false caso contrário.
 
             button.css({
-                'display':'none'
+                'display': 'none'
             })
+
             var data = {
                 idUser: idUser,
                 hora: hora
             }
+            //console.log('Objeto data: ', data)
 
-            console.log('Objeto data: ', data)
             $.ajax({
                 url: '/user/inserirHorario/wpp',
                 type: 'POST',
                 data: data
             })
-            .done(function(resultServer){
-                console.log(resultServer);
-                $('#containerConfirmacao button').css({
-                    'display': 'none'
-                });
-                $('#containerMsgWpp').animate({
-                    'opacity':'0'
-                },1000, function(){
+                .done(function (resultServer) {
+                    //console.log(resultServer);
+                    $('#containerConfirmacao button').css({
+                        'display': 'none'
+                    });
+                    $('#containerMsgWpp').animate({
+                        'opacity': '0'
+                    }, 1000, function () {
+                        $('#containerConfirmacao h5').animate({
+                            'opacity': 'toggle',
+                            'height': 'toggle'
+                        }, 1000, function () {
+                            $('#containerConfirmacao').animate({
+                                'opacity': '0'
+                            }, 1000, function () {
+                                $('#containerConfirmacao').css({
+                                    'display': 'none'
+                                });
+                                $('#containerAgenda').animate({
+                                    'height': 'toggle',
+                                    'opacity': 'toggle'
+                                }, 1000, function () {
+                                    window.location.reload();
+                                });
+                            });
+                        });
+                    })
+                    window.location.href = '/user/principal'
+                })
+                .fail(function (status, xhr, errorThrown) {
+                    console.log('status: ', status);
+                    console.log(xhr);
+                    console.log('error: ', errorThrown);
+                })
+                .always(function () {
+                    console.log('Requisição finalizada');
+                })
+        }
+        else {
+            button.css({
+                'display': 'none'
+            })
+            var data = {
+                idUser: idUser,
+                hora: hora
+            }
+            //console.log('Objeto data: ', data)
+
+            $.ajax({
+                url: '/user/inserirHorario',
+                type: 'POST',
+                data: data
+            })
+                .done(function (resultServer) {
+                    console.log(resultServer);
+                    $('#containerConfirmacao button').css({
+                        'display': 'none'
+                    });
                     $('#containerConfirmacao h5').animate({
                         'opacity': 'toggle',
                         'height': 'toggle'
-                    }, 1000, function() {
+                    }, 1000, function () {
                         $('#containerConfirmacao').animate({
                             'opacity': '0'
-                        }, 1000, function() {
+                        }, 1000, function () {
                             $('#containerConfirmacao').css({
                                 'display': 'none'
                             });
                             $('#containerAgenda').animate({
                                 'height': 'toggle',
                                 'opacity': 'toggle'
-                            }, 1000, function(){
+                            }, 1000, function () {
                                 window.location.reload();
+
                             });
                         });
                     });
                 })
-                window.location.href = '/user/principal'
-            })
-            .fail(function(status, xhr, errorThrown){
-                console.log('status: ', status);
-                console.log(xhr);
-                console.log('error: ', errorThrown);
-            })
-            .always(function(){
-                console.log('Requisição finalizada');
-            })
+                .fail(function (status, xhr, errorThrown) {
+                    console.log('status: ', status);
+                    console.log(xhr);
+                    console.log('error: ', errorThrown);
+                })
+                .always(function () {
+                    console.log('Requisição finalizada!');
+                })
         }
-        else{
-            button.css({
-                'display':'none'
-            })
-            var data = {
-                idUser: idUser,
-                hora: hora
-            }
+    }) 
+// Fim do AJAX para confirmar agendamento!
 
-            console.log('Objeto data: ', data)
-            $.ajax({
-                url: '/user/inserirHorario',
-                type: 'POST',
-                data: data
-            })
-            .done(function(resultServer){
-                console.log(resultServer);
-                $('#containerConfirmacao button').css({
-                    'display': 'none'
-                });
-                $('#containerConfirmacao h5').animate({
-                    'opacity': 'toggle',
-                    'height': 'toggle'
-                }, 1000, function() {
-                    $('#containerConfirmacao').animate({
-                        'opacity': '0'
-                    }, 1000, function() {
-                        $('#containerConfirmacao').css({
-                            'display': 'none'
-                        });
-                        $('#containerAgenda').animate({
-                            'height': 'toggle',
-                            'opacity': 'toggle'
-                        }, 1000, function(){
-                            window.location.reload();
-
-                        });
-                    });
-                });
-            })
-            .fail(function(status, xhr, errorThrown){
-                console.log('status: ', status);
-                console.log(xhr);
-                console.log('error: ', errorThrown);
-            })
-            .always(function(){
-                console.log('Requisição finalizada!');
-            })
-        }
-    }) // Fim do AJAX para confirmar agendamento!
-
-    $('#voltar').on('click', function(){
+    $('#voltar').on('click', function () {
         window.location.href = '/user/principal';
     })
 
-
     var search = document.querySelector('.search');
-  search.addEventListener('click', function(){
 
-    var data = document.querySelector('.data').value;
-    var diaSemanaSelect = document.querySelector('.selectDiaSemana').value
-    var diaSemanaInput = document.querySelector('.diaSemana').value
-    var hora = document.querySelector('.hora').value
-    var psico = document.getElementById('selecionePsico').value
-    var diaSemana
+    search.addEventListener('click', function () {
+        var data = document.querySelector('.data').value;
+        var diaSemanaSelect = document.querySelector('.selectDiaSemana').value
+        var diaSemanaInput = document.querySelector('.diaSemana').value
+        var hora = document.querySelector('.hora').value
+        var psico = document.getElementById('selecionePsico').value
+        var diaSemana
 
-    if(diaSemanaInput && diaSemanaInput != 'Invalid Date'){
-        diaSemana = diaSemanaInput
-    } 
-    else{
-        diaSemana = diaSemanaSelect
-    }
+        if (diaSemanaInput && diaSemanaInput != 'Invalid Date') {
+            diaSemana = diaSemanaInput
+        }
+        else {
+            diaSemana = diaSemanaSelect
+        }
 
-    if(diaSemana == 'Dia da Semana') diaSemana = '';
-    if(psico =='Selecione Profissional') psico = '';
-     
+        if (diaSemana == 'Dia da Semana') diaSemana = '';
+        if (psico == 'Selecione Profissional') psico = '';
 
-    console.log('data: ', data);
-    console.log('diaSemana: ', diaSemana);
-    console.log('hora: ', hora);
-    console.log('psico: ',psico);  
+        //console.log('data: ', data);
+        //console.log('diaSemana: ', diaSemana);
+        //console.log('hora: ', hora);
+        //console.log('psico: ', psico);
 
-    var dados = {
-      data: data,
-      diaSemana: diaSemana,
-      hora: hora,
-      psico: psico
-    }
+        var dados = {
+            data: data,
+            diaSemana: diaSemana,
+            hora: hora,
+            psico: psico
+        }
 
-    var post = {
-      method: 'POST',
-      headers:{
-        'Content-Type': 'Application/json' //Dados enviados são json
-      },
-      body: JSON.stringify(dados)
-    }
+        var post = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'Application/json' //Dados enviados são json
+            },
+            body: JSON.stringify(dados)
+        }
 
-    fetch('http://localhost:3600/user/principal/agendamento/buscar', post)
-    .then(response=> response.json())
-    .then(data => {
-      console.log('Dados recebidos: ', data)
-      console.log('Data.dados: ', data.dados)
-      verificacaoHorario(data.dados);
-    //   var [agenda, horarios, psicos] = eliminarElementosDuplicados(data.dados)
-    //   searchCalendar(agenda, horarios, psicos);
+        fetch('http://localhost:3600/user/principal/agendamento/buscar', post)
+            .then(response => response.json())
+            .then(data => {
+                console.log('Dados recebidos: ', data)
+                //console.log('Data.dados: ', data.dados)
+                verificacaoHorario(data.dados);
+                //   var [agenda, horarios, psicos] = eliminarElementosDuplicados(data.dados)
+                //   searchCalendar(agenda, horarios, psicos);
+            })
+            .catch(error => {
+                console.error('Erro: ', error)
+            })
+            .finally(() => console.log('Requisição finalizada'))
     })
-    .catch(error=>{
-      console.error('Erro: ', error)
-    })
-    .finally(()=>console.log('Requisição finalizada'))
-  })
 
-
-    $('.calendar-grid').on('change', '.select-hours', function() {
+    $('.calendar-grid').on('change', '.select-hours', function () {
         var Selecthorario = $(this).val();
         var idHorario = $(this).find(':selected').attr('id');
-        
+
         containerConf();
 
         // Definindo os atributos de dados nos elementos relevantes
@@ -235,7 +230,7 @@ $(document).ready(function(){
 
     });
 
-    $('.modal').on('click', '.modal-content .confirmarConsulta', function() {
+    $('.modal').on('click', '.modal-content .confirmarConsulta', function () {
         // Acessando os atributos de dados definidos anteriormente
         var Selecthorario = $('.confirmarConsulta').data('Selecthorario');
         var idHorario = $('.confirmarConsulta').data('idHorario');
@@ -248,8 +243,8 @@ $(document).ready(function(){
 
         var containerCof = document.querySelector('.modal');
         containerCof.style.display = 'none';
-        
-        if(typeof horarioExcluir !== undefined){
+
+        if (typeof horarioExcluir !== undefined) {
             var objHorario = {
                 hora: Selecthorario,
                 idHorario: idHorario,
@@ -257,7 +252,7 @@ $(document).ready(function(){
                 horarioExcluir: horarioExcluir
             };
         }
-        else{
+        else {
             var objHorario = {
                 hora: Selecthorario,
                 idHorario: idHorario,
@@ -272,36 +267,34 @@ $(document).ready(function(){
             },
             body: JSON.stringify(objHorario)
         })
-        .then(response => response.json())
-        .then(data =>{
-            console.log('Resposta do servidor: ', data);
+            .then(response => response.json())
+            .then(data => {
+                console.log('Resposta do servidor: ', data);
 
-            setTimeout(() => {
-                loader.style.display = 'none'
-                alert(data.message1);
-                alert(data.message2);
-                
-                // window.location.href = '/user/principal/conta'
-                location.reload();
+                setTimeout(() => {
+                    loader.style.display = 'none'
+                    alert(data.message1);
+                    alert(data.message2);
 
-                
-                
-                    
-                
-            }, 3000);   
-        })
-        .catch(function(error) {
-            console.error('Erro ao agendar consulta:', error);
-        });
+                    // window.location.href = '/user/principal/conta'
+                    location.reload();
+
+
+
+
+
+                }, 3000);
+            })
+            .catch(function (error) {
+                console.error('Erro ao agendar consulta:', error);
+            });
     });
 
-    $('.planner').on('click', '.containerConf .cancelarConsulta', function(){
+    $('.planner').on('click', '.containerConf .cancelarConsulta', function () {
         $('.containerConf').css({
-            'display':'none'
+            'display': 'none'
         });
         $('.select-hours').prop('selectedIndex', 0);
     })
-
-
 })
 

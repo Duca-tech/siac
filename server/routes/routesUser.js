@@ -3,8 +3,6 @@ import  {addUser,loginUser,getPsico,getHorario,addHora, updateHorario,getUser,up
 const routerUser = express.Router();
 import {gerarToken,verificarToken,tokenDestroyer} from '../config/token/token.js'
 import {verificacaoUser} from '../config/verificacaoPerfil/verificacaoUser.js'
-import {enviarMensagem} from '../config/twilio/twilio.js';
-import session from 'express-session';
 
 // -------------------- INÍCIO DA CONFIGURAÇÃO DE ROTAS DO USUÁRIO:
 routerUser.get('/cadastro', (req, res) => {
@@ -23,7 +21,9 @@ routerUser.get('/buscarEndereco', async (req, res)=>{
 
 routerUser.post('/cadastro', async (req, res) => {
     console.log('Dados Recebidos: ', req.body);
-    const { nome, email, nomeUser, perfil, cep, logradouro, bairro,localidade, uf,numero, senha, dataNascimento} = req.body;
+    
+    const {nome, email, nomeUser, perfil, cep, logradouro, bairro,localidade, uf,numero, senha, dataNascimento} = req.body;
+    
     const user = {
         nome: nome,
         email: email,
@@ -52,6 +52,7 @@ routerUser.post('/cadastro', async (req, res) => {
     });
 
 });
+
 routerUser.get('/login', (req, res) => {
     res.render('home')
 })
@@ -121,13 +122,17 @@ routerUser.post('/principal/verificarToken', verificarToken, (req, res) => {
     })
 })
 
-//dash
+// Abrir painel de dashboards:
 routerUser.get('/dash', (req,res)=>{
     res.render('usuario/admin/dashboard');
 })
 
+// Abrir página de histórico de consultas:
+routeUser.get('/user/consultas/historico', (req, res) => {
+    res.render('');
+});
 
-// Abrir página de Agendamento
+// Abrir página de agendamento
 routerUser.get('/agendamento', verificarToken, verificacaoUser, (req, res) => {
     res.render('usuario/paciente/agendamento');
 })

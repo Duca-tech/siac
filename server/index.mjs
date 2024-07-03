@@ -1,29 +1,24 @@
-// const express = require('express'); // Puxando a lib "express".
 import express from 'express';
-import https from 'https';
-import fs from 'fs';
 import {fileURLToPath} from 'url';
 import {router} from './routes/routes.js';
 import {routerUser} from './routes/routesUser.js';
 import {routerPsico} from './routes/routesPsico.js';
 import {routerRecep} from './routes/routesRecep.js';
 import {routerAdm} from './routes/routesAdm.js';
-
-import session from 'express-session'
-const app = express(); // Instancia a lib "express" que nada mais serve para tratar requisições cliente-servidor.
-import {exec} from 'child_process';
+import session from 'express-session';
 import path from 'path';
 import { config } from 'dotenv';
-config(); // Acessar as variáveis globais no arquivo "config.env".
+
+const app = express(); // Instancia a lib "express" que nada mais serve para tratar requisições cliente-servidor;
 const porta = process.env.PORTA || 3600;
 const chaveSecretaSession = process.env.SESSION_SECRET_KEY;
+config(); // Acessar as variáveis globais no arquivo "config.env".
 
 app.use(session({
     secret: chaveSecretaSession,
     resave: 'false', 
     saveUninitialized: true,
     cookie: {secure: false}
-
 }))
 
 // Middleware para analisar dados de formulário codificados como application/x-www-form-urlencoded:
@@ -57,7 +52,6 @@ app.use('/css', (req,res,next)=>{
 // Middleware para servir os arquivos estáticos do diretório 'public':
 app.use(express.static(path.join(__dirname, '..', 'client' , 'public')));
 
-
 // Configure o diretório de views
 app.set('views', path.join(__dirname, '..','client', 'views'));
 
@@ -79,22 +73,12 @@ app.use('/', router);
 // // Verificar token da página principal:
 // app.use('/principal/verificarToken', router);
 
-
-// -------------------- INÍCIO DO SERVIDOR PARA USUÁRIO:
+// Início do servidor para os perfis de usuário:
 app.use('/user', routerUser)
-
-// -------------------- INÍCIO DO SERVIDOR PARA PSICOLOGO:
 app.use('/psico', routerPsico);
-
-// -------------------- INÍCIO DO SERVIDOR PARA RECEPCIONISTA:
 app.use('/recepcionista', routerRecep);
-
 app.use('/adm', routerAdm);
-
-
-// Teste Edu - Rota criada para abordagem Fetch API:
 // app.use('/recepcionista/:id')
-// -------------------- FIM DO SERVIDOR PARA RECEPCIONISTA! --------------
 
 app.listen(porta, ()=>{
     console.log(`Servidor iniciado: http://localhost:${porta}`);
