@@ -148,7 +148,6 @@ routerUser.get('/agendamento/cancelarConsulta', verificarToken, verificacaoUser,
     deleteHorario(idHorario, (error, results)=>{
         res.status(200).json({message: 'Agendamento Cancelado com Sucesso', results: results});
     })
-
 })
 
 // Pegar dados do psicólogo e agenda, e exibir na tela de agendamento:
@@ -177,13 +176,11 @@ routerUser.get('/agendamento/dadosPsico', (req, res) => {
 
 
 routerUser.post('/principal/agendamento/buscar', (req, res)=>{
-    console.log('Dados Recebidos: ', req.body);
+    console.log('Dados recebidos: ', req.body);
     var dados = req.body;
     getHours(dados, (error, results)=>{
-        res.status(200).json({message: 'Resultado da Consulta com banco', dados: results});
+        res.status(200).json({message: 'Resultados da consulta com banco: ', dados: results});
     })
-
-    
 })
 
 routerUser.post('/agendamento/agendarConsulta', (req, res)=>{
@@ -210,7 +207,7 @@ routerUser.post('/agendamento/agendarConsulta', (req, res)=>{
 })
 
 routerUser.post('/inserirHorario', (req, res) => {
-    console.log('dados recebidos: ', req.body)
+    console.log('Dados recebidos: ', req.body)
     var { idUser, hora } = req.body;
     
     idUser = parseInt(idUser);
@@ -218,7 +215,7 @@ routerUser.post('/inserirHorario', (req, res) => {
         idUser: idUser,
         hora: hora
     }
-    console.log('Horario: ', horario);
+    console.log('Horário: ', horario);
 
     getHorario(horario, (error, results) => {
         if (error) return res.status(400).json({ message: 'erro na inserção de dados' })
