@@ -1,16 +1,26 @@
-import express  from 'express';
-import  {addUser,loginUser,getPsico,getHorario,addHora, updateHorario,getUser,updateUser,deleteHorario,getAgenda, getHours,addAgenda,deleteAgenda,getPsicoAgenda,verificarConsulta,putStatusConsult} from '../helper/sql.js'
+import { 
+    addUser, loginUser, getPsico, getHorario, addHora, updateHorario, getUser, updateUser, deleteHorario, getAgenda, getHours, addAgenda, deleteAgenda, getPsicoAgenda, verificarConsulta, putStatusConsult 
+} from '../helper/sql.js'
+
+import { 
+    gerarToken, verificarToken, tokenDestroyer 
+} from '../config/token/token.js'
+
+import { 
+    verificacaoUser 
+} from '../config/verificacaoPerfil/verificacaoUser.js'
+
+import express from 'express';
 const routerUser = express.Router();
-import {gerarToken,verificarToken,tokenDestroyer} from '../config/token/token.js'
-import {verificacaoUser} from '../config/verificacaoPerfil/verificacaoUser.js'
+
 
 // -------------------- INÍCIO DA CONFIGURAÇÃO DE ROTAS DO USUÁRIO:
 routerUser.get('/cadastro', (req, res) => {
     res.render('usuario/cadastro');
 })
 
-routerUser.get('/buscarEndereco', async (req, res)=>{
-    var {cep} = req.query;
+routerUser.get('/buscarEndereco', async (req, res) => {
+    var { cep } = req.query;
     console.log('Cep Server: ', cep);
     const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`); //fetch para buscar endereço
     const data = await response.json();
@@ -20,19 +30,19 @@ routerUser.get('/buscarEndereco', async (req, res)=>{
 
 routerUser.post('/cadastro', async (req, res) => {
     console.log('Dados Recebidos: ', req.body);
-    
-    const {nome, email, nomeUser, perfil, cep, logradouro, bairro,localidade, uf,numero, senha, dataNascimento} = req.body;
-    
+
+    const { nome, email, nomeUser, perfil, cep, logradouro, bairro, localidade, uf, numero, senha, dataNascimento } = req.body;
+
     const user = {
         nome: nome,
         email: email,
         nomeUser: nomeUser,
         perfil: perfil,
         password: senha,
-        dataNascimento:dataNascimento
+        dataNascimento: dataNascimento
     }
 
-    const end ={
+    const end = {
         logradouro: logradouro,
         bairro: bairro,
         localidade: localidade,
@@ -47,7 +57,7 @@ routerUser.post('/cadastro', async (req, res) => {
             console.log('Erro ao adicionar cliente ', error.message);
             res.status(500).send('Erro ao Adicionar Cliente');
         }
-        res.status(201).json({message: message, results: results});
+        res.status(201).json({ message: message, results: results });
     });
 });
 
@@ -75,19 +85,19 @@ routerUser.post('/login', async (req, res) => {
             console.log('Token gerado:', tokenGerado);
 
             // Pegando o id do banco e armazenando na requisição id do session.
-            req.session.userId = results[0].idUser ;
+            req.session.userId = results[0].idUser;
             req.session.perfil = results[0].perfil;
-            
+
             // Armazenando o token na requisiçao token do session.
             req.session.token = tokenGerado;
             console.log('Id da sessão: ', req.session.id);
-        
+
 
             return res.status(200).json({ message: 'Autenticação realizada e token enviado para o user', auth: true, token: tokenGerado, results: results });
         }
         else {
             console.log(message);
-            return res.status(200).json({message:message, results:results});
+            return res.status(200).json({ message: message, results: results });
         }
     });
 })
@@ -97,12 +107,13 @@ routerUser.get('/principal', verificarToken, (req, res) => {
     res.render('usuario/principal');
 })
 
-routerUser.post('/principal/ConsultasMarcadas', (req, res)=>{
+routerUser.post('/principal/ConsultasMarcadas', (req, res) => {
     console.log('id rota: ', req.body.idUser);
-    getAgenda(req.body.idUser, (error, results)=>{
-        res.status(200).json({message: 'Consultas marcadas', results: results})
+    getAgenda(req.body.idUser, (error, results) => {
+        res.status(200).json({ message: 'Consultas marcadas', results: results })
     })
 })
+
 routerUser.get('/principal/verificarToken', verificarToken, (req, res) => {
     res.status(200).json({ message: 'token verificado com Sucesso' });
 })
@@ -113,7 +124,7 @@ routerUser.post('/principal/verificarToken', verificarToken, (req, res) => {
     var { idUser } = req.body
     idUser = parseInt(idUser);
     console.log('int: ', idUser);
-    
+
     getAgenda(idUser, (error, results) => {
         if (error) return res.status(500).json({ message: 'Falha na consulta!' })
         res.status(200).json({ message: 'Enviando dados sobre a consulta: ', data: results });
@@ -121,13 +132,14 @@ routerUser.post('/principal/verificarToken', verificarToken, (req, res) => {
 })
 
 // Abrir painel de dashboards:
-routerUser.get('/dash', (req,res)=>{
+routerUser.get('/dash', (req, res) => {
     res.render('usuario/admin/dashboard');
 })
 
 // Abrir página de histórico de consultas:
-routerUser.get('/user/consultas/historico', (req, res) => {
-    res.render('');
+routerUser.get('/consultas/historico', (req, res) => {
+    res.render('usuario/paciente/historicoConsultas');
+    // Diretório até o arquivo .ejs contendo o HTML da página que será carregada 
 });
 
 // Abrir página de agendamento
@@ -135,18 +147,18 @@ routerUser.get('/agendamento', verificarToken, verificacaoUser, (req, res) => {
     res.render('usuario/paciente/agendamento');
 })
 
-routerUser.get('/agendamento/remarcacao', verificarToken, verificacaoUser, (req,res)=>{
+routerUser.get('/agendamento/remarcacao', verificarToken, verificacaoUser, (req, res) => {
     var idHorario = req.query.idHorario;
     console.log('idHorario routerUser: ', idHorario);
 
-    res.render('usuario/paciente/agendamento', {horarioExcluir: idHorario});
+    res.render('usuario/paciente/agendamento', { horarioExcluir: idHorario });
 })
 
-routerUser.get('/agendamento/cancelarConsulta', verificarToken, verificacaoUser, (req, res)=>{
+routerUser.get('/agendamento/cancelarConsulta', verificarToken, verificacaoUser, (req, res) => {
     var idHorario = req.query.idHorario;
     console.log('IdHorario router user: ', idHorario);
-    deleteHorario(idHorario, (error, results)=>{
-        res.status(200).json({message: 'Agendamento Cancelado com Sucesso', results: results});
+    deleteHorario(idHorario, (error, results) => {
+        res.status(200).json({ message: 'Agendamento Cancelado com Sucesso', results: results });
     })
 })
 
@@ -155,37 +167,37 @@ routerUser.get('/agendamento/dadosPsico', (req, res) => {
 
     getPsico((error, results) => {
         if (error) return res.status(400).json({ message: 'Falha ao buscar Consultas' });
-        
+
         console.log('results: ', results)
         console.log('psicos: ', results.psicologos);
         console.log('agenda: ', results.agenda);
         console.log('horarios: ', results.horarios);
-        if(results.psicologos.length === 0){
-            res.status(200).json({message: 'Sem psicólogos cadastrados'});
+        if (results.psicologos.length === 0) {
+            res.status(200).json({ message: 'Sem psicólogos cadastrados' });
         }
-        if(results.agenda.length === 0){
-            res.status(200).json({message: 'Sem agenda de psicólogos'});
+        if (results.agenda.length === 0) {
+            res.status(200).json({ message: 'Sem agenda de psicólogos' });
         }
-        
+
         // console.log('Resultado da Consulta: ', results);
-        res.status(200).json({message: 'Resultado da busca de Agenda, Psicos e Horarios: ', psicologos: results.psicologos, agenda: results.agenda, horarios: results.horarios });
-        
-        
+        res.status(200).json({ message: 'Resultado da busca de Agenda, Psicos e Horarios: ', psicologos: results.psicologos, agenda: results.agenda, horarios: results.horarios });
+
+
     })
 })
 
 
-routerUser.post('/principal/agendamento/buscar', (req, res)=>{
+routerUser.post('/principal/agendamento/buscar', (req, res) => {
     console.log('Dados recebidos: ', req.body);
     var dados = req.body;
-    getHours(dados, (error, results)=>{
-        res.status(200).json({message: 'Resultados da consulta com banco: ', dados: results});
+    getHours(dados, (error, results) => {
+        res.status(200).json({ message: 'Resultados da consulta com banco: ', dados: results });
     })
 })
 
-routerUser.post('/agendamento/agendarConsulta', (req, res)=>{
+routerUser.post('/agendamento/agendarConsulta', (req, res) => {
     console.log('Dados recebidos: ', req.body);
-    if(typeof req.body.horarioExcluir !== undefined){
+    if (typeof req.body.horarioExcluir !== undefined) {
         var horario = {
             hora: req.body.hora,
             idHorario: req.body.idHorario,
@@ -193,23 +205,23 @@ routerUser.post('/agendamento/agendarConsulta', (req, res)=>{
             horarioExcluir: req.body.horarioExcluir
         }
     }
-    else{
+    else {
         var horario = {
             hora: req.body.hora,
             idHorario: req.body.idHorario,
             idUser: req.body.idUser
         }
     }
-    
-    addHora(horario, (error, message1, message2,results)=>{
-        res.status(200).json({message1: message1, message2: message2, results: results});
+
+    addHora(horario, (error, message1, message2, results) => {
+        res.status(200).json({ message1: message1, message2: message2, results: results });
     })
 })
 
 routerUser.post('/inserirHorario', (req, res) => {
     console.log('Dados recebidos: ', req.body)
     var { idUser, hora } = req.body;
-    
+
     idUser = parseInt(idUser);
     var horario = {
         idUser: idUser,
@@ -261,7 +273,7 @@ routerUser.get('/principal/conta', verificarToken, (req, res) => {
 
 routerUser.post('/principal/conta/detalhes', (req, res) => {
     console.log('Dados recebidos: ', req.body);
-    
+
     var idUser = parseInt(req.body.idUser)
     console.log('Inteiro de idUser: ', idUser);
 
@@ -318,7 +330,7 @@ routerUser.put('/principal/conta/update/:idUser', (req, res) => {
 routerUser.delete('/principal/conta/deletarConsulta/:idHorario', (req, res) => {
     console.log('Dados para delete: ', req.params.idHorario);
     var idHorario = req.params.idHorario;
-    
+
     deleteHorario(idHorario, (error, results) => {
         if (error) res.status(500).json({ message: 'Erro na consulta!', error });
         res.status(200).json({ message: 'Id da consulta deletada: ', results })

@@ -2,7 +2,6 @@ import { verificacao, searchCalendar, selecionarPsico, SelectMonthGenerateCalend
 var idUser = localStorage.getItem('idUser');
 
 $(document).ready(function () {
-
     $.ajax({
         url: '/user/agendamento/dadosPsico',
         type: 'GET'
@@ -28,7 +27,7 @@ $(document).ready(function () {
             console.log('Requisição finalizada.');
         })
 
-    // VariáveIS globaIS:
+    // Variáveis globais:
     var hora;
     var button;
     var msgWpp;
