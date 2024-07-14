@@ -27,6 +27,7 @@ export function verificarPerfil(perfil){
         document.getElementById('agendar-consulta').style.display = 'block'
         document.querySelector('.left-section .sidebar .dashboard').style.display = 'none';
         document.getElementById('prontuario').style.display = 'none'
+        document.getElementById('relatorio').style.display = 'none'
 
     }
     if(perfil == 'psicologo'){
@@ -37,11 +38,12 @@ export function verificarPerfil(perfil){
     if(perfil == 'recepcionista'){
         document.getElementById('recepcionista').style.display = 'block'
         document.querySelector('.left-section .sidebar .dashboard').style.display = 'none';
-
+        document.getElementById('relatorio').style.display = 'none'
     } 
     if(perfil == 'administrador'){
         document.getElementById('agendar-consulta').style.display = 'block'
         document.getElementById('criar-agenda').style.display = 'block'
+        document.getElementById('relatorio').style.display = 'none'
         // document.getElementById('recepcionista').style.display = 'block'
     }
 
