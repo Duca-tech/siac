@@ -437,6 +437,7 @@ const getPsicoAgenda = async(idPsico, perfil, callback) => {
         conexao.query(`SELECT agenda.*, usuario.nome from agenda inner join usuario on agenda.idUser = usuario.idUser WHERE agenda.idUser = ?`, [idPsico], (error, results) => {
             if (error) return console.log('Erro na Consulta: ', error);
             console.log('Agendas: ', results);
+            console.log('idPsico: ', idPsico);
             callback(null, results);
         })
     }
