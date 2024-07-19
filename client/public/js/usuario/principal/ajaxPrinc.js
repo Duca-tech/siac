@@ -60,6 +60,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         window.location.href = '/user/dash';
     })
 
+    document.querySelector('.left-section .sidebar .item #historico-consultas').addEventListener('click', function () {
+        window.location.href = '/user/principal'
+    })
+    
     document.querySelector('.main .quick-access .item').addEventListener('click', () => {
     });
 

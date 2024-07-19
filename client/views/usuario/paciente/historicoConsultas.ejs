@@ -4,34 +4,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <title>Seu Histórico</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" 
+        crossorigin="anonymous"
+    >
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" 
+        referrerpolicy="no-referrer"
+    >
+
+    <link rel="stylesheet" href="/client/public/css/usuario/historico-agendamento.css">
+
+    <title>SIAC - Consultas</title>
 </head>
 
 <body>
     <header>
-        <h2>OLÁ MEU CHAPA!</h2>
+        <h1>Histórico de Consultas<h2>
     </header>
     <main>
-        <h1>SEU HISTÓRICO DE CONSULTAS VAI APARECER AQUI</h1>
+        <div class="main">
+            <div class="header">
+                <div class="search">
+                    <button><i class="ri-search-2-line"></i></button>
+                    <input type="text" placeholder="Search">
+                    <i class="ri-equalizer-line"></i>
+                </div>
+                <div class="icon-btns">
+                    <i class="ri-notification-line"></i>
+                    <i class="ri-message-3-line"></i>
+                    <i class="ri-menu-line" id="menu-btn"></i>
+                </div>
+            </div>
+
+            <table class="tableHorario">
+                <thead>
+                    <th>Data</th>
+                    <th>Dia da Semana</th>
+                    <th>Hora</th>
+                    <th>Status</th>
+                    <th>Prontuário</th>
+                </thead>
+                <tbody>
+                    <!-- Itens do GRID da tabela -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="right-section">
+            <div class="profile" id="conta">
+                <div class="info">
+                    <i style="font-size: 25px;" class="ri-account-circle-line"></i>
+                    <div class="account">
+                        <h5></h5>
+                        <p></p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </main>
     <footer>
-        <p>FUNCIONALIDADE EM DESENVOLVIMENTO PELO EDU...</p>
     </footer>
 </body>
 
 <!-- jQuery -->
-<script 
-    src="https://code.jquery.com/jquery-3.7.1.js" 
-    integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
     crossorigi="anonymous">
-</script>
+    </script>
 
 <!-- Bootstrap -->
-<script 
-    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" 
-    crossorigin="anonymous">
-</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
+    </script>
+
+<script type="module" src="/client/public/js/usuario/paciente/historico-consultas/ajaxHistConsultas.js"></script>
 
 </html>
