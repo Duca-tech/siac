@@ -4,6 +4,7 @@ const routerPsico = express.Router();
 import {gerarToken,verificarToken,tokenDestroyer} from '../config/token/token.js'
 import {enviarMensagem} from '../config/twilio/twilio.js';
 import session from 'express-session';
+import { verificacaoUser } from '../config/verificacaoPerfil/verificacaoUser.js';
 
 
 // -------------------- INÍCIO DA CONFIGURAÇÃO DE ROTAS DO PSICÓLOGO:
@@ -12,7 +13,7 @@ routerPsico.post('/agenda/exibirAgenda', (req, res) => {
     var { idPsico } = req.body;
     var perfil = req.session.perfil;
     getPsicoAgenda(idPsico, perfil, (error, results1, results2) => {
-        if (results1.length == 0) return res.status(200).json({ message: 'Resultado da consulta vazio ', results:results})
+        if (results1.length == 0) return res.status(200).json({ message: 'Resultado da consulta vazio ', results:results1})
         res.status(200).json({agenda: results1, perfil: perfil, psicologos: results2});
     })
 })
@@ -71,7 +72,7 @@ routerPsico.get('/principal/verificarToken/:idUser', verificarToken, (req, res) 
 
 
 
-routerPsico.get('/principal/agenda', verificarToken, (req, res) => {
+routerPsico.get('/principal/agenda', verificarToken, verificacaoUser, (req, res) => {
     res.render('usuario/psicologo/agenda');
 })
 

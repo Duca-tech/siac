@@ -1,12 +1,15 @@
 import { exibirAgendas, addAgenda , verificacaoPerfil} from "/js/psicologo/agenda/funcaoAg.js";
 $(document).ready(function () {
-    // const idPsico = localStorage.getItem('idUser');
-    var psico = { idPsico: 0 }
+    const idPsico = localStorage.getItem('idUser');
+    // var psico = { idPsico: 0 }
+    var objIdPsico = {
+        idPsico: idPsico
+    }
     // Pegar as agendas já criadas:
     $.ajax({
         url: '/psico/agenda/exibirAgenda',
         type: 'POST',
-        data: psico
+        data: objIdPsico
     })
         .done(function (response) {
             console.log('Resposta do servidor: ', response);
@@ -23,6 +26,7 @@ $(document).ready(function () {
 
     console.log('idPsico: ', idPsico);
     $('#gerarAgenda').on('click', function () {
+        console.log('Evento de gerar agenda ');
         var horaIni = $('#horaIni').val();
         var horaFin = $('#horaFin').val();
         var diaSemana = $('#diaSemana').val();
