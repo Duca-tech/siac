@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.min.css">
     <link rel="stylesheet" href="/css/usuario/principal.css">
@@ -11,7 +13,8 @@
 
     <title></title>
 </head>
-<body >
+
+<body>
     <div class="left-section">
         <div class="sidebar">
             <img src="/img/CORTADO_logo_fundo_grande-removebg-preview 1.png" class="img-fluid" alt="">
@@ -27,9 +30,9 @@
                 <i class="ri-folder-line"></i>
                 <h3>Your Files</h3>
             </div>
-            <div class="item">
-                <i class="ri-hard-drive-3-line"></i>
-                <h3>Your Disks</h3>
+            <div class="item" id="historico-consultas">
+                <i class="ri-health-book-line"></i>
+                <h3>Histórico de Consultas</h3>
             </div>
             <div class="item">
                 <i class="ri-folder-lock-line"></i>
@@ -47,34 +50,34 @@
 
         <div class="item sign-out">
             <button id="logout"><i class="ri-logout-box-r-line"></i></button>
-            
+
             <h3>Sign Out</h3>
         </div>
     </div>
 
     <div class="dashMain">
         <div class="grafico">
-           <div class=" dash" >
-            <h5>Consultas</h5>
-              <canvas id="consultas"></canvas>
-              <select name="" id="selectConsulta">
-                <option value="0">Consulta Livre</option>
-                <option value="1">Consulta Marcada</option>
+            <div class=" dash">
+                <h5>Consultas</h5>
+                <canvas id="consultas"></canvas>
+                <select name="" id="selectConsulta">
+                    <option value="0">Consulta Livre</option>
+                    <option value="1">Consulta Marcada</option>
 
-              </select>
-           </div>
-           <div class="dash" >
-            <h5 >Usuários Cadastrados</h5>
-            <canvas id="usuarios"></canvas>
-           </div>
-       </div>
+                </select>
+            </div>
+            <div class="dash">
+                <h5>Usuários Cadastrados</h5>
+                <canvas id="usuarios"></canvas>
+            </div>
+        </div>
 
-       <div class="grafico2">
+        <div class="grafico2">
             <div class="dash">
                 <h5>Agendas Criadas</h5>
                 <canvas id="dashAgenda"></canvas>
             </div>
-       </div>
+        </div>
     </div>
 
     <div class="right-section">
@@ -86,7 +89,7 @@
                     <p></p>
                 </div>
             </div>
-            
+
         </div>
 
         <!-- <div class="widgets">
@@ -114,16 +117,20 @@
             </div>
         </div> -->
     </div>
-    
-    
-<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script> 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="/js/usuario/adm/admAjax.js"></script>
-<script src="/js/usuario/adm/admFuncao.js"></script>
-<script src="/js/usuario/principal/detalheUser.js"></script>
-<!-- <script src="/js/usuario/principal/ajaxPrinc.js"></script> -->
-<!-- <script src="/js/usuario/principal/funcaoPrinc.js"></script> -->
-<!-- <script src="/js/usuario/principal/formatPrinc.js"></script>  -->
+
+
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" 
+        crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/js/usuario/adm/admAjax.js"></script>
+    <script src="/js/usuario/adm/admFuncao.js"></script>
+    <script src="/js/usuario/principal/detalheUser.js"></script>
 </body>
+
 </html>
