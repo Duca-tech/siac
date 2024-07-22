@@ -248,7 +248,6 @@ const getUser = (idUser, callback) => {
                 console.log('Usuário encontrado, porém não existe agenda: ', results);
                 callback(null, results);
             })
-
         }
     })
 }
@@ -375,7 +374,6 @@ const addAgenda = (agenda, callback) => {
             console.log('nenhuma linha foi afetada');
         }
     })
-
 }
 
 const deleteAgenda = (idAgenda, callback) => {
