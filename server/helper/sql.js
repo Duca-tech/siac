@@ -12,8 +12,7 @@ const conexao = sql.createPool({
     password: 'SiacImes01!',
     database: 'siac',
     waitForConnections: true,
-    connectionLimit: 10,
-    
+    connectionLimit: 10,  
 })
 
 conexao.getConnection((error) => {
@@ -69,8 +68,7 @@ const addUser = (user, end, callback) => {
                 });
             });
         }
-    })
-   
+    }) 
 };
 
 //Esqueci Senha
@@ -219,8 +217,7 @@ const addHora = (horario, callback) =>{
             })
         }
         
-    })
-    
+    })  
 }
 
 const updateHorario = (horario, callback) => {
