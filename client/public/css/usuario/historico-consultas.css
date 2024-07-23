@@ -1,0 +1,80 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+body{
+    display: flex;
+    height: 100vh;
+    background: #f0f5fd;
+}
+
+.left-section{
+    background: #fff;
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    padding: 25px 10px;
+    transition: all 0.3s ease;
+}
+
+.left-section h2{
+    color: #364670;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.left-section .sidebar{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.left-section .sidebar .item,
+.left-section .sign-out{
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #364670;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.left-section .sign-out button{
+    font-size: 20px;
+    border: none;
+    background: transparent;
+    color: #364670;
+}
+
+.left-section .sign-out:hover{
+    font-size: 20px;
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 5px;
+    
+}
+
+.left-section .sidebar .item.active h3,
+.left-section .sidebar .item.active i,
+.left-section .sidebar .item:hover,
+.left-section .sign-out:hover{
+    color: #1976d2;
+}
+
+.left-section .sidebar .item h3,
+.left-section .sign-out h3{
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.left-section .sidebar .item i,
+.left-section .sign-out i{
+    font-size: 22px;
+}

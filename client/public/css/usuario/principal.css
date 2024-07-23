@@ -89,6 +89,7 @@ body{
     overflow: auto; 
     background-color: rgba(0, 0, 0, 0.4); 
 }
+
 /* Modal Content */
 .modal-content {
     background-color: #fefefe;
@@ -100,6 +101,7 @@ body{
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     text-align: center;
 }
+
 /* Close Button */
 .close {
     color: #aaa;
@@ -150,7 +152,6 @@ body{
 .cancelarConsulta:hover{
     background-color: red;
 }
-
 
 .main{
     flex: 6;
