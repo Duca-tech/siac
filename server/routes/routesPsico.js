@@ -80,6 +80,10 @@ routerPsico.get('/prontuario', verificarToken, (req,res)=>{
     res.render('usuario/psicologo/prontuario')
 })
 
+routerPsico.get('/relatorioPsico', verificarToken, (req,res)=>{
+    res.render('usuario/psicologo/relatorioPsico')
+})
+
 routerPsico.post('/relatorio/listarUser', (req,res)=>{
     console.log('Resposta do Servior: ', req.body);
     var idPsico = req.body.idPsico;

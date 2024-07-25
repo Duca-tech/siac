@@ -90,6 +90,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         window.location.href = '/psico/prontuario'
     })
 
+    document.getElementById('relatorio').addEventListener('click', () => {
+        window.location.href = '/psico/relatorioPsico'
+    })
+
     $('#logout').on('click', (e) => {
         e.preventDefault();
         window.location.href = '/'
