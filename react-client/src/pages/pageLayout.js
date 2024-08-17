@@ -40,7 +40,7 @@ const pageLayout = ({ children }) => (
         <Outlet />
       </Content>
       <Footer style={{ textAlign: "center" }}>
-        Rty ©{new Date().getFullYear()} All rights reserved
+        SIAC ©{new Date().getFullYear()} Todos os direitos reservados.
       </Footer>
     </Layout>
   </Layout>
