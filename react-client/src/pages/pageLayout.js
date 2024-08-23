@@ -13,34 +13,47 @@ import {
 const { Header, Content, Footer, Sider } = Layout;
 
 const menuItems = [
-  { key: "1", label: "Inicio", link: "/", icon: <HomeOutlined /> },
-  { key: "2", label: "Painel", link: "/painel", icon: <AppstoreOutlined /> },
+  {
+    key: "1",
+    label: "Inicio",
+    link: "/",
+    icon: <HomeOutlined style={{ fontSize: "24px" }} />,
+  },
+  {
+    key: "2",
+    label: "Painel",
+    link: "/painel",
+    icon: <AppstoreOutlined style={{ fontSize: "24px" }} />,
+  },
   {
     key: "3",
     label: "Documentos",
     link: "/documents",
-    icon: <FolderOutlined />,
+    icon: <FolderOutlined style={{ fontSize: "24px" }} />,
   },
   {
     key: "4",
     label: "Histórico de Consultas",
     link: "/appointments",
-    icon: <ScheduleOutlined />,
+    icon: <ScheduleOutlined style={{ fontSize: "24px" }} />,
   },
-  { key: "5", label: "Lixeira", link: "/bin", icon: <DeleteOutlined /> },
+  {
+    key: "5",
+    label: "Lixeira",
+    link: "/bin",
+    icon: <DeleteOutlined style={{ fontSize: "24px" }} />,
+  },
   {
     key: "6",
     label: "Configurações",
     link: "/settings",
-    icon: <SettingOutlined />,
+    icon: <SettingOutlined style={{ fontSize: "24px" }} />,
   },
 ];
 
 const pageLayout = ({ children }) => (
   <Layout>
-    <Header className="header">
-      <div className="logo" />
-    </Header>
+    <Header className="header"></Header>
     <Layout>
       <Sider width={200} className="site-layout-background">
         <Menu
@@ -61,7 +74,7 @@ const pageLayout = ({ children }) => (
           style={{
             padding: 24,
             margin: 0,
-            minHeight: 280,
+            minHeight: 600,
           }}
         >
           <Outlet />
