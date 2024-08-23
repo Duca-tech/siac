@@ -1,12 +1,13 @@
 import React from "react";
 import { Layout, Menu } from "antd";
 import { Link, Outlet } from "react-router-dom";
+import { HomeOutlined, ProductOutlined } from "@ant-design/icons";
 
 const { Header, Content, Footer, Sider } = Layout;
 
 const menuItems = [
-  { key: "1", label: "Inicio", link: "/" },
-  { key: "2", label: "Painel", link: "/painel" },
+  { key: "1", label: "Inicio", link: "/", icon: <HomeOutlined /> },
+  { key: "2", label: "Painel", link: "/painel", icon: <ProductOutlined /> },
   { key: "3", label: "Documentos", link: "/documents" },
   { key: "4", label: "Histórico de Consultas", link: "/appointments" },
   { key: "5", label: "Lixeira", link: "/bin" },
@@ -26,7 +27,7 @@ const pageLayout = ({ children }) => (
           style={{ height: "100%", borderRight: 0 }}
         >
           {menuItems.map((item) => (
-            <Menu.Item key={item.key}>
+            <Menu.Item key={item.key} icon={item.icon}>
               <Link to={item.link}>{item.label}</Link>
             </Menu.Item>
           ))}
