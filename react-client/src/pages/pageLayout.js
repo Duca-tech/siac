@@ -1,17 +1,39 @@
 import React from "react";
 import { Layout, Menu } from "antd";
 import { Link, Outlet } from "react-router-dom";
-import { HomeOutlined, ProductOutlined } from "@ant-design/icons";
+import {
+  AppstoreOutlined,
+  DeleteOutlined,
+  FolderOutlined,
+  HomeOutlined,
+  ScheduleOutlined,
+  SettingOutlined,
+} from "@ant-design/icons";
 
 const { Header, Content, Footer, Sider } = Layout;
 
 const menuItems = [
   { key: "1", label: "Inicio", link: "/", icon: <HomeOutlined /> },
-  { key: "2", label: "Painel", link: "/painel", icon: <ProductOutlined /> },
-  { key: "3", label: "Documentos", link: "/documents" },
-  { key: "4", label: "Histórico de Consultas", link: "/appointments" },
-  { key: "5", label: "Lixeira", link: "/bin" },
-  { key: "6", label: "Configurações", link: "/settings" },
+  { key: "2", label: "Painel", link: "/painel", icon: <AppstoreOutlined /> },
+  {
+    key: "3",
+    label: "Documentos",
+    link: "/documents",
+    icon: <FolderOutlined />,
+  },
+  {
+    key: "4",
+    label: "Histórico de Consultas",
+    link: "/appointments",
+    icon: <ScheduleOutlined />,
+  },
+  { key: "5", label: "Lixeira", link: "/bin", icon: <DeleteOutlined /> },
+  {
+    key: "6",
+    label: "Configurações",
+    link: "/settings",
+    icon: <SettingOutlined />,
+  },
 ];
 
 const pageLayout = ({ children }) => (
