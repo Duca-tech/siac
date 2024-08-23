@@ -1,7 +1,7 @@
 import React from "react";
 
-const Forms = () => {
+const Painel = () => {
   return <div>Ava forms</div>;
 };
 
-export default Forms;
+export default Painel;

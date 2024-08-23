@@ -1,47 +1,52 @@
 import React from "react";
-import { Layout, Menu, Breadcrumb } from "antd";
+import { Layout, Menu } from "antd";
 import { Link, Outlet } from "react-router-dom";
 
-const { Header, Content, Footer } = Layout;
+const { Header, Content, Footer, Sider } = Layout;
+
+const menuItems = [
+  { key: "1", label: "Inicio", link: "/" },
+  { key: "2", label: "Painel", link: "/painel" },
+  { key: "3", label: "Documentos", link: "/documents" },
+  { key: "4", label: "Histórico de Consultas", link: "/appointments" },
+  { key: "5", label: "Lixeira", link: "/bin" },
+  { key: "6", label: "Configurações", link: "/settings" },
+];
 
 const pageLayout = ({ children }) => (
   <Layout>
     <Header className="header">
       <div className="logo" />
-      <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["1"]}>
-        <Menu.Item key="1">
-          <Link to="/">Home</Link>
-        </Menu.Item>
-        <Menu.Item key="2">
-          <Link to="/forms">Forms</Link>
-        </Menu.Item>
-        <Menu.Item key="3">
-          <Link to="/settings">Settings</Link>
-        </Menu.Item>
-        <Menu.Item key="4">
-          <Link to="/help">Help</Link>
-        </Menu.Item>
-      </Menu>
     </Header>
-    <Layout style={{ padding: "0 24px 24px" }}>
-      <Breadcrumb style={{ margin: "16px 0" }}>
-        <Breadcrumb.Item>Home</Breadcrumb.Item>
-        <Breadcrumb.Item>List</Breadcrumb.Item>
-        <Breadcrumb.Item>App</Breadcrumb.Item>
-      </Breadcrumb>
-      <Content
-        className="site-layout-background"
-        style={{
-          padding: 24,
-          margin: 0,
-          minHeight: 280,
-        }}
-      >
-        <Outlet />
-      </Content>
-      <Footer style={{ textAlign: "center" }}>
-        SIAC ©{new Date().getFullYear()} Todos os direitos reservados.
-      </Footer>
+    <Layout>
+      <Sider width={200} className="site-layout-background">
+        <Menu
+          mode="inline"
+          defaultSelectedKeys={["1"]}
+          style={{ height: "100%", borderRight: 0 }}
+        >
+          {menuItems.map((item) => (
+            <Menu.Item key={item.key}>
+              <Link to={item.link}>{item.label}</Link>
+            </Menu.Item>
+          ))}
+        </Menu>
+      </Sider>
+      <Layout style={{ padding: "0 24px 24px" }}>
+        <Content
+          className="site-layout-background"
+          style={{
+            padding: 24,
+            margin: 0,
+            minHeight: 280,
+          }}
+        >
+          <Outlet />
+        </Content>
+        <Footer style={{ textAlign: "center" }}>
+          SIAC ©{new Date().getFullYear()} Todos os direitos reservados.
+        </Footer>
+      </Layout>
     </Layout>
   </Layout>
 );

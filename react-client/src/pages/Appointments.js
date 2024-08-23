@@ -1,7 +1,7 @@
 import React from "react";
 
-const HelpPage = () => {
+const Appointments = () => {
   return <div>this is the help</div>;
 };
 
-export default HelpPage;
+export default Appointments;

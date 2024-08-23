@@ -1,7 +1,7 @@
 import React from "react";
 
-const Form = () => {
+const Documents = () => {
   return <div>An ava form</div>;
 };
 
-export default Form;
+export default Documents;
