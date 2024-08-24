@@ -96,13 +96,16 @@ const pageLayout = ({ children }) => (
       </h1>
 
       <Dropdown overlay={userMenu} trigger={["click"]}>
-        <a
+        <button
           onClick={(e) => e.preventDefault()}
           style={{
             color: "#fff",
+            background: "none",
+            border: "none",
             display: "flex",
             alignItems: "center",
             textDecoration: "none",
+            cursor: "pointer",
           }}
         >
           <Space>
@@ -110,7 +113,7 @@ const pageLayout = ({ children }) => (
             <span>Henrique Augusto Debia</span>
             <DownOutlined />
           </Space>
-        </a>
+        </button>
       </Dropdown>
     </Header>
     <Layout>
