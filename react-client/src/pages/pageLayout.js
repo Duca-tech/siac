@@ -1,13 +1,15 @@
 import React from "react";
-import { Layout, Menu } from "antd";
+import { Avatar, Button, Dropdown, Layout, Menu, Space } from "antd";
 import { Link, Outlet } from "react-router-dom";
 import {
   AppstoreOutlined,
   DeleteOutlined,
+  DownOutlined,
   FolderOutlined,
   HomeOutlined,
   ScheduleOutlined,
   SettingOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -51,11 +53,68 @@ const menuItems = [
   },
 ];
 
+const handleLogout = () => {
+  // Adicione a lógica de logout aqui
+  console.log("Usuário desconectado");
+};
+
+const userMenu = (
+  <Menu>
+    <Menu.Item key="1" style={{ padding: 0 }}>
+      <Button
+        type="text"
+        onClick={handleLogout}
+        style={{ width: "100%", textAlign: "center", padding: "10px 0" }}
+      >
+        Sair
+      </Button>
+    </Menu.Item>
+  </Menu>
+);
+
 const pageLayout = ({ children }) => (
   <Layout>
-    <Header className="header"></Header>
+    <Header
+      className="header"
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        backgroundColor: "#001529",
+        padding: "0 20px",
+      }}
+    >
+      <h1
+        style={{
+          margin: "0",
+          color: "#fff",
+          fontSize: "40px",
+          marginLeft: "40px",
+        }}
+      >
+        SIAC
+      </h1>
+
+      <Dropdown overlay={userMenu} trigger={["click"]}>
+        <a
+          onClick={(e) => e.preventDefault()}
+          style={{
+            color: "#fff",
+            display: "flex",
+            alignItems: "center",
+            textDecoration: "none",
+          }}
+        >
+          <Space>
+            <Avatar icon={<UserOutlined />} />
+            <span>Henrique Augusto Debia</span>
+            <DownOutlined />
+          </Space>
+        </a>
+      </Dropdown>
+    </Header>
     <Layout>
-      <Sider width={200} className="site-layout-background">
+      <Sider width={230} className="site-layout-background">
         <Menu
           mode="inline"
           defaultSelectedKeys={["1"]}
