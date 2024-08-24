@@ -4,9 +4,9 @@ import Home from "./pages/Home";
 import PageLayout from "./pages/pageLayout";
 import Settings from "./pages/Settings";
 import Painel from "./pages/Painel";
-import Appointments from "./pages/Appointments";
 import Documents from "./pages/Documents";
 import Bin from "./pages/Help";
+import Appointments from "./pages/appoointments/Appointments";
 
 const App = () => (
   <BrowserRouter>
