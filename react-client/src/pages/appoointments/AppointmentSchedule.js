@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { Col, ConfigProvider, DatePicker, Row, Select } from "antd";
+import { Col, ConfigProvider, DatePicker, Form, Row, Select } from "antd";
 import "antd/dist/reset.css"; // ou 'antd/dist/antd.css' dependendo da sua configuração
 import ptBR from "antd/lib/locale/pt_BR"; // Importa o locale em português
 
 const AppointmentSchedule = () => {
   const [selectedDate, setSelectedDate] = useState(null);
-  const [showTime, setShowTime] = useState(false);
+  const [selectedTime, setSelectedTime] = useState(null);
 
   const mockedDoctors = [
     {
@@ -26,13 +26,17 @@ const AppointmentSchedule = () => {
     },
   ];
 
-  const handleDateChange = (date, dateString) => {
-    setSelectedDate(date);
-    setShowTime(true);
+  const handleDateChange = (value, dateString) => {
+    setSelectedDate(value);
   };
 
-  const handleTimeChange = (date, dateString) => {
-    console.log("Data e hora selecionadas:", date, dateString);
+  const handleTimeChange = (value, dateString) => {
+    setSelectedTime(value);
+    console.log("Data e hora selecionadas:", value, dateString);
+  };
+
+  const handleChange = (value) => {
+    console.log(value);
   };
 
   const disabledHours = () => {
@@ -56,46 +60,55 @@ const AppointmentSchedule = () => {
   };
 
   return (
-    <ConfigProvider locale={ptBR}>
-      <div>
-        <Row gutter={16}>
-          <Col span={6}>
-            <DatePicker
-              onChange={handleDateChange}
-              format="DD/MM/YYYY"
-              style={{ width: "100%" }}
-              size="large"
-              placeholder="Selecione o dia"
-            />
-          </Col>
-          {selectedDate && showTime && (
-            <Col span={3}>
-              <DatePicker
-                picker="time"
-                onChange={handleTimeChange}
-                showTime={{
-                  hideDisabledOptions: true,
-                  disabledHours,
-                  disabledMinutes,
-                }}
-                format="HH:mm"
-                style={{ width: "100%" }}
-                size="large"
-                placeholder="Selecione a hora"
-              />
+    <Form layout="vertical">
+      <ConfigProvider locale={ptBR}>
+        <div>
+          <Row gutter={16}>
+            <Col span={6}>
+              <Form.Item label="Selecione a data">
+                <DatePicker
+                  onChange={handleDateChange}
+                  format="DD/MM/YYYY"
+                  style={{ width: "100%" }}
+                  size="large"
+                  placeholder="Selecione o dia"
+                />
+              </Form.Item>
             </Col>
-          )}
-          <Col span={6}>
-            <Select
-              style={{ width: "100%" }}
-              size="large"
-              placeholder="Selecione o profissional"
-              options={mockedDoctors}
-            />
-          </Col>
-        </Row>
-      </div>
-    </ConfigProvider>
+            <Col span={3}>
+              <Form.Item label="Selecione o horário">
+                <DatePicker
+                  picker="time"
+                  onChange={handleTimeChange}
+                  showTime={{
+                    hideDisabledOptions: true,
+                    disabledHours,
+                    disabledMinutes,
+                  }}
+                  format="HH:mm"
+                  style={{ width: "100%" }}
+                  size="large"
+                  placeholder="Selecione a hora"
+                  disabled={!selectedDate}
+                />
+              </Form.Item>
+            </Col>
+            <Col span={6}>
+              <Form.Item label="Selecione o profissional">
+                <Select
+                  style={{ width: "100%" }}
+                  onChange={handleChange}
+                  size="large"
+                  placeholder="Selecione o profissional"
+                  options={mockedDoctors}
+                  disabled={!selectedTime}
+                />
+              </Form.Item>
+            </Col>
+          </Row>
+        </div>
+      </ConfigProvider>
+    </Form>
   );
 };
 
