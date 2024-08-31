@@ -79,6 +79,10 @@ const AppointmentSchedule = () => {
     return minutes;
   };
 
+  const disabledDate = (current) => {
+    return current && current < dayjs().startOf("day");
+  };
+
   return (
     <>
       <Typography.Title level={2} style={{ marginBottom: "40px" }}>
@@ -100,6 +104,7 @@ const AppointmentSchedule = () => {
                     style={{ width: "100%" }}
                     size="large"
                     placeholder="Selecione o dia"
+                    disabledDate={disabledDate}
                   />
                 </Form.Item>
               </Col>
