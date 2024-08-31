@@ -1,7 +1,17 @@
 import React, { useState } from "react";
-import { Col, ConfigProvider, DatePicker, Form, Row, Select } from "antd";
-import "antd/dist/reset.css"; // ou 'antd/dist/antd.css' dependendo da sua configuração
-import ptBR from "antd/lib/locale/pt_BR"; // Importa o locale em português
+import {
+  Button,
+  Col,
+  ConfigProvider,
+  DatePicker,
+  Form,
+  Row,
+  Select,
+  Typography,
+} from "antd";
+import dayjs from "dayjs";
+import "antd/dist/reset.css";
+import ptBR from "antd/lib/locale/pt_BR";
 
 const AppointmentSchedule = () => {
   const [selectedDate, setSelectedDate] = useState(null);
@@ -35,8 +45,18 @@ const AppointmentSchedule = () => {
     console.log("Data e hora selecionadas:", value, dateString);
   };
 
-  const handleChange = (value) => {
+  const handleProfessionalChange = (value) => {
     console.log(value);
+  };
+
+  const handleSubmit = (values) => {
+    const formattedValues = {
+      ...values,
+      date: values.date ? dayjs(values.date).format("DD/MM/YYYY") : null,
+      time: values.time ? dayjs(values.time).format("HH:mm") : null,
+    };
+
+    console.log("Formatted values:", formattedValues);
   };
 
   const disabledHours = () => {
@@ -60,55 +80,84 @@ const AppointmentSchedule = () => {
   };
 
   return (
-    <Form layout="vertical">
-      <ConfigProvider locale={ptBR}>
-        <div>
-          <Row gutter={16}>
-            <Col span={6}>
-              <Form.Item label="Selecione a data">
-                <DatePicker
-                  onChange={handleDateChange}
-                  format="DD/MM/YYYY"
-                  style={{ width: "100%" }}
+    <>
+      <Typography.Title level={2} style={{ marginBottom: "40px" }}>
+        Agendamento de Consulta
+      </Typography.Title>
+      <Form layout="vertical" onFinish={handleSubmit}>
+        <ConfigProvider locale={ptBR}>
+          <div>
+            <Row gutter={16}>
+              <Col span={6}>
+                <Form.Item
+                  label="Selecione a data"
+                  name="date"
+                  rules={[{ required: true, message: "Selecione uma data" }]}
+                >
+                  <DatePicker
+                    onChange={handleDateChange}
+                    format="DD/MM/YYYY"
+                    style={{ width: "100%" }}
+                    size="large"
+                    placeholder="Selecione o dia"
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={4}>
+                <Form.Item
+                  label="Selecione o horário"
+                  name="time"
+                  rules={[{ required: true, message: "Selecione um horário" }]}
+                >
+                  <DatePicker
+                    picker="time"
+                    onChange={handleTimeChange}
+                    showTime={{
+                      hideDisabledOptions: true,
+                      disabledHours,
+                      disabledMinutes,
+                    }}
+                    format="HH:mm"
+                    style={{ width: "100%" }}
+                    size="large"
+                    placeholder="Selecione a hora"
+                    disabled={!selectedDate}
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={6}>
+                <Form.Item
+                  label="Selecione o profissional"
+                  name="professional"
+                  rules={[
+                    { required: true, message: "Selecione um profissional" },
+                  ]}
+                >
+                  <Select
+                    style={{ width: "100%" }}
+                    onChange={handleProfessionalChange}
+                    size="large"
+                    placeholder="Selecione o profissional"
+                    options={mockedDoctors}
+                    disabled={!selectedTime}
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={2}>
+                <Button
                   size="large"
-                  placeholder="Selecione o dia"
-                />
-              </Form.Item>
-            </Col>
-            <Col span={3}>
-              <Form.Item label="Selecione o horário">
-                <DatePicker
-                  picker="time"
-                  onChange={handleTimeChange}
-                  showTime={{
-                    hideDisabledOptions: true,
-                    disabledHours,
-                    disabledMinutes,
-                  }}
-                  format="HH:mm"
-                  style={{ width: "100%" }}
-                  size="large"
-                  placeholder="Selecione a hora"
-                  disabled={!selectedDate}
-                />
-              </Form.Item>
-            </Col>
-            <Col span={6}>
-              <Form.Item label="Selecione o profissional">
-                <Select
-                  style={{ width: "100%" }}
-                  onChange={handleChange}
-                  size="large"
-                  placeholder="Selecione o profissional"
-                  options={mockedDoctors}
-                  disabled={!selectedTime}
-                />
-              </Form.Item>
-            </Col>
-          </Row>
-        </div>
-      </ConfigProvider>
-    </Form>
+                  htmlType="submit"
+                  type="primary"
+                  style={{ marginTop: "30px" }}
+                >
+                  Agendar consulta
+                </Button>
+              </Col>
+            </Row>
+          </div>
+        </ConfigProvider>
+      </Form>
+    </>
   );
 };
 
