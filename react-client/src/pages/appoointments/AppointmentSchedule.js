@@ -94,7 +94,7 @@ const AppointmentSchedule = () => {
             <Row gutter={16}>
               <Col span={6}>
                 <Form.Item
-                  label="Selecione a data"
+                  label="Data"
                   name="date"
                   rules={[{ required: true, message: "Selecione uma data" }]}
                 >
@@ -110,7 +110,7 @@ const AppointmentSchedule = () => {
               </Col>
               <Col span={4}>
                 <Form.Item
-                  label="Selecione o horário"
+                  label="Horário"
                   name="time"
                   rules={[{ required: true, message: "Selecione um horário" }]}
                 >
@@ -132,7 +132,7 @@ const AppointmentSchedule = () => {
               </Col>
               <Col span={6}>
                 <Form.Item
-                  label="Selecione o profissional"
+                  label="Profissional"
                   name="professional"
                   rules={[
                     { required: true, message: "Selecione um profissional" },
