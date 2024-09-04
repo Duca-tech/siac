@@ -1,5 +1,5 @@
 import React from "react";
-import CardComponent from "./components/Card";
+import CardComponent from "../components/Card";
 import scheduleImage from "../images/1.webp";
 
 const Home = () => {

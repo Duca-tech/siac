@@ -7,14 +7,14 @@ import Settings from "./pages/Settings";
 import Painel from "./pages/Painel";
 import Documents from "./pages/Documents";
 import Bin from "./pages/Help";
-import Appointments from "./pages/appointments/Appointments";
-import AppointmentSchedule from "./pages/appointments/AppointmentSchedule";
+import Appointments from "./pages/Appointments/Appointments";
+import AppointmentSchedule from "./pages/Appointments/AppointmentSchedule";
 
 const App = () => (
   <BrowserRouter>
     <Routes>
       <Route path="/login" element={<Login />} />
-      <Route path="/" element={<PageLayout />} >
+      <Route path="/" element={<PageLayout />}>
         <Route index element={<Home />} />
         <Route path="painel" element={<Painel />} />
         <Route path="documents" element={<Documents />} />
