@@ -1,5 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import psychologyImage from "../images/psychology2.png"
+import psychologyImage from "../../images/psychology2.png";
 import React from "react";
 
 const Login = () => {
@@ -8,7 +8,7 @@ const Login = () => {
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-sm-5 text-black">
-
+                
                         <div className="px-4 ms-xl-4">
                             <i className="fas fa-crosw fa-2x me-3 pt-5 mt-xl-4" style={{ color: '#709085' }}></i>
                             <p className="h1 fw-semibold mb-0" style={{ fontSize: '3.5em' }}>SIAC</p>
@@ -16,24 +16,29 @@ const Login = () => {
                         </div>
 
                         <div className="d-flex align-items-center h-custom-2 px-5 ms-xl-4 mt-5 pt-5 pt-xl-0 mt-xl-n5">
-
                             <form style={{ width: '23rem' }}>
 
                                 <h3 className="fw-medium mb-2 pb-2" style={{ fontSize: '1.5em' }}>Log In</h3>
 
                                 <div data-mdb-input-init className="form-outline mb-2">
-                                    <input type="email" id="form2Example18" className="form-control form-control-lg" />
+                                    <input type="email" id="form2Example18"
+                                        className="form-control form-control-lg"
+                                        style={{ fontSize: '1em' }}
+                                    />
                                     <label className="form-label"
                                         for="form2Example18"
-                                        style={{ fontSize: '0.95em' }}>Endereço de email
+                                        style={{ fontSize: '1em' }}>Endereço de email
                                     </label>
                                 </div>
 
                                 <div data-mdb-input-init className="form-outline mb-4">
-                                    <input type="password" id="form2Example28" className="form-control form-control-lg" />
+                                    <input type="password" id="form2Example28"
+                                        className="form-control form-control-lg"
+                                        style={{ fontSize: '1em' }}
+                                    />
                                     <label className="form-label"
                                         for="form2Example28"
-                                        style={{ fontSize: '0.95em' }}>Senha</label>
+                                        style={{ fontSize: '1em' }}>Senha</label>
                                 </div>
 
                                 <div className="pt-1 mb-3">
@@ -48,16 +53,17 @@ const Login = () => {
                                 <p>Ainda não tem conta? <a href="#!" className="link-info">Cadastre-se aqui</a></p>
 
                             </form>
-
                         </div>
 
                     </div>
+
                     <div className="col-sm-7 px-0 d-none d-sm-block">
                         <img src={psychologyImage}
                             alt="Login image" className="w-100 vh-100"
                             style={{ objectFit: 'cover', objectPosition: 'left' }}
                         />
                     </div>
+
                 </div>
             </div>
         </section>

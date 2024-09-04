@@ -1,8 +1,8 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Login from "./pages/Login";
+import Login from "./pages/Login/index.jsx";
 import Home from "./pages/Home";
-import PageLayout from "./pages/PageLayout";
+import PageLayout from "./pages/PageLayout.js";
 import Settings from "./pages/Settings";
 import Painel from "./pages/Painel";
 import Documents from "./pages/Documents";

@@ -23,7 +23,7 @@ const CardComponent = ({ title, pathImage, redirectPath }) => {
           marginTop: "auto",
         }}
       >
-        <h3 style={{ textAlign: "center" }}>{title}</h3>
+        <h3 style={{ textAlign: "center", fontSize: "1.5em" }}>{title}</h3>
       </div>
     </Card>
   );
