@@ -1,6 +1,6 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import psychologyImage from "../../images/psychology2.png";
-import React from "react";
+import React, { useState } from "react";
 import { login } from "../../api/authentication.js";
 
 const Login = () => {

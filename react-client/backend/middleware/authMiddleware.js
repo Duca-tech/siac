@@ -1,23 +1,20 @@
 // MIDDLEWARE Layer: responsible for handling and processing requests before they reach the controllers.
+
 const jwt = require('jsonwebtoken');
 
-const SECRET_KEY = process.env.JWT_SECRET;
-
 const authenticateToken = (request, response, next) => {
-    const token = request.headers['authorization'];
+    const token = request.header('Authorization')?.split(' ')[1];
+    if (!token) return resquest.status(401).json({ message: 'Access denied!' });
 
-    if (!token) {
-        return response.status(401).json({ message: 'Access denied. No token provided.' });
-    }
-
-    jwt.verify(token, process.env.JWT_SECRET, (error, user) => {
-        if (error) {
-            return res.status(403).json({ message: 'Invalid token.' });
-        }
-        request.user = user;
+    try {
+        const verified = jwt.verify(token, process.env.JWT_SECRET);
+        request.user = verified;
         next();
-    });
+    } catch (error) {
+        response.status(400).json({ message: 'Invalid token.' });
+    }
 };
 
-module.exports = authenticateToken;
+module.exports = { authenticateToken };
+
 

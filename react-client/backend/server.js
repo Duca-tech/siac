@@ -1,19 +1,16 @@
 require('dotenv').config();
 const express = require('express');
-const cors = require('cors');
 const app = express();
-const userRoutes = require('./routes/userRoutes');
+const authRoutes = require('./routes/authRoutes');
 
-// Middleware
-app.use(cors());
+// Middleware to JSON parsing
 app.use(express.json());
 
-// Rotes
-app.use('/api/users', userRoutes);
+// Authentication routes config:
+app.use('/auth', authRoutes);
 
-// Inicia o servidor
+// Inicialize server:
 const PORT = process.env.PORT || 5000;
-
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
