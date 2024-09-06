@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./pages/Login/index.jsx";
 import Home from "./pages/Home";
 import PageLayout from "./pages/PageLayout.js";
@@ -10,18 +10,36 @@ import Bin from "./pages/Help";
 import Appointments from "./pages/Appointments/Appointments";
 import AppointmentSchedule from "./pages/Appointments/AppointmentSchedule";
 
+// ProtectedRoute Component: Verify if user is authenticated:
+const ProtectedRoute = ({ element: Element, ...rest }) => {
+  const isAuthenticated = localStorage.getItem("token"); // Verify if JWT token is stored on localStorage
+  return isAuthenticated ? <Element {...rest} /> : <Navigate to="/login" />;
+};
+
 const App = () => (
   <BrowserRouter>
     <Routes>
       <Route path="/login" element={<Login />} />
-      <Route path="/" element={<PageLayout />}>
-        <Route index element={<Home />} />
-        <Route path="painel" element={<Painel />} />
-        <Route path="documents" element={<Documents />} />
-        <Route path="appointments" element={<Appointments />} />
-        <Route path="appointments/schedule" element={<AppointmentSchedule />} />
-        <Route path="bin" element={<Bin />} />
-        <Route path="settings" element={<Settings />} />
+      <Route path="/" element={<ProtectedRoute element={PageLayout} />}>
+        <Route index element={<ProtectedRoute element={Home} />} />
+        <Route path="painel" element={<ProtectedRoute element={Painel} />} />
+        <Route
+          path="documents"
+          element={<ProtectedRoute element={Documents} />}
+        />
+        <Route
+          path="appointments"
+          element={<ProtectedRoute element={Appointments} />}
+        />
+        <Route
+          path="appointments/schedule"
+          element={<ProtectedRoute element={AppointmentSchedule} />}
+        />
+        <Route path="bin" element={<ProtectedRoute element={Bin} />} />
+        <Route
+          path="settings"
+          element={<ProtectedRoute element={Settings} />}
+        />
       </Route>
     </Routes>
   </BrowserRouter>

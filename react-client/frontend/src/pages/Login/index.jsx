@@ -1,19 +1,21 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import psychologyImage from "../../images/psychology2.png";
 import React, { useState } from "react";
-import { login } from "../../api/authentication.js";
+import { loginUser } from "../../api/userAuthentication.js";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
     try {
-      await login(email, password);
-    } catch (err) {
-      setError("Login failed");
+      await loginUser(email, password);
+      alert("Sucesso no login!");
+      // Redirect or realize other functions before login:
+    } catch (error) {
+      alert("Falha no login.");
     }
   };
 
@@ -36,7 +38,7 @@ const Login = () => {
             </div>
 
             <div className="d-flex align-items-center h-custom-2 px-5 ms-xl-4 mt-5 pt-5 pt-xl-0 mt-xl-n5">
-              <form style={{ width: "23rem" }}>
+              <form style={{ width: "23rem" }} onSubmit={handleSubmit}>
                 <h3
                   className="fw-medium mb-2 pb-2"
                   style={{ fontSize: "1.5em" }}
@@ -46,10 +48,14 @@ const Login = () => {
 
                 <div data-mdb-input-init className="form-outline mb-2">
                   <input
-                    type="email"
                     id="form2Example18"
                     className="form-control form-control-lg"
                     style={{ fontSize: "1em" }}
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Email"
+                    required
                   />
                   <label
                     className="form-label"
@@ -62,10 +68,14 @@ const Login = () => {
 
                 <div data-mdb-input-init className="form-outline mb-4">
                   <input
-                    type="password"
                     id="form2Example28"
                     className="form-control form-control-lg"
                     style={{ fontSize: "1em" }}
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Password"
+                    required
                   />
                   <label
                     className="form-label"
@@ -81,12 +91,12 @@ const Login = () => {
                     data-mdb-button-init
                     data-mdb-ripple-init
                     className="btn btn-info btn-lg btn-block"
-                    type="button"
                     style={{
                       backgroundColor: "#1a73e8",
                       color: "white",
                       borderColor: "white",
                     }}
+                    type="sumbit"
                   >
                     Log In
                   </button>
