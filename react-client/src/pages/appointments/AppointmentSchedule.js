@@ -4,6 +4,7 @@ import {
   Col,
   ConfigProvider,
   DatePicker,
+  Divider,
   Form,
   Row,
   Select,
@@ -91,7 +92,7 @@ const AppointmentSchedule = () => {
       <Form layout="vertical" onFinish={handleSubmit}>
         <ConfigProvider locale={ptBR}>
           <div>
-            <Row gutter={16}>
+            <Row>
               <Col span={6}>
                 <Form.Item
                   label="Selecione a data"
@@ -108,7 +109,9 @@ const AppointmentSchedule = () => {
                   />
                 </Form.Item>
               </Col>
-              <Col span={4}>
+            </Row>
+            <Row>
+              <Col span={6}>
                 <Form.Item
                   label="Selecione o horário"
                   name="time"
@@ -130,6 +133,8 @@ const AppointmentSchedule = () => {
                   />
                 </Form.Item>
               </Col>
+            </Row>
+            <Row>
               <Col span={6}>
                 <Form.Item
                   label="Selecione o profissional"
@@ -148,6 +153,9 @@ const AppointmentSchedule = () => {
                   />
                 </Form.Item>
               </Col>
+            </Row>
+            <Divider />
+            <Row>
               <Col span={2}>
                 <Button
                   size="large"
